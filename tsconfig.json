@@ -1,0 +1,21 @@
+{
+  "extends": "astro/tsconfigs/strict",
+  "compilerOptions": {
+    "jsx": "preserve",
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./src/*"]
+    }
+  }
+  // "include": [
+  //   "src/**/*.d.ts",
+  //   "src/**/*.ts",
+  //   "src/**/*.tsx",
+  //   "sanity/**/*.d.ts",
+  //   "sanity/**/*.ts",
+  //   "sanity/**/*.tsx",
+  //   "*.ts",
+  //   "node_modules/**/@sanity/astro/module.d.ts"
+  // ]
+  // "exclude": ["node_modules"]
+}

@@ -1,0 +1,43 @@
+{
+  "name": "frontend",
+  "private": true,
+  "version": "0.0.1",
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro",
+    "codegen": "sanity-codegen"
+  },
+  "dependencies": {
+    "@astrojs/cloudflare": "^8.0.0",
+    "@astrojs/react": "^3.0.7",
+    "@astrojs/vercel": "^5.0.2",
+    "@sanity/astro": "*",
+    "@sanity/client": "^6.10.0",
+    "@sanity/image-url": "^1.0.2",
+    "astro": "^3.0.12",
+    "astro-portabletext": "^0.9.6",
+    "groq": "^3.21.3",
+    "vite": "^4.4.9"
+  },
+  "devDependencies": {
+    "@sanity/eslint-config-studio": "^2.0.1",
+    "@sanity/ui": "^1.9.3",
+    "@sanity/vision": "^3.10.0",
+    "@types/react": "^18.2.45",
+    "eslint": "^8.40.0",
+    "prettier": "^2.8.8",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-icons": "^4.8.0",
+    "react-is": "^18.2.0",
+    "sanity": "^3.21.3",
+    "sanity-codegen": "^0.9.8",
+    "sanity-plugin-iframe-pane": "^2.3.0",
+    "sanity-plugin-media": "^2.2.4",
+    "styled-components": "^5.3.10",
+    "typescript": "^5.0.4"
+  }
+}

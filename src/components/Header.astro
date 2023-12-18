@@ -1,0 +1,32 @@
+---
+import { sanityClient } from 'sanity:client';
+import { siteNavQuery } from '../utils/queries';
+import { type SiteNav } from '@/sanity';
+import { unwrapReference } from '@/utils/unwrapReference';
+
+interface Props {
+  slug: string | undefined;
+}
+
+const { slug } = Astro.props;
+const header = await sanityClient.fetch<SiteNav>(siteNavQuery);
+---
+
+<header>
+  {header.navMain?.map(({routeGroup}) => {
+    const group = unwrapReference(routeGroup);
+    return (<a href="/">
+      {group.title}
+    </a>
+    )
+  })}
+</header>
+
+<style>
+header {
+  width: 100%;
+  text-align: center;
+  font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+  text-transform: uppercase;
+}
+</style>
