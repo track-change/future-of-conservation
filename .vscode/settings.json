@@ -3,7 +3,11 @@
   "editor.defaultFormatter": "esbenp.prettier-vscode",
   "prettier.useEditorConfig": false,
   "prettier.configPath": ".prettierrc",
+  // "[astro]": {
+  //   "editor.defaultFormatter": "astro-build.astro-vscode"
+  // }
+  "prettier.documentSelectors": ["**/*.astro"],
   "[astro]": {
-    "editor.defaultFormatter": "astro-build.astro-vscode"
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
   }
 }

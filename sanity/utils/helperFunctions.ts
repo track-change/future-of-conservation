@@ -1,11 +1,17 @@
+import groq from "groq";
 import { useMemo } from "react";
-import { type Rule, type Slug, useClient } from "sanity";
+import {
+  type Rule,
+  type Slug,
+  useClient,
+  type SlugIsUniqueValidator,
+} from "sanity";
 
 export function useSanityClient() {
   const client = useClient({ apiVersion: "2022-05-04" });
   return useMemo(
     () => client.withConfig({ apiVersion: "2022-05-04" }),
-    [client]
+    [client],
   );
 }
 
@@ -36,6 +42,29 @@ export const validateSlug = (Rule: Rule) =>
       ? true
       : "A slug should only contain lowercase letters and “-”. Click “Generate” to generate a valid slug.";
   });
+
+export const isUniqueSlug: SlugIsUniqueValidator = async (slug, context) => {
+  const { document, getClient } = context;
+  if (!document?.language) {
+    return true;
+  }
+  const client = getClient({ apiVersion: "2023-04-24" });
+  const id = document._id.replace(/^drafts\./, "");
+  const params = {
+    draft: `drafts.${id}`,
+    published: id,
+    language: document.language,
+    slug,
+  };
+  const query = groq`
+  !defined(*[
+    !(_id in [$draft, $published]) &&
+    slug.current == $slug &&
+    language == $language
+  ][0]._id)`;
+  const result = await client.fetch(query, params);
+  return result;
+};
 
 export const getDurationString = (duration: number) => {
   const minutes = duration

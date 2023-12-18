@@ -12,22 +12,6 @@ export default defineType({
       name: "title",
       type: "string",
     },
-    {
-      title: "Featured Projects",
-      name: "projects",
-      type: "array",
-      of: [
-        {
-          type: "reference",
-          to: [{ type: "project" }],
-          options: {
-            disableNew: true,
-          },
-        },
-      ],
-
-      validation: (Rule) => Rule.unique(),
-    },
   ],
   preview: {
     prepare() {

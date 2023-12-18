@@ -1,5 +1,6 @@
 import { visionTool } from "@sanity/vision";
 import { defineConfig } from "sanity";
+import { documentInternationalization } from "@sanity/document-internationalization";
 import { deskTool } from "sanity/desk";
 import { sanityClient } from "sanity:client";
 import { media } from "sanity-plugin-media";
@@ -22,6 +23,14 @@ export default defineConfig({
     deskTool({
       structure,
       defaultDocumentNode,
+    }),
+    documentInternationalization({
+      // Required configuration
+      supportedLanguages: [
+        { id: "en", title: "English" },
+        { id: "kr", title: "Korean" },
+      ],
+      schemaTypes: ["page"],
     }),
     media(),
     visionTool(),

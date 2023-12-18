@@ -37,79 +37,6 @@ export type {
 };
 
 /**
- * Project
- *
- *
- */
-export interface Project extends SanityDocument {
-  _type: "project";
-
-  /**
-   * Title — `string`
-   *
-   *
-   */
-  title: string;
-
-  /**
-   * Slug — `slug`
-   *
-   *
-   */
-  slug?: { _type: "slug"; current: string };
-
-  /**
-   * Subtitle — `string`
-   *
-   *
-   */
-  subtitle: string;
-
-  /**
-   * Photographer — `object`
-   *
-   *
-   */
-  photographer?: {
-    _type: "photographer";
-    /**
-     * Name — `string`
-     *
-     *
-     */
-    name?: string;
-
-    /**
-     * Website — `url`
-     *
-     *
-     */
-    website?: string;
-  };
-
-  /**
-   * Content — `editorTextMedia`
-   *
-   *
-   */
-  content?: EditorTextMedia;
-
-  /**
-   * Title Image — `picture`
-   *
-   *
-   */
-  titleImage?: Picture;
-
-  /**
-   * SEO — `seo`
-   *
-   *
-   */
-  seo?: Seo;
-}
-
-/**
  * Page
  *
  *
@@ -160,36 +87,6 @@ export interface PageHome extends SanityDocument {
    *
    */
   title?: string;
-
-  /**
-   * Featured Projects — `array`
-   *
-   *
-   */
-  projects?: Array<SanityKeyedReference<Project>>;
-}
-
-/**
- * Projects Page
- *
- *
- */
-export interface PageProjects extends SanityDocument {
-  _type: "pageProjects";
-
-  /**
-   * Title — `string`
-   *
-   *
-   */
-  title: string;
-
-  /**
-   * SEO — `seo`
-   *
-   *
-   */
-  seo?: Seo;
 }
 
 /**
@@ -201,11 +98,18 @@ export interface SiteNav extends SanityDocument {
   _type: "siteNav";
 
   /**
-   * Header Navigation — `array`
+   * Header Navigation (Top) — `array`
    *
-   * Items to display in the header.
+   * Items to display in the top header bar.
    */
-  navMain?: Array<SanityKeyed<NavGroup>>;
+  navHeaderTop?: Array<SanityKeyed<InternalLink> | SanityKeyed<Link>>;
+
+  /**
+   * Header Navigation (Bottom) — `array`
+   *
+   * Items to display in the top header bar.
+   */
+  navHeaderBot?: Array<SanityKeyed<InternalLink> | SanityKeyed<Link>>;
 
   /**
    * Footer Navigation — `array`
@@ -289,7 +193,7 @@ export type InternalLink = {
    *
    *
    */
-  linkTarget: SanityReference<Page | Project | PageHome | PageProjects>;
+  linkTarget: SanityReference<Page | PageHome>;
 
   /**
    * Title — `string`
@@ -363,29 +267,4 @@ export type Seo = {
   };
 };
 
-export type NavGroup = {
-  _type: "navGroup";
-  /**
-   * Top Level Route — `reference`
-   *
-   * The route beneath which the subroutes exist.
-   */
-  routeGroup: SanityReference<Page | Project | PageHome | PageProjects>;
-
-  /**
-   * Subroutes — `array`
-   *
-   * Any routes beneath the top-level route to render in the menu.
-   */
-  subRoutes?: Array<
-    SanityKeyedReference<Page | Project | PageHome | PageProjects>
-  >;
-};
-
-export type Documents =
-  | Project
-  | Page
-  | PageHome
-  | PageProjects
-  | SiteNav
-  | SiteOptions;
+export type Documents = Page | PageHome | SiteNav | SiteOptions;

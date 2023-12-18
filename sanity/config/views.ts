@@ -8,7 +8,7 @@ import {
 /*
 list of schema types supporting preview
 */
-const previewSchemaTypes = ["pageHome", "project", "page"];
+const previewSchemaTypes = ["pageHome", "page", "siteNav"];
 
 /*
 default document node:
@@ -16,7 +16,7 @@ add preview view if part of list
 */
 export const defaultDocumentNode: DefaultDocumentNodeResolver = (
   S,
-  { schemaType }
+  { schemaType },
 ) => {
   const frontendUrl = import.meta.env.VITE_SANITY_FRONTEND_URL;
 
@@ -75,9 +75,6 @@ export const resolveProductionUrl = async ({
         break;
       case "page":
         url.pathname = `/${slug}/`;
-        break;
-      case "project":
-        url.pathname = `/projects/${slug}`;
         break;
       default:
         break;

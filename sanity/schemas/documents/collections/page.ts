@@ -1,5 +1,9 @@
 import { BiFile } from "react-icons/bi/";
-import { slugify, validateSlug } from "../../../utils/helperFunctions";
+import {
+  isUniqueSlug,
+  slugify,
+  validateSlug,
+} from "../../../utils/helperFunctions";
 import { defineType } from "sanity";
 
 export default defineType({
@@ -34,6 +38,7 @@ export default defineType({
       options: {
         source: "title",
         slugify: slugify,
+        isUnique: isUniqueSlug,
       },
       validation: validateSlug,
       group: "content",
@@ -49,6 +54,13 @@ export default defineType({
       name: "seo",
       type: "seo",
       group: "seo",
+    },
+    {
+      // should match 'languageField' plugin configuration setting, if customized
+      name: "language",
+      type: "string",
+      readOnly: true,
+      hidden: true,
     },
   ],
   preview: {

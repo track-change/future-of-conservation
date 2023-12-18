@@ -1,0 +1,7 @@
+---
+import { sanityClient } from "sanity:client";
+import { type SiteNav } from "@/sanity";
+import { siteNavQuery } from "../utils/queries";
+
+const siteNav = await sanityClient.fetch<SiteNav>(siteNavQuery);
+---

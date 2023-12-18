@@ -1,0 +1,27 @@
+html,
+body {
+  width: 100%;
+  background-color: var(--clr-bg);
+  color: var(--clr-fg);
+  line-height: 1.25;
+  font-size: 16px;
+}
+
+// ::selection {
+//   background-color: var(--clr-fg);
+//   color: var(--clr-bg);
+// }
+
+a:not([aria-current="page"]):hover {
+  opacity: 0.8;
+}
+
+:focus-visible {
+  outline: 3px solid var(--clr-hl);
+  // outline-offset: 1px;
+}
+
+.inverted {
+  --clr-bg: var(--clr-2);
+  --clr-fg: var(--clr-1);
+}

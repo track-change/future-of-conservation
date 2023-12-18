@@ -13,10 +13,14 @@ export default defineConfig({
       projectId: env.SANITY_PROJECT_ID,
       dataset: env.SANITY_DATASET,
       useCdn: false,
+      perspective: isPreview() ? "previewDrafts" : "published",
       studioBasePath: isPreview() ? "/admin" : undefined,
     }),
     ...(isPreview() ? [react()] : []),
   ],
   output: isPreview() ? "server" : "hybrid",
   adapter: cloudflare(),
+  image: {
+    service: { entrypoint: "astro/assets/services/sharp" },
+  },
 });

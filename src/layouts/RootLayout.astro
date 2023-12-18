@@ -1,32 +1,37 @@
 ---
-import Header from '@/components/Header.astro';
-import '@/styles/reset.scss';
+import Header from "@/components/Header.astro";
+import "@/styles/reset.scss";
+import "@/styles/variables.scss";
+import "@/styles/global.scss";
+import { ViewTransitions } from "astro:transitions";
 interface Props {
   slug: string | undefined;
 }
 
 const { slug } = Astro.props;
-
-
 ---
 
 <html lang="en">
   <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <ViewTransitions />
     <!-- <BaseHead title={title}/> -->
+    <style is:global>
+      html,
+      body {
+        width: 100%;
+        background-color: var(--clr-bg);
+        color: var(--clr-fg);
+      }
+    </style>
   </head>
   <body>
-    <Header slug={slug}/>
-    <nav>
-      <a href="#">Home</a>
-      <a href="#">Posts</a>
-      <a href="#">Contact</a>
-    </nav>
-    <!-- <h1>{title}</h1> -->
+    <Header slug={slug} />
     <article>
-      <slot /> <!-- your content is injected here -->
+      <slot />
+      <!-- your content is injected here -->
     </article>
     <!-- <Footer /> -->
-  </body>
-</html>
+  </body></html
+>

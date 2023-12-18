@@ -23,12 +23,14 @@
     "vite": "^4.4.9"
   },
   "devDependencies": {
+    "@sanity/document-internationalization": "^2.0.2",
     "@sanity/eslint-config-studio": "^2.0.1",
     "@sanity/ui": "^1.9.3",
     "@sanity/vision": "^3.10.0",
     "@types/react": "^18.2.45",
     "eslint": "^8.40.0",
-    "prettier": "^2.8.8",
+    "prettier": "^3.1.1",
+    "prettier-plugin-astro": "^0.12.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-icons": "^4.8.0",

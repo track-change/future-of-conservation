@@ -1,6 +1,1 @@
-export const linkTargets = [
-  { type: "page" },
-  { type: "project" },
-  { type: "pageHome" },
-  { type: "pageProjects" },
-];
+export const linkTargets = [{ type: "page" }, { type: "pageHome" }];
