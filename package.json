@@ -37,6 +37,7 @@
     "sanity-codegen": "^0.9.8",
     "sanity-plugin-iframe-pane": "^2.3.0",
     "sanity-plugin-media": "^2.2.4",
+    "sass": "^1.69.5",
     "styled-components": "^5.3.10",
     "typescript": "^5.0.4"
   }
