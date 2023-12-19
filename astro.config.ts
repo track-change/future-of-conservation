@@ -1,33 +1,71 @@
 import { sanityIntegration } from "@sanity/astro";
-import { defineConfig } from "astro/config";
+import {
+  defineConfig,
+  type AstroUserConfig,
+  passthroughImageService,
+} from "astro/config";
 import react from "@astrojs/react";
 import cloudflare from "@astrojs/cloudflare";
 import { loadEnv } from "vite";
-import isPreview from "./src/utils/isPreview";
-const env = loadEnv("", (process as any).cwd(), "");
+import sitemap from "@astrojs/sitemap";
 
-// https://astro.build/config
-export default defineConfig({
+const env = loadEnv("", (process as any).cwd(), "") as ImportMetaEnv;
+
+// i18n set up stuff
+const defaultLocale = "en";
+const locales = {
+  en: "en-US",
+  kr: "ko",
+};
+
+// We use this config for doing SSR—it reads a user's Sanity token and renders
+// a preview version of the page based on the drafted content.
+const PREVIEW_CONFIG = (): AstroUserConfig => ({
   prefetch: true,
+  site: env.VITE_SANITY_FRONTEND_URL,
   integrations: [
     sanityIntegration({
       projectId: env.SANITY_PROJECT_ID,
       dataset: env.SANITY_DATASET,
       useCdn: false,
-      perspective: isPreview() ? "previewDrafts" : "published",
-      studioBasePath: isPreview() ? "/admin" : undefined,
+      perspective: "previewDrafts",
+      studioBasePath: "/admin",
     }),
-    ...(isPreview() ? [react()] : []),
+    react(),
   ],
-  output: isPreview() ? "server" : "hybrid",
+  output: "server",
   adapter: cloudflare(),
   image: {
-    service: { entrypoint: "astro/assets/services/sharp" },
-  },
-  experimental: {
-    i18n: {
-      defaultLocale: "en",
-      locales: ["en", "kr"],
-    },
+    service: passthroughImageService(),
   },
 });
+
+// This config is for the main site. It does not include the Sanity studio,
+// generates sitemaps, and outputs plain, static html.
+const STATIC_CONFIG = (): AstroUserConfig => ({
+  prefetch: true,
+  site: env.VITE_SANITY_FRONTEND_URL,
+  integrations: [
+    sanityIntegration({
+      projectId: env.SANITY_PROJECT_ID,
+      dataset: env.SANITY_DATASET,
+      useCdn: false,
+      perspective: "published",
+    }),
+    sitemap({
+      i18n: {
+        locales,
+        defaultLocale,
+      },
+    }),
+  ],
+  output: "static",
+  image: {
+    service: passthroughImageService(),
+  },
+});
+
+// https://astro.build/config
+export default defineConfig(
+  env.VITE_IS_PREVIEW ? PREVIEW_CONFIG() : STATIC_CONFIG(),
+);

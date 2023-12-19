@@ -5,39 +5,47 @@ export const siteNavQuery = groq`
   ...,
   navHeaderTop[] {
     _type,
-    title,
+    "title": coalesce(
+      title[_key == $locale][0].value,
+      title[_key == $primaryLocale][0].value),
     linkTarget -> {
       _type,
-      title,
+      "title": coalesce(
+        title[_key == $locale][0].value,
+        title[_key == $primaryLocale][0].value),
       slug
     }
   },
-  navHeaderBot[] -> {
-    _type,
-    title,
-    linkTarget -> {
-      _type,
-      title,
-      slug
-    }
-  }
 }
 `;
 
-export const pageBySlugAndLangQuery = groq`
-*[_type == "page" && slug.current == $slug && language == $lang][0] {
+export const pageBySlugQuery = groq`
+*[_type == "page" && slug.current == $slug][0] {
   ...,
+  "title": coalesce(
+    title[_key == $locale][0].value,
+    title[_key == $primaryLocale][0].value),
   recirculation[] {
     ...,
     target[] {
       ...,
       _type == "internalLink" => {
+        "title": coalesce(
+          title[_key == $locale][0].value,
+          title[_key == $primaryLocale][0].value),
         linkTarget -> {
           _type,
-          title
+          "title": coalesce(
+            title[_key == $locale][0].value,
+            title[_key == $primaryLocale][0].value),
         }
       }
     }
   }
 }
 `;
+
+export const allPages = groq`
+*[_type == "page" && defined(slug.current)] {
+  "slug": slug.current
+}`;

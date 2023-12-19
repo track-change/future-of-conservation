@@ -1,5 +1,5 @@
 import { type ResolveProductionUrlContext, type SanityDocument } from "sanity";
-import Iframe from "sanity-plugin-iframe-pane";
+import { Iframe } from "sanity-plugin-iframe-pane";
 import {
   type DefaultDocumentNodeResolver,
   type StructureContext,

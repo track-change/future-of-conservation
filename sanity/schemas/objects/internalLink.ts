@@ -23,7 +23,7 @@ export default defineType({
       title: "Title",
       description: "Keep empty to use Internal link title",
       name: "title",
-      type: "string",
+      type: "internationalizedArrayString",
     },
   ],
   preview: {
@@ -33,8 +33,12 @@ export default defineType({
       subtitle: "linkTarget.slug.current",
     },
     prepare({ title, targetTitle, subtitle }) {
+      let title2 = targetTitle;
+      if (typeof title2 !== "string") {
+        title2 = title2.find(({ _key }: any) => _key === "en").value;
+      }
       return {
-        title: title ?? targetTitle ?? "",
+        title: title ?? title2 ?? "",
         subtitle: `/${subtitle || ""}`,
         media: BiDirections,
       };

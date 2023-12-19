@@ -1,20 +1,28 @@
 ---
 import Header from "@/components/Header.astro";
-// import { ViewTransitions } from "astro:transitions";
-import { getLangAndUrl } from "../i18n/utils";
+import { ViewTransitions } from "astro:transitions";
 import "@/styles/reset.scss";
 import "@/styles/variables.scss";
 import "@/styles/global.scss";
-
-const { lang } = getLangAndUrl(Astro.url);
+import HrefLangs from "@/components/HrefLangs.astro";
+import { astroI18n } from "astro-i18n";
 ---
 
-<html lang={lang}>
+<!doctype html>
+<html lang={astroI18n.locale}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="generator" content={Astro.generator} />
+    <HrefLangs />
     <!-- <ViewTransitions /> -->
     <!-- <BaseHead title={title}/> -->
+  </head>
+  <body>
+    <Header />
+    <article>
+      <slot />
+    </article>
     <style is:global>
       html,
       body {
@@ -23,13 +31,5 @@ const { lang } = getLangAndUrl(Astro.url);
         color: var(--clr-fg);
       }
     </style>
-  </head>
-  <body>
-    <Header />
-    <article>
-      <slot />
-      <!-- your content is injected here -->
-    </article>
-    <!-- <Footer /> -->
   </body></html
 >

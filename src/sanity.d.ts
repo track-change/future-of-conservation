@@ -45,11 +45,11 @@ export interface Page extends SanityDocument {
   _type: "page";
 
   /**
-   * Title — `string`
+   * Title — `internationalizedArrayString`
    *
    *
    */
-  title: string;
+  title: InternationalizedArrayString;
 
   /**
    * Slug — `slug`
@@ -203,11 +203,11 @@ export type InternalLink = {
   linkTarget: SanityReference<Page | PageHome>;
 
   /**
-   * Title — `string`
+   * Title — `internationalizedArrayString`
    *
    * Keep empty to use Internal link title
    */
-  title?: string;
+  title?: InternationalizedArrayString;
 };
 
 export type Picture = {
@@ -299,3 +299,10 @@ export type RecircPanel = {
 };
 
 export type Documents = Page | PageHome | SiteNav | SiteOptions;
+
+/**
+ * This interface is a stub. It was referenced in your sanity schema but
+ * the definition was not actually found. Future versions of
+ * sanity-codegen will let you type this explicity.
+ */
+type InternationalizedArrayString = any;

@@ -15,8 +15,8 @@ export function useSanityClient() {
   );
 }
 
-export const slugify = (input: { toString: () => string }) => {
-  return input
+export const slugify = (input: { _key: string; value: string }[]) => {
+  return input[0].value
     .toString()
     .replace(/ä/g, "ae")
     .replace(/ö/g, "oe")

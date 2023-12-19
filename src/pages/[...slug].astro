@@ -1,18 +1,27 @@
 ---
 import Recirculation from "@/components/Recirculation.astro";
-import { getLangAndUrl } from "@/i18n/utils";
 import RootLayout from "@/layouts/RootLayout.astro";
 import type { Page } from "@/sanity";
-import { pageBySlugAndLangQuery } from "@/utils/queries";
+import { allPages, pageBySlugQuery } from "@/utils/queries";
+import { astroI18n } from "astro-i18n";
 import { sanityClient } from "sanity:client";
+import { createGetStaticPaths } from "astro-i18n";
 
-const { lang, url } = getLangAndUrl(Astro.url);
-
-const page = await sanityClient.fetch<Page | null>(pageBySlugAndLangQuery, {
-  slug: url,
-  lang: lang,
+export const getStaticPaths = createGetStaticPaths(async () => {
+  // const { locale } = astroI18n; We no longer do whole diff documents
+  const slugs = await sanityClient.fetch<{ slug: string }[]>(allPages);
+  return slugs.map(({ slug }) => ({ params: { slug } }));
 });
-if (!page) return Astro.redirect("/404");
+
+const { locale, primaryLocale, route } = astroI18n;
+const slug = route.replace("/", "");
+
+const page = await sanityClient.fetch<Page | null>(pageBySlugQuery, {
+  slug,
+  locale,
+  primaryLocale,
+});
+if (!page) return astroI18n.redirect("/404");
 ---
 
 <RootLayout>

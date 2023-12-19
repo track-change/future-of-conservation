@@ -2,35 +2,22 @@
 import { sanityClient } from "sanity:client";
 import { siteNavQuery } from "../utils/queries";
 import { type SiteNav } from "@/sanity";
-import { resolveLinkURL, resolveReference } from "@/utils/resolveLinks";
-import { getLangAndUrl, useTranslatedPath } from "@/i18n/utils";
 import Link from "@/components/Link.astro";
+import { astroI18n, l, t } from "astro-i18n";
 
-const { lang, url } = getLangAndUrl(Astro.url);
-const translatePath = useTranslatedPath(lang);
-const header = await sanityClient.fetch<SiteNav>(siteNavQuery);
+const { locale, primaryLocale, route } = astroI18n;
+const header = await sanityClient.fetch<SiteNav>(siteNavQuery, {
+  locale,
+  primaryLocale,
+});
 ---
 
 <header>
-  <h1
-    ><a href={translatePath("/", lang)}>
-      {
-        lang == "en" ? (
-          <>
-            Future of
-            <br />
-            Conservation
-          </>
-        ) : (
-          <>
-            보존의
-            <br />
-            미래
-          </>
-        )
-      }</a
-    ></h1
-  >
+  <h1>
+    <a href={"/" || l("/")}>
+      {t("title.line1")}<br />{t("title.line2")}
+    </a>
+  </h1>
   <nav>
     {
       header.navHeaderTop && (
@@ -45,16 +32,16 @@ const header = await sanityClient.fetch<SiteNav>(siteNavQuery);
       <li class="lang_switch" role="radiogroup" aria-label="Pick a language">
         <a
           role="radio"
-          href={translatePath(`/${url}`, "kr")}
-          aria-checked={lang === "kr"}
+          href={l(route, undefined, { targetLocale: "kr" })}
+          aria-checked={locale === "kr"}
           class="hoverable"
         >
           KR
         </a>
         <a
           role="radio"
-          href={translatePath(`/${url}`, "en")}
-          aria-checked={lang === "en"}
+          href={l(route, undefined, { targetLocale: "en" })}
+          aria-checked={locale === "en"}
           class="hoverable"
         >
           EN
@@ -70,6 +57,7 @@ const header = await sanityClient.fetch<SiteNav>(siteNavQuery);
   }
   h1 {
     font-size: min(12vw, 10rem);
+    font-family: "Times New Roman", Times, serif;
     text-transform: uppercase;
     letter-spacing: -0.07em;
     line-height: 0.66;

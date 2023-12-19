@@ -34,8 +34,24 @@ export default defineType({
   ],
   preview: {
     select: {
-      title: "target[0].title",
+      title: "target",
       subtitle: "undertext",
+    },
+    prepare({ title: titleObj, subtitle }) {
+      let title = "";
+      if (titleObj.length > 0) {
+        if (titleObj[0].title) {
+          title = titleObj[0].title.find(
+            ({ _key }: any) => _key === "en",
+          ).value;
+        } else if (titleObj[0].linkTarget) {
+          title = titleObj[0].linkTarget._ref;
+        }
+      }
+      return {
+        title: (title ?? "").toUpperCase(),
+        subtitle: subtitle,
+      };
     },
   },
 });
