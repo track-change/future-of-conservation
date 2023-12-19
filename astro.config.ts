@@ -4,10 +4,11 @@ import react from "@astrojs/react";
 import cloudflare from "@astrojs/cloudflare";
 import { loadEnv } from "vite";
 import isPreview from "./src/utils/isPreview";
-const env = loadEnv("", process.cwd(), "");
+const env = loadEnv("", (process as any).cwd(), "");
 
 // https://astro.build/config
 export default defineConfig({
+  prefetch: true,
   integrations: [
     sanityIntegration({
       projectId: env.SANITY_PROJECT_ID,
@@ -22,5 +23,11 @@ export default defineConfig({
   adapter: cloudflare(),
   image: {
     service: { entrypoint: "astro/assets/services/sharp" },
+  },
+  experimental: {
+    i18n: {
+      defaultLocale: "en",
+      locales: ["en", "kr"],
+    },
   },
 });

@@ -30,10 +30,12 @@ export default defineType({
     select: {
       title: "title",
       targetTitle: "linkTarget.title",
+      subtitle: "linkTarget.slug.current",
     },
-    prepare({ title, targetTitle }) {
+    prepare({ title, targetTitle, subtitle }) {
       return {
         title: title ?? targetTitle ?? "",
+        subtitle: `/${subtitle || ""}`,
         media: BiDirections,
       };
     },

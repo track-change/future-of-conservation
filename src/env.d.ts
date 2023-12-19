@@ -1,6 +1,7 @@
 /// <reference types="astro/client" />
 /// <reference types="@sanity/astro/module" />
 /// <reference types="vite/client" />
+/// <reference types="@sanity-codegen/types" />
 
 declare module "sanity:client" {
   export const sanityClient: import("@sanity/client").SanityClient;

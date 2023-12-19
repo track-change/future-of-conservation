@@ -3,59 +3,68 @@ import { sanityClient } from "sanity:client";
 import { siteNavQuery } from "../utils/queries";
 import { type SiteNav } from "@/sanity";
 import { resolveLinkURL, resolveReference } from "@/utils/resolveLinks";
+import { getLangAndUrl, useTranslatedPath } from "@/i18n/utils";
+import Link from "@/components/Link.astro";
 
-interface Props {
-  slug: string | undefined;
-}
-
-const { slug } = Astro.props;
+const { lang, url } = getLangAndUrl(Astro.url);
+const translatePath = useTranslatedPath(lang);
 const header = await sanityClient.fetch<SiteNav>(siteNavQuery);
 ---
 
 <header>
-  <h1><a href="/">Future of<br />Conservation</a></h1>
+  <h1
+    ><a href={translatePath("/", lang)}>
+      {
+        lang == "en" ? (
+          <>
+            Future of
+            <br />
+            Conservation
+          </>
+        ) : (
+          <>
+            보존의
+            <br />
+            미래
+          </>
+        )
+      }</a
+    ></h1
+  >
   <nav>
     {
       header.navHeaderTop && (
-        <ul>
-          {header.navHeaderTop.map((link) => {
-            switch (link._type) {
-              case "internalLink":
-                const target = resolveReference(link.linkTarget);
-                const href = resolveLinkURL(target);
-                return (
-                  <li>
-                    <a
-                      href={href}
-                      aria-current={
-                        href.startsWith(`/${slug}`) ? "page" : undefined
-                      }
-                    >
-                      {target.title}
-                    </a>
-                  </li>
-                );
-              case "link":
-                return (
-                  <li>
-                    <a
-                      href={link.href}
-                      target={link.blank ? "_blank" : undefined}
-                      rel="noopener noreferrer"
-                    >
-                      {link.title || link.href}
-                    </a>
-                  </li>
-                );
-            }
-          })}
+        <ul class="navlinks">
+          {header.navHeaderTop.map((link) => (
+            <Link link={link} withAriaCurrent class="hoverable" />
+          ))}
         </ul>
       )
     }
+    <ul>
+      <li class="lang_switch" role="radiogroup" aria-label="Pick a language">
+        <a
+          role="radio"
+          href={translatePath(`/${url}`, "kr")}
+          aria-checked={lang === "kr"}
+          class="hoverable"
+        >
+          KR
+        </a>
+        <a
+          role="radio"
+          href={translatePath(`/${url}`, "en")}
+          aria-checked={lang === "en"}
+          class="hoverable"
+        >
+          EN
+        </a>
+      </li>
+    </ul>
   </nav>
 </header>
 
-<style>
+<style lang="scss">
   header {
     text-align: center;
   }
@@ -66,6 +75,12 @@ const header = await sanityClient.fetch<SiteNav>(siteNavQuery);
     line-height: 0.66;
     text-align: center;
     padding: 0.5em 0;
+
+    :global([lang="kr"]) & {
+      line-height: 0.88;
+      font-size: min(10vw, 8rem);
+      font-weight: 700;
+    }
   }
 
   h1 a {
@@ -82,17 +97,21 @@ const header = await sanityClient.fetch<SiteNav>(siteNavQuery);
       Arial,
       sans-serif;
     text-transform: uppercase;
+    display: flex;
   }
 
-  ul {
-    width: 100%;
-    display: flex;
-    flex-wrap: wrap;
+  .navlinks {
+    flex: 1;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+
+    @media screen and (min-width: 768px) {
+      grid-template-columns: repeat(4, 1fr);
+    }
   }
 
   li {
     flex: 1;
-    min-width: 160px;
   }
 
   a {
@@ -102,7 +121,24 @@ const header = await sanityClient.fetch<SiteNav>(siteNavQuery);
     white-space: nowrap;
   }
 
-  a[aria-current="page"] {
+  a[aria-current="page"],
+  .lang_switch a[aria-checked="true"] {
     background-color: var(--clr-3);
+  }
+
+  .lang_switch {
+    flex: 0;
+    min-width: unset;
+    display: flex;
+    flex-direction: column;
+    border-left: 1px solid var(--clr-fg);
+
+    @media screen and (min-width: 768px) {
+      flex-direction: row;
+    }
+  }
+
+  .lang_switch > a {
+    padding: 2px 5px;
   }
 </style>

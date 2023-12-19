@@ -12,8 +12,9 @@ body {
 //   color: var(--clr-bg);
 // }
 
-a:not([aria-current="page"]):hover {
-  opacity: 0.8;
+.hoverable:not([aria-current="page"]):hover,
+.hoverable:not([aria-current="page"]):focus-visible {
+  opacity: 0.4;
 }
 
 :focus-visible {

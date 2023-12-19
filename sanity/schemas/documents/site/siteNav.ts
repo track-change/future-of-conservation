@@ -22,22 +22,22 @@ export default {
         },
       ],
     },
-    {
-      title: "Header Navigation (Bottom)",
-      description: "Items to display in the top header bar.",
-      name: "navHeaderBot",
-      type: "array",
-      layout: "grid",
-      editModal: "popover",
-      of: [
-        {
-          type: "internalLink",
-        },
-        {
-          type: "link",
-        },
-      ],
-    },
+    // {
+    //   title: "Header Navigation (Bottom)",
+    //   description: "Items to display in the top header bar.",
+    //   name: "navHeaderBot",
+    //   type: "array",
+    //   layout: "grid",
+    //   editModal: "popover",
+    //   of: [
+    //     {
+    //       type: "internalLink",
+    //     },
+    //     {
+    //       type: "link",
+    //     },
+    //   ],
+    // },
     {
       title: "Footer Navigation",
       name: "navFooter",

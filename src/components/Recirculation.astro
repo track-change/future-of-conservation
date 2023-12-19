@@ -1,0 +1,74 @@
+---
+import Link from "@/components/Link.astro";
+import type { Page } from "@/sanity";
+interface Props {
+  recirc: NonNullable<Page["recirculation"]>;
+}
+
+const { recirc } = Astro.props;
+---
+
+<section>
+  <ul class="Recirc">
+    {
+      recirc.map((panel) => {
+        return (
+          <li class="Recirc_item">
+            <p>{panel.overtext || <>&nbsp;</>}</p>
+            <Link link={panel.target[0]} class="Recirc_link" />
+            <p>{panel.undertext || <>&nbsp;</>}</p>
+          </li>
+        );
+      })
+    }
+  </ul>
+</section>
+
+<style type="scss">
+  .Recirc {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+  }
+
+  .Recirc_item {
+    flex: 1;
+    min-width: 200px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    text-align: center;
+    padding: 1em;
+    gap: 3em;
+    font-family:
+      Helvetica Neue,
+      Helvetica,
+      Arial,
+      sans-serif;
+
+    & > * {
+      z-index: 1;
+    }
+  }
+
+  .Recirc_link {
+    font-size: min(8vw, 6rem);
+    font-family: Times New Roman;
+    text-transform: uppercase;
+    letter-spacing: -0.07em;
+    line-height: 0.66;
+
+    &::before {
+      position: absolute;
+      inset: 0;
+      content: "";
+      z-index: -1;
+    }
+
+    &:hover::before,
+    &:focus-visible::before {
+      background-color: var(--clr-hl);
+    }
+  }
+</style>

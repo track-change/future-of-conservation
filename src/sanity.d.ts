@@ -66,11 +66,25 @@ export interface Page extends SanityDocument {
   content?: EditorTextMedia;
 
   /**
+   * Recirculation — `array`
+   *
+   * Outgoing links at the end of the page.
+   */
+  recirculation?: Array<SanityKeyed<RecircPanel>>;
+
+  /**
    * SEO — `seo`
    *
    *
    */
   seo?: Seo;
+
+  /**
+   * language — `string`
+   *
+   *
+   */
+  language?: string;
 }
 
 /**
@@ -103,13 +117,6 @@ export interface SiteNav extends SanityDocument {
    * Items to display in the top header bar.
    */
   navHeaderTop?: Array<SanityKeyed<InternalLink> | SanityKeyed<Link>>;
-
-  /**
-   * Header Navigation (Bottom) — `array`
-   *
-   * Items to display in the top header bar.
-   */
-  navHeaderBot?: Array<SanityKeyed<InternalLink> | SanityKeyed<Link>>;
 
   /**
    * Footer Navigation — `array`
@@ -265,6 +272,30 @@ export type Seo = {
     crop?: SanityImageCrop;
     hotspot?: SanityImageHotspot;
   };
+};
+
+export type RecircPanel = {
+  _type: "recircPanel";
+  /**
+   * Link — `array`
+   *
+   * The content to link to in this panel (Max: 1).
+   */
+  target: Array<SanityKeyed<InternalLink> | SanityKeyed<Link>>;
+
+  /**
+   * Undertext — `string`
+   *
+   *
+   */
+  undertext?: string;
+
+  /**
+   * Overtext — `string`
+   *
+   *
+   */
+  overtext?: string;
 };
 
 export type Documents = Page | PageHome | SiteNav | SiteOptions;

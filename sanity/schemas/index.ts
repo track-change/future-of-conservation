@@ -12,6 +12,7 @@ import internalLink from "./objects/internalLink";
 import picture from "./objects/picture";
 import pictureTitled from "./objects/pictureTitled";
 import seo from "./objects/seo";
+import recircPanel from "./objects/recircPanel";
 
 const schemaTypes = [
   page,
@@ -25,6 +26,7 @@ const schemaTypes = [
   picture,
   pictureTitled,
   seo,
+  recircPanel,
 ];
 
 export default schemaTypes;

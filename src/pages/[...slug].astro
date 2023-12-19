@@ -1,10 +1,22 @@
 ---
+import Recirculation from "@/components/Recirculation.astro";
+import { getLangAndUrl } from "@/i18n/utils";
 import RootLayout from "@/layouts/RootLayout.astro";
-const { slug } = Astro.params;
+import type { Page } from "@/sanity";
+import { pageBySlugAndLangQuery } from "@/utils/queries";
+import { sanityClient } from "sanity:client";
+
+const { lang, url } = getLangAndUrl(Astro.url);
+
+const page = await sanityClient.fetch<Page | null>(pageBySlugAndLangQuery, {
+  slug: url,
+  lang: lang,
+});
+if (!page) return Astro.redirect("/404");
 ---
 
-<RootLayout slug={slug}>
-  <div>HERE</div>
+<RootLayout>
+  {page.recirculation && <Recirculation recirc={page.recirculation} />}
 </RootLayout>
 
 <style></style>

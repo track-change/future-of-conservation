@@ -50,6 +50,14 @@ export default defineType({
       group: "content",
     },
     {
+      title: "Recirculation",
+      description: "Outgoing links at the end of the page.",
+      name: "recirculation",
+      type: "array",
+      of: [{ type: "recircPanel" }],
+      group: "content",
+    },
+    {
       title: "SEO",
       name: "seo",
       type: "seo",

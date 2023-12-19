@@ -1,0 +1,36 @@
+---
+import { getLangAndUrl, useTranslatedPath } from "@/i18n/utils";
+import type { InternalLink, Link } from "@/sanity";
+import { resolveLinkURL, resolveReference } from "@/utils/resolveLinks";
+import type { HTMLAttributes } from "astro/types";
+
+interface Props extends HTMLAttributes<"a"> {
+  link: InternalLink | Link;
+  withAriaCurrent?: boolean;
+}
+
+const { link, withAriaCurrent, ...rest } = Astro.props;
+const { lang, url } = getLangAndUrl(Astro.url);
+const translatePath = useTranslatedPath(lang);
+
+let title: string | undefined = undefined;
+const aProps = { ...rest };
+switch (link._type) {
+  case "internalLink":
+    const target = resolveReference(link.linkTarget);
+    const hrefRaw = resolveLinkURL(target);
+    aProps.href = translatePath(hrefRaw, lang);
+    if (withAriaCurrent && url && url !== "" && hrefRaw.startsWith(`/${url}`))
+      aProps["aria-current"] = "page";
+    title = link.title || target.title;
+    break;
+  case "link":
+    aProps.href = link.href;
+    aProps.target = link.blank ? "_blank" : undefined;
+    aProps.rel = "noopener noreferrer";
+    title = link.title || link.href;
+    break;
+}
+---
+
+<a {...aProps}>{title}</a>
