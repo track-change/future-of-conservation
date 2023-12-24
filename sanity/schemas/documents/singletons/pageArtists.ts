@@ -1,12 +1,10 @@
-import { BiFile } from "react-icons/bi/";
-import { slugify, validateSlug } from "../../../utils/helperFunctions";
+import { FiUsers } from "react-icons/fi";
 import { defineField, defineType } from "sanity";
+import { slugify, validateSlug } from "../../../utils/helperFunctions";
 
 export default defineType({
-  title: "Page",
-  name: "page",
+  name: "pageArtists",
   type: "document",
-  icon: BiFile,
   groups: [
     {
       title: "Content",
@@ -22,11 +20,11 @@ export default defineType({
     defineField({
       title: "Title",
       name: "title",
-      description: "Localized title to use for links and SEO",
+      description: "A title for the page, used in links to it.",
       type: "internationalizedArrayString",
+      group: "content",
       validation: (Rule) => Rule.required(),
       codegen: { required: true },
-      group: "content",
     }),
     {
       title: "Slug",
@@ -38,44 +36,38 @@ export default defineType({
         source: "title",
         slugify: slugify,
       },
-      validation: validateSlug,
+      validation: (Rule) => validateSlug(Rule.required()),
       codegen: { required: true },
+      readOnly: true,
       group: "content",
+      initialValue: { current: "resources" },
     },
-    {
-      title: "Content",
-      name: "content",
+    defineField({
+      title: "Artists",
+      name: "artists",
+      description:
+        "The ordered list of artists to display on the /artists page.",
       type: "array",
+      of: [{ type: "reference", to: [{ type: "artist" }] }],
       group: "content",
-      of: [{ type: "page_block" }],
-    },
-    {
-      title: "Recirculation",
-      description: "Outgoing links at the end of the page.",
-      name: "recirculation",
-      type: "array",
-      of: [{ type: "recircPanel" }],
-      group: "content",
-    },
-    {
+    }),
+    defineField({
       title: "SEO",
       name: "seo",
       type: "seo",
       group: "seo",
-    },
+    }),
   ],
   preview: {
     select: {
       title: "title",
-      slug: "slug",
     },
-    prepare({ title, slug }) {
+    prepare({ title }) {
+      const localTitle = title.find(({ _key }: any) => _key == "en")?.value;
       return {
-        title:
-          typeof title === "string"
-            ? title
-            : title.find(({ _key }: any) => _key == "en").value,
-        subtitle: `/${slug.current}`,
+        title: `Page - ${localTitle || "Artists"}`,
+        media: FiUsers,
+        subtitle: "/artists",
       };
     },
   },

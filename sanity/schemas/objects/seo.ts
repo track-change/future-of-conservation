@@ -8,7 +8,7 @@ export default defineType({
     {
       title: "Meta Description",
       name: "metaDescription",
-      type: "text",
+      type: "internationalizedArrayText",
     },
     {
       title: "Meta Keywords",

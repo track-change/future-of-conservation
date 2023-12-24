@@ -5,11 +5,10 @@
   "scripts": {
     "dev": "astro dev",
     "start": "astro dev",
-    "build": "astro build",
+    "build": "pnpm run codegen; astro build",
     "preview": "wrangler pages dev ./dist --compatibility-date=2023-12-19",
     "astro": "astro",
-    "codegen": "sanity-codegen",
-    "prebuild": "pnpm run codegen && pnpm run i18n:sync",
+    "codegen": "sanity-codegen && pnpm run i18n:sync",
     "i18n:install": "astro-i18n install",
     "i18n:extract": "astro-i18n extract",
     "i18n:generate:pages": "astro-i18n generate:pages --purge",
@@ -24,9 +23,12 @@
     "@sanity/client": "^6.10.0",
     "@sanity/image-url": "^1.0.2",
     "astro": "^3.5.0",
+    "astro-font": "^0.0.28",
     "astro-i18n": "^2.2.0",
     "astro-portabletext": "^0.9.6",
+    "fuse.js": "^7.0.0",
     "groq": "^3.21.3",
+    "sanity-plugin-tags": "^2.0.1",
     "vite": "^5.0.10"
   },
   "devDependencies": {

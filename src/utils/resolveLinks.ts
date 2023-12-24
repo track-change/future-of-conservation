@@ -28,7 +28,12 @@ export function resolveLinkURL(
   switch (link._type) {
     case "pageHome":
       return "/";
+    case "pageArtists":
+    case "pageArticles":
+    case "pageResources":
     case "page":
       return `/${link.slug?.current || ""}`;
+    case "artist":
+      return `/artists/${link.slug?.current || ""}`;
   }
 }

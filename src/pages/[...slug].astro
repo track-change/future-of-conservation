@@ -15,6 +15,7 @@ export const getStaticPaths = createGetStaticPaths(async () => {
 
 const { locale, primaryLocale, route } = astroI18n;
 const slug = route.replace("/", "");
+console.log("here");
 
 const page = await sanityClient.fetch<Page | null>(pageBySlugQuery, {
   slug,

@@ -1,0 +1,56 @@
+---
+import RootLayout from "@/layouts/RootLayout.astro";
+import { astroI18n } from "astro-i18n";
+import type { Artist } from "@/sanity";
+import { pageArtistsQuery, artistsQuery } from "@/utils/queries";
+import Link from "@/components/Link.astro";
+import sanityCli from "sanity.cli";
+import localizedQuery from "@/utils/localizedQuery";
+
+const { locale, primaryLocale } = astroI18n;
+// const artistsPage = await sanityClient.fetch<PageArtists>(pageArtistsQuery, {
+//   locale,
+//   primaryLocale,
+// });
+const allArtists = await localizedQuery<Artist[]>(artistsQuery);
+---
+
+<RootLayout>
+  <ul>
+    {
+      allArtists.map((artist) => (
+        <li>
+          <Link link={artist} />
+        </li>
+      ))
+    }
+  </ul>
+</RootLayout>
+
+<style>
+  ul {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr;
+    padding: 1rem;
+    gap: 1rem;
+
+    @media screen and (min-width: 768px) {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  a {
+    display: flex;
+    height: 3em;
+    font-size: 3.5rem;
+    padding: 1rem;
+    width: 100%;
+    line-height: 0.66;
+    text-transform: uppercase;
+    border-bottom: 1px solid var(--clr-fg);
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+  }
+</style>

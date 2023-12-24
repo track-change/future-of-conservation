@@ -33,14 +33,18 @@ export const slugify = (input: { _key: string; value: string }[]) => {
 };
 
 export const validateSlug = (Rule: Rule) =>
-  Rule.custom((slug: Slug) => {
+  Rule.custom((slug: Slug, ctx) => {
     if (!slug) {
       return "A slug is required. Click “Generate” to generate a valid slug";
     }
     const rule = new RegExp("^[A-Za-z0-9]+(-[A-Za-z0-9]+)*$");
-    return rule.test(slug.current)
-      ? true
-      : "A slug should only contain lowercase letters and “-”. Click “Generate” to generate a valid slug.";
+    if (!rule.test(slug.current))
+      return "A slug should only contain lowercase letters and “-”. Click “Generate” to generate a valid slug.";
+    if (ctx.document?._type === "page") {
+      if (slug.current.startsWith("artists/") || slug.current === "artists")
+        return "Reserved slug prefix: 'artists/'";
+    }
+    return true;
   });
 
 export const isUniqueSlug: SlugIsUniqueValidator = async (slug, context) => {

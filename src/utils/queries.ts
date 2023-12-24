@@ -1,9 +1,59 @@
 import groq from "groq";
 
-export const siteNavQuery = groq`
-*[_type == "siteNav"][0] {
+export const pageHomeQuery = groq`
+*[_type == "pageHome"][0] {
   ...,
-  navHeaderTop[] {
+}
+`;
+export const pageArtistsQuery = groq`
+*[_type == "pageArtists"][0] {
+  artists[] -> {
+    _type,
+    "title": coalesce(
+      title[_key == $locale][0].value,
+      title[_key == $primaryLocale][0].value),
+    slug
+  }
+}
+`;
+
+export const artistsQuery = groq`
+*[_type == "artist"] {
+  _type,
+  "title": coalesce(
+    title[_key == $locale][0].value,
+    title[_key == $primaryLocale][0].value),
+  slug,
+  picture
+}
+`;
+
+export const articlesQuery = groq`
+*[_type == "article"] {
+  _type,
+  "title": coalesce(
+    title[_key == $locale][0].value,
+    title[_key == $primaryLocale][0].value),
+  isExternalAuthor,
+  author -> {
+    _type,
+    "title": coalesce(
+      title[_key == $locale][0].value,
+      title[_key == $primaryLocale][0].value),
+    slug
+  },
+  authorExternal,
+  file {
+    ...,
+    asset ->
+  }
+}
+`;
+
+export const siteHeaderQuery = groq`
+*[_type == "siteHeader"][0] {
+  ...,
+  navItems[] {
     _type,
     "title": coalesce(
       title[_key == $locale][0].value,

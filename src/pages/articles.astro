@@ -1,0 +1,44 @@
+---
+import Link from "@/components/Link.astro";
+import RootLayout from "@/layouts/RootLayout.astro";
+import { type Article } from "@/sanity";
+import localizedQuery from "@/utils/localizedQuery";
+import { articlesQuery } from "@/utils/queries";
+
+const allArticles = await localizedQuery<Article[]>(articlesQuery);
+---
+
+<RootLayout>
+  <ul>
+    {
+      allArticles.map((article) => (
+        <li>
+          <Link link={article}>{article.title}</Link>
+        </li>
+      ))
+    }
+  </ul>
+</RootLayout>
+
+<style lang="scss">
+  ul {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1rem;
+    padding: 1rem;
+  }
+
+  li {
+    box-shadow: var(--main-box-shadow);
+    border: 1px solid var(--clr-fg);
+
+    & a {
+      display: block;
+      width: 100%;
+      height: 100%;
+      padding: 1rem;
+      font-size: 2rem;
+      line-height: 1.05;
+    }
+  }
+</style>

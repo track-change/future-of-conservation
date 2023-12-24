@@ -1,9 +1,11 @@
 :root {
   --clr-1: rgb(255, 255, 255);
   --clr-2: rgb(0, 0, 0);
-  --clr-3: rgb(204, 255, 0);
+  --clr-3: rgba(204, 255, 0, 1);
 
   --clr-bg: var(--clr-1);
   --clr-fg: var(--clr-2);
   --clr-hl: var(--clr-3);
+
+  --main-box-shadow: 0px 4px 10px 0px var(--clr-3);
 }

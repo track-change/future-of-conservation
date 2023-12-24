@@ -1,54 +1,13 @@
 ---
-import { sanityClient } from "sanity:client";
-import { siteNavQuery } from "../utils/queries";
-import { type SiteNav } from "@/sanity";
-import Link from "@/components/Link.astro";
-import { astroI18n, l, t } from "astro-i18n";
-
-const { locale, primaryLocale, route } = astroI18n;
-const header = await sanityClient.fetch<SiteNav>(siteNavQuery, {
-  locale,
-  primaryLocale,
-});
+import { l, t } from "astro-i18n";
 ---
 
 <header>
   <h1>
-    <a href={"/" || l("/")}>
+    <a href={l("/")}>
       {t("title.line1")}<br />{t("title.line2")}
     </a>
   </h1>
-  <nav>
-    {
-      header.navHeaderTop && (
-        <ul class="navlinks">
-          {header.navHeaderTop.map((link) => (
-            <Link link={link} withAriaCurrent class="hoverable" />
-          ))}
-        </ul>
-      )
-    }
-    <ul>
-      <li class="lang_switch" role="radiogroup" aria-label="Pick a language">
-        <a
-          role="radio"
-          href={l(route, undefined, { targetLocale: "kr" })}
-          aria-checked={locale === "kr"}
-          class="hoverable"
-        >
-          KR
-        </a>
-        <a
-          role="radio"
-          href={l(route, undefined, { targetLocale: "en" })}
-          aria-checked={locale === "en"}
-          class="hoverable"
-        >
-          EN
-        </a>
-      </li>
-    </ul>
-  </nav>
 </header>
 
 <style lang="scss">
@@ -56,17 +15,16 @@ const header = await sanityClient.fetch<SiteNav>(siteNavQuery, {
     text-align: center;
   }
   h1 {
-    font-size: min(12vw, 10rem);
-    font-family: "Times New Roman", Times, serif;
+    font-size: max(2.5rem, min(5vw, 5rem));
     text-transform: uppercase;
     letter-spacing: -0.07em;
     line-height: 0.66;
     text-align: center;
-    padding: 0.5em 0;
+    padding: 0.4em 0;
 
     :global([lang="kr"]) & {
       line-height: 0.88;
-      font-size: min(10vw, 8rem);
+      font-size: max(2.3rem, min(4vw, 4rem));
       font-weight: 700;
     }
   }
@@ -74,59 +32,5 @@ const header = await sanityClient.fetch<SiteNav>(siteNavQuery, {
   h1 a {
     width: min-content;
     margin: 0 auto;
-  }
-
-  nav {
-    border-top: 1px solid var(--clr-fg);
-    border-bottom: 1px solid var(--clr-fg);
-    font-family:
-      Helvetica Neue,
-      Helvetica,
-      Arial,
-      sans-serif;
-    text-transform: uppercase;
-    display: flex;
-  }
-
-  .navlinks {
-    flex: 1;
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-
-    @media screen and (min-width: 768px) {
-      grid-template-columns: repeat(4, 1fr);
-    }
-  }
-
-  li {
-    flex: 1;
-  }
-
-  a {
-    padding: 2px 10px;
-    display: block;
-    text-align: center;
-    white-space: nowrap;
-  }
-
-  a[aria-current="page"],
-  .lang_switch a[aria-checked="true"] {
-    background-color: var(--clr-3);
-  }
-
-  .lang_switch {
-    flex: 0;
-    min-width: unset;
-    display: flex;
-    flex-direction: column;
-    border-left: 1px solid var(--clr-fg);
-
-    @media screen and (min-width: 768px) {
-      flex-direction: row;
-    }
-  }
-
-  .lang_switch > a {
-    padding: 2px 5px;
   }
 </style>

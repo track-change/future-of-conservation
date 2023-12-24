@@ -47,23 +47,23 @@ export interface Page extends SanityDocument {
   /**
    * Title — `internationalizedArrayString`
    *
-   *
+   * Localized title to use for links and SEO
    */
   title: InternationalizedArrayString;
 
   /**
    * Slug — `slug`
    *
-   *
+   * Unique identifier for this page. Resulting path will be "/{slug}" or "/kr/{slug}".
    */
-  slug?: { _type: "slug"; current: string };
+  slug: { _type: "slug"; current: string };
 
   /**
-   * Content — `editorTextMedia`
+   * Content — `array`
    *
    *
    */
-  content?: EditorTextMedia;
+  content?: Array<SanityKeyed<PageBlock>>;
 
   /**
    * Recirculation — `array`
@@ -78,82 +78,62 @@ export interface Page extends SanityDocument {
    *
    */
   seo?: Seo;
-
-  /**
-   * language — `string`
-   *
-   *
-   */
-  language?: string;
 }
 
 /**
- * Home
+ * Artist
  *
  *
  */
-export interface PageHome extends SanityDocument {
-  _type: "pageHome";
+export interface Artist extends SanityDocument {
+  _type: "artist";
 
   /**
-   * Title — `string`
+   * Title — `internationalizedArrayString`
+   *
+   * Localized name of the artist
+   */
+  title: InternationalizedArrayString;
+
+  /**
+   * Picture — `image`
+   *
+   * An image to display next to the artist in the index.
+   */
+  picture?: {
+    _type: "image";
+    asset: SanityReference<SanityImageAsset>;
+    crop?: SanityImageCrop;
+    hotspot?: SanityImageHotspot;
+  };
+
+  /**
+   * Slug — `slug`
+   *
+   * Unique identifier for this artist. Paths will be "/artists/{slug}" or "/kr/artists/{slug}".
+   */
+  slug: { _type: "slug"; current: string };
+
+  /**
+   * Tags — `tags`
    *
    *
    */
-  title?: string;
-}
-
-/**
- * Navigation
- *
- *
- */
-export interface SiteNav extends SanityDocument {
-  _type: "siteNav";
+  artistTags?: Tags;
 
   /**
-   * Header Navigation (Top) — `array`
-   *
-   * Items to display in the top header bar.
-   */
-  navHeaderTop?: Array<SanityKeyed<InternalLink> | SanityKeyed<Link>>;
-
-  /**
-   * Footer Navigation — `array`
+   * Introduction Page — `array`
    *
    *
    */
-  navFooter?: Array<SanityKeyed<InternalLink> | SanityKeyed<Link>>;
-}
-
-/**
- * Options
- *
- *
- */
-export interface SiteOptions extends SanityDocument {
-  _type: "siteOptions";
+  content_introduction?: Array<SanityKeyed<PageBlock>>;
 
   /**
-   * Page Title — `string`
+   * Interview Page — `array`
    *
    *
    */
-  name: string;
-
-  /**
-   * Copyright — `string`
-   *
-   *
-   */
-  copyrightText?: string;
-
-  /**
-   * Language Code — `string`
-   *
-   * ISO 639-1 Language Codes (i.e. “de” or “en”), can be country specific (i.e. “en-us”)
-   */
-  language?: string;
+  content_interview?: Array<SanityKeyed<PageBlock>>;
 
   /**
    * SEO — `seo`
@@ -163,7 +143,215 @@ export interface SiteOptions extends SanityDocument {
   seo?: Seo;
 }
 
-export type EditorText = Array<SanityKeyed<SanityBlock>>;
+/**
+ * Article
+ *
+ *
+ */
+export interface Article extends SanityDocument {
+  _type: "article";
+
+  /**
+   * Title — `internationalizedArrayString`
+   *
+   * Localized name of the article
+   */
+  title: InternationalizedArrayString;
+
+  /**
+   * File — `file`
+   *
+   * The article's file, typically a PDF.
+   */
+  file: { _type: "file"; asset: SanityReference<any> };
+
+  /**
+   * External Author — `boolean`
+   *
+   * Is the author not an artist on the platform?
+   */
+  isExternalAuthor?: boolean;
+
+  /**
+   * External Author — `internationalizedArrayString`
+   *
+   * The name of the article's author.
+   */
+  authorExternal?: InternationalizedArrayString;
+
+  /**
+   * Author — `reference`
+   *
+   * The article's author.
+   */
+  author?: SanityReference<Artist>;
+}
+
+/**
+ * Page - Home
+ *
+ *
+ */
+export interface PageHome extends SanityDocument {
+  _type: "pageHome";
+
+  /**
+   * Title — `internationalizedArrayString`
+   *
+   * A title for the home page, used in links to it.
+   */
+  title: InternationalizedArrayString;
+
+  /**
+   * SEO — `seo`
+   *
+   *
+   */
+  seo?: Seo;
+}
+
+/**
+ * pageArtists
+ *
+ *
+ */
+export interface PageArtists extends SanityDocument {
+  _type: "pageArtists";
+
+  /**
+   * Title — `internationalizedArrayString`
+   *
+   * A title for the page, used in links to it.
+   */
+  title: InternationalizedArrayString;
+
+  /**
+   * Slug — `slug`
+   *
+   * Unique identifier for this page. Resulting path will be "/{slug}" or "/kr/{slug}".
+   */
+  slug: { _type: "slug"; current: string };
+
+  /**
+   * Artists — `array`
+   *
+   * The ordered list of artists to display on the /artists page.
+   */
+  artists?: Array<SanityKeyedReference<Artist>>;
+
+  /**
+   * SEO — `seo`
+   *
+   *
+   */
+  seo?: Seo;
+}
+
+/**
+ * pageArticles
+ *
+ *
+ */
+export interface PageArticles extends SanityDocument {
+  _type: "pageArticles";
+
+  /**
+   * Title — `internationalizedArrayString`
+   *
+   * A title for the page, used in links to it.
+   */
+  title: InternationalizedArrayString;
+
+  /**
+   * Slug — `slug`
+   *
+   * Unique identifier for this page. Resulting path will be "/{slug}" or "/kr/{slug}".
+   */
+  slug: { _type: "slug"; current: string };
+
+  /**
+   * Articles — `array`
+   *
+   * The ordered list of articles to display on the /articles page.
+   */
+  articles?: Array<SanityKeyedReference<Artist>>;
+
+  /**
+   * SEO — `seo`
+   *
+   *
+   */
+  seo?: Seo;
+}
+
+/**
+ * pageResources
+ *
+ *
+ */
+export interface PageResources extends SanityDocument {
+  _type: "pageResources";
+
+  /**
+   * Title — `internationalizedArrayString`
+   *
+   * A title for the page, used in links to it.
+   */
+  title: InternationalizedArrayString;
+
+  /**
+   * Slug — `slug`
+   *
+   * Unique identifier for this page. Resulting path will be "/{slug}" or "/kr/{slug}".
+   */
+  slug: { _type: "slug"; current: string };
+
+  /**
+   * Artists — `array`
+   *
+   * The ordered list of artists to display on the /artists page.
+   */
+  artists?: Array<SanityKeyedReference<Artist>>;
+
+  /**
+   * SEO — `seo`
+   *
+   *
+   */
+  seo?: Seo;
+}
+
+/**
+ * Site Header
+ *
+ *
+ */
+export interface SiteHeader extends SanityDocument {
+  _type: "siteHeader";
+
+  /**
+   * Navigation Bar — `array`
+   *
+   * Items to display in the top navigation bar.
+   */
+  navItems?: Array<SanityKeyed<InternalLink> | SanityKeyed<Link>>;
+}
+
+/**
+ * Site Footer
+ *
+ *
+ */
+export interface SiteFooter extends SanityDocument {
+  _type: "siteFooter";
+
+  /**
+   * Page Title — `string`
+   *
+   *
+   */
+  name: string;
+}
 
 export type EditorTextMedia = Array<
   SanityKeyed<SanityBlock> | SanityKeyed<PictureTitled>
@@ -200,12 +388,14 @@ export type InternalLink = {
    *
    *
    */
-  linkTarget: SanityReference<Page | PageHome>;
+  linkTarget: SanityReference<
+    Page | Artist | PageHome | PageArtists | PageArticles | PageResources
+  >;
 
   /**
    * Title — `internationalizedArrayString`
    *
-   * Keep empty to use Internal link title
+   * Keep empty to use the linked page's title
    */
   title?: InternationalizedArrayString;
 };
@@ -248,11 +438,11 @@ export type PictureTitled = {
 export type Seo = {
   _type: "seo";
   /**
-   * Meta Description — `text`
+   * Meta Description — `internationalizedArrayText`
    *
    *
    */
-  metaDescription?: string;
+  metaDescription?: InternationalizedArrayText;
 
   /**
    * Meta Keywords — `array`
@@ -298,7 +488,33 @@ export type RecircPanel = {
   overtext?: string;
 };
 
-export type Documents = Page | PageHome | SiteNav | SiteOptions;
+export type PageBlock = {
+  _type: "page_block";
+  /**
+   * Internal Title — `string`
+   *
+   * An internal title for the text block.
+   */
+  title?: string;
+
+  /**
+   * Content — `internationalizedArrayEditorText`
+   *
+   * Translatable text content.
+   */
+  content?: InternationalizedArrayEditorText;
+};
+
+export type Documents =
+  | Page
+  | Artist
+  | Article
+  | PageHome
+  | PageArtists
+  | PageArticles
+  | PageResources
+  | SiteHeader
+  | SiteFooter;
 
 /**
  * This interface is a stub. It was referenced in your sanity schema but
@@ -306,3 +522,24 @@ export type Documents = Page | PageHome | SiteNav | SiteOptions;
  * sanity-codegen will let you type this explicity.
  */
 type InternationalizedArrayString = any;
+
+/**
+ * This interface is a stub. It was referenced in your sanity schema but
+ * the definition was not actually found. Future versions of
+ * sanity-codegen will let you type this explicity.
+ */
+type Tags = any;
+
+/**
+ * This interface is a stub. It was referenced in your sanity schema but
+ * the definition was not actually found. Future versions of
+ * sanity-codegen will let you type this explicity.
+ */
+type InternationalizedArrayText = any;
+
+/**
+ * This interface is a stub. It was referenced in your sanity schema but
+ * the definition was not actually found. Future versions of
+ * sanity-codegen will let you type this explicity.
+ */
+type InternationalizedArrayEditorText = any;

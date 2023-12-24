@@ -1,22 +1,44 @@
 import { BiHome } from "react-icons/bi/";
-import { defineType } from "sanity";
+import { defineField, defineType } from "sanity";
+import { slugify, validateSlug } from "../../../utils/helperFunctions";
 
 export default defineType({
-  title: "Home",
+  title: "Page - Home",
   name: "pageHome",
   type: "document",
   icon: BiHome,
-  fields: [
+  groups: [
     {
+      title: "Content",
+      name: "content",
+      default: true,
+    },
+    {
+      title: "SEO",
+      name: "seo",
+    },
+  ],
+  fields: [
+    defineField({
       title: "Title",
       name: "title",
-      type: "string",
-    },
+      description: "A title for the home page, used in links to it.",
+      type: "internationalizedArrayString",
+      validation: (Rule) => Rule.required(),
+      codegen: { required: true },
+      group: "content",
+    }),
+    defineField({
+      title: "SEO",
+      name: "seo",
+      type: "seo",
+      group: "seo",
+    }),
   ],
   preview: {
     prepare() {
       return {
-        title: "Home",
+        title: "Page - Home",
         media: BiHome,
       };
     },

@@ -1,13 +1,14 @@
 import { styles } from "../text/styles";
 import { decorators } from "../text/decorators";
 import { annotations } from "../text/annotations";
+import { defineField, } from "sanity";
 
-export default {
+export default defineField({
   title: "Editor",
   name: "editorText",
   type: "array",
   of: [
-    {
+    { 
       type: "block",
       styles,
       lists: [
@@ -20,4 +21,4 @@ export default {
       },
     },
   ],
-};
+});

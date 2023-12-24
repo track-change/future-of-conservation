@@ -5,12 +5,14 @@ import { deskTool } from "sanity/desk";
 import { sanityClient } from "sanity:client";
 import { media } from "sanity-plugin-media";
 import schemaTypes from "./sanity/schemas";
+import { tags } from "sanity-plugin-tags";
 import { structure } from "./sanity/config/structure";
 import {
   defaultDocumentNode,
   resolveProductionUrl,
 } from "./sanity/config/views";
 import { initialValueTemplates } from "./sanity/config/initialValueTemplates";
+import editorText from "./sanity/schemas/content/editors/editorText";
 
 const { projectId, dataset } = sanityClient.config();
 
@@ -31,10 +33,11 @@ export default defineConfig({
         { id: "kr", title: "Korean" },
       ],
       defaultLanguages: ["en"],
-      fieldTypes: ["string"],
+      fieldTypes: ["string", "text", editorText],
     }),
     media(),
     visionTool(),
+    tags(),
   ],
   schema: {
     types: schemaTypes,

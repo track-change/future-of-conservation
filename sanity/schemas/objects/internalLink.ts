@@ -21,7 +21,7 @@ export default defineType({
     },
     {
       title: "Title",
-      description: "Keep empty to use Internal link title",
+      description: "Keep empty to use the linked page's title",
       name: "title",
       type: "internationalizedArrayString",
     },
@@ -29,16 +29,17 @@ export default defineType({
   preview: {
     select: {
       title: "title",
+      targetType: "linkTarget._type",
       targetTitle: "linkTarget.title",
       subtitle: "linkTarget.slug.current",
     },
-    prepare({ title, targetTitle, subtitle }) {
-      let title2 = targetTitle;
-      if (typeof title2 !== "string") {
-        title2 = title2.find(({ _key }: any) => _key === "en").value;
-      }
+    prepare({ title, targetType, targetTitle, subtitle }) {
+      const title1 = title?.find(({ _key }: any) => _key === "en").value;
+      const title2 = targetTitle.find(({ _key }: any) => _key === "en").value;
+      if (targetType === "pageHome") subtitle = "/";
+      if (targetType === "pageArtists") subtitle = "artists";
       return {
-        title: title ?? title2 ?? "",
+        title: title1 ?? title2 ?? "",
         subtitle: `/${subtitle || ""}`,
         media: BiDirections,
       };

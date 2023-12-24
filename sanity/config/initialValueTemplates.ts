@@ -4,9 +4,12 @@ Document ids which:
 - cannot be duplicated, unpublished or deleted
 */
 const LOCKED_DOCUMENT_IDS = [
-  "siteNav",
-  "siteOptions",
+  "siteHeader",
+  "siteFooter",
   "pageHome",
+  "pageArticles",
+  "pageArtists",
+  "pageResources",
   "media.tag", // Sanity Media Plugin Tags
 ];
 

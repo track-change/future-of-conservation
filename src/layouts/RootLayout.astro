@@ -6,6 +6,8 @@ import "@/styles/variables.scss";
 import "@/styles/global.scss";
 import HrefLangs from "@/components/HrefLangs.astro";
 import { astroI18n } from "astro-i18n";
+import Nav from "@/components/Nav.astro";
+import { AstroFont } from "astro-font";
 ---
 
 <!doctype html>
@@ -15,11 +17,30 @@ import { astroI18n } from "astro-i18n";
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="generator" content={Astro.generator} />
     <HrefLangs />
+    <AstroFont
+      config={[
+        {
+          name: "TO Leaf",
+          src: [
+            {
+              style: "normal",
+              weight: "400",
+              path: "./public/fonts/TOLeaf-Regular.otf",
+            },
+          ],
+          display: "swap",
+          preload: true,
+          selector: "body",
+          fallback: "serif",
+        },
+      ]}
+    />
     <!-- <ViewTransitions /> -->
     <!-- <BaseHead title={title}/> -->
   </head>
   <body>
     <Header />
+    <Nav />
     <article>
       <slot />
     </article>
@@ -29,6 +50,7 @@ import { astroI18n } from "astro-i18n";
         width: 100%;
         background-color: var(--clr-bg);
         color: var(--clr-fg);
+        font-family: "TO Leaf", "Times New Roman", Times, serif;
       }
     </style>
   </body></html

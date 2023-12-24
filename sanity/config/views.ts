@@ -8,7 +8,14 @@ import {
 /*
 list of schema types supporting preview
 */
-const previewSchemaTypes = ["pageHome", "page", "siteNav"];
+const previewSchemaTypes = [
+  "pageHome",
+  "pageArtists",
+  "page",
+  "artist",
+  "siteHeader",
+  "siteFooter",
+];
 
 /*
 default document node:
@@ -25,10 +32,31 @@ export const defaultDocumentNode: DefaultDocumentNodeResolver = (
       S.view.form(),
       S.view
         .component(Iframe)
-        .title("Preview")
+        .title("Preview: EN")
         .options({
+          key: "en",
           url: (doc: SanityDocument) =>
             resolveProductionUrl({ doc, context: S.context, frontendUrl }),
+          defaultSize: "desktop",
+          reload: {
+            button: true,
+          },
+          attributes: {
+            allow: "fullscreen",
+          },
+        }),
+      S.view
+        .component(Iframe)
+        .title("Preview: KR")
+        .options({
+          key: "kr",
+          url: (doc: SanityDocument) =>
+            resolveProductionUrl({
+              doc,
+              context: S.context,
+              frontendUrl,
+              prefix: "/kr",
+            }),
           defaultSize: "desktop",
           reload: {
             button: true,
@@ -48,10 +76,12 @@ export const resolveProductionUrl = async ({
   doc,
   context,
   frontendUrl = "http://localhost:4321",
+  prefix = "",
 }: {
   doc?: SanityDocument;
   context: ResolveProductionUrlContext | StructureContext;
   frontendUrl: string;
+  prefix?: string;
 }) => {
   const { getClient } = context;
 
@@ -70,18 +100,25 @@ export const resolveProductionUrl = async ({
 
     // Switch for resolving doc type urls
     switch (doc._type) {
-      case "pageHome":
-        url.pathname = `/`;
-        break;
       case "page":
-        url.pathname = `/${slug}/`;
+        url.pathname = `${prefix}/${slug}/`;
         break;
+      case "artist":
+        url.pathname = `${prefix}/artists/${slug}`;
+        break;
+      case "pageArtists":
+        url.pathname = `${prefix}/artists`;
+        break;
+      case "pageHome":
+      case "siteHeader":
+      case "siteFooter":
       default:
+        url.pathname = `${prefix}/`;
         break;
     }
 
     // Add preview url params
-    url.searchParams.set("preview", "true");
+    // url.searchParams.set("preview", "true");
 
     return url.toString();
   }
