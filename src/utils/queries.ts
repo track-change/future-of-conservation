@@ -28,6 +28,15 @@ export const artistsQuery = groq`
 }
 `;
 
+export const artistQuery = groq`
+*[_type == "artist" && slug.current == $slug][0] {
+  ...,
+  "title": coalesce(
+    title[_key == $locale][0].value,
+    title[_key == $primaryLocale][0].value)
+}
+`;
+
 export const articlesQuery = groq`
 *[_type == "article"] {
   _type,

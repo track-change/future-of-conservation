@@ -15,18 +15,19 @@ export const getStaticPaths = createGetStaticPaths(async () => {
 
 const { locale, primaryLocale, route } = astroI18n;
 const slug = route.replace("/", "");
-console.log("here");
 
 const page = await sanityClient.fetch<Page | null>(pageBySlugQuery, {
   slug,
   locale,
   primaryLocale,
 });
-if (!page) return astroI18n.redirect("/404");
+if (!page) {
+  astroI18n.redirect("/404");
+}
 ---
 
 <RootLayout>
-  {page.recirculation && <Recirculation recirc={page.recirculation} />}
+  {page && page.recirculation && <Recirculation recirc={page.recirculation} />}
 </RootLayout>
 
 <style></style>

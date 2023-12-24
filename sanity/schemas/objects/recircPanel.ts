@@ -4,22 +4,31 @@ export default defineType({
   title: "Recirculation Panel",
   name: "recircPanel",
   type: "object",
+  fieldsets: [{ name: "internality", title: "Link" }],
   fields: [
     defineField({
+      title: "External Link?",
+      type: "boolean",
+      description: "Is the linked item from off-platform?",
+      name: "isExternalLink",
+      fieldset: "internality",
+      initialValue: false,
+    }),
+    defineField({
       title: "Link",
-      description: "The content to link to in this panel (Max: 1).",
-      name: "target",
-      type: "array",
-      validation: (Rule) => Rule.min(1).required(),
-      codegen: { required: true },
-      of: [
-        {
-          type: "internalLink",
-        },
-        {
-          type: "link",
-        },
-      ],
+      // description: "The content to link to in this panel (Max: 1).",
+      name: "targetInternal",
+      fieldset: "internality",
+      type: "internalLink",
+      hidden: ({ parent }) => parent && parent.isExternalLink,
+    }),
+    defineField({
+      title: "Link",
+      // description: "The content to link to in this panel (Max: 1).",
+      name: "targetExternal",
+      fieldset: "internality",
+      type: "link",
+      hidden: ({ parent }) => parent && !parent.isExternalLink,
     }),
     defineField({
       title: "Undertext",

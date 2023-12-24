@@ -36,13 +36,13 @@ export default defineType({
       codegen: { required: true },
       group: "content",
     }),
-    defineField({
-      title: "Picture",
-      name: "picture",
-      description: "An image to display next to the artist in the index.",
-      type: "image",
-      group: "content",
-    }),
+    // defineField({
+    //   title: "Picture",
+    //   name: "picture",
+    //   description: "An image to display next to the artist in the index.",
+    //   type: "image",
+    //   group: "content",
+    // }),
     {
       title: "Slug",
       name: "slug",
@@ -60,6 +60,7 @@ export default defineType({
     defineField({
       title: "Tags",
       name: "artistTags",
+      description: "Tags used to filter the artists in the /artists page.",
       type: "tags",
       options: {
         includeFromRelated: "artistTags",
@@ -67,18 +68,26 @@ export default defineType({
       group: "content",
     }),
     defineField({
-      title: "Introduction Page",
-      name: "content_introduction",
-      type: "array",
+      title: "Introduction",
+      name: "introductionContent",
+      description: "The text / media content of the introduction.",
+      type: "internationalizedArrayEditorTextMedia",
       group: "introduction",
-      of: [{ type: "page_block" }],
     }),
     defineField({
-      title: "Interview Page",
-      name: "content_interview",
-      type: "array",
+      title: "Carousel Contents",
+      name: "introductionCarousel",
+      description: "Pictures for the post-introduction carousel.",
+      type: "array" as const,
+      group: "introduction",
+      of: [{ type: "pictureTitled" }],
+    }),
+    defineField({
+      title: "Interview",
+      name: "interviewContent",
+      description: "The text / media content of the interview, with footnotes.",
+      type: "internationalizedArrayEditorTextMedia",
       group: "interview",
-      of: [{ type: "page_block" }],
     }),
     defineField({
       title: "SEO",

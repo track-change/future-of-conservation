@@ -4,10 +4,9 @@ import { astroI18n } from "astro-i18n";
 import type { Artist } from "@/sanity";
 import { pageArtistsQuery, artistsQuery } from "@/utils/queries";
 import Link from "@/components/Link.astro";
-import sanityCli from "sanity.cli";
 import localizedQuery from "@/utils/localizedQuery";
 
-const { locale, primaryLocale } = astroI18n;
+// const { locale, primaryLocale } = astroI18n;
 // const artistsPage = await sanityClient.fetch<PageArtists>(pageArtistsQuery, {
 //   locale,
 //   primaryLocale,
@@ -52,5 +51,6 @@ const allArtists = await localizedQuery<Artist[]>(artistsQuery);
     text-align: center;
     align-items: center;
     justify-content: center;
+    word-break: break-word;
   }
 </style>

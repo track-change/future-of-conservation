@@ -10,47 +10,40 @@ const header = await sanityClient.fetch<SiteHeader>(siteHeaderQuery, {
   locale,
   primaryLocale,
 });
-
 ---
 
 <nav>
   {
-    header.navItems && (
-      <ul class="navlinks">
-        {header.navItems.map((link) => (
-          <Link link={link} withAriaCurrent class="hoverable" />
-        ))}
-      </ul>
-    )
+    header.navItems?.map((link) => (
+      <li>
+        <Link link={link} withAriaCurrent class="hoverable" />
+      </li>
+    ))
   }
-  <ul>
-    <li class="lang_switch" role="radiogroup" aria-label="Pick a language">
-      <a
-        role="radio"
-        href={l(route, undefined, { targetLocale: "kr" })}
-        aria-checked={locale === "kr"}
-        class="hoverable"
-      >
-        KR
-      </a>
-      <a
-        role="radio"
-        href={l(route, undefined, { targetLocale: "en" })}
-        aria-checked={locale === "en"}
-        class="hoverable"
-      >
-        EN
-      </a>
-    </li>
-  </ul>
+  <li class="lang_switch" role="radiogroup" aria-label="Pick a language">
+    <a
+      role="radio"
+      href={l(route, undefined, { targetLocale: "kr" })}
+      aria-checked={locale === "kr"}
+      class="hoverable"
+    >
+      KR
+    </a>
+    <a
+      role="radio"
+      href={l(route, undefined, { targetLocale: "en" })}
+      aria-checked={locale === "en"}
+      class="hoverable"
+    >
+      EN
+    </a>
+  </li>
 </nav>
 
-<style>
+<style lang="scss">
   nav {
     position: sticky;
-    top: 0;
-    border-top: 1px solid var(--clr-fg);
-    border-bottom: 1px solid var(--clr-fg);
+    top: 0.25rem;
     font-family:
       Helvetica Neue,
       Helvetica,
@@ -59,15 +52,45 @@ const header = await sanityClient.fetch<SiteHeader>(siteHeaderQuery, {
     text-transform: uppercase;
     display: flex;
     background-color: var(--clr-bg);
+    column-gap: 0.25rem;
+    row-gap: 0.1rem;
+    padding: 0 0.25rem;
+    flex-wrap: wrap;
+
+    & > li:not(.lang_switch) {
+      border-top: 1px solid var(--clr-fg);
+      border-bottom: 1px solid var(--clr-fg);
+
+      @media screen and (max-width: 768px) {
+        min-width: 40%;
+        border-top: unset;
+
+        &:nth-child(1),
+        &:nth-child(2) {
+          border-top: 1px solid var(--clr-fg);
+        }
+      }
+    }
   }
 
   .navlinks {
     flex: 1;
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25rem;
 
     @media screen and (min-width: 768px) {
       grid-template-columns: repeat(4, 1fr);
+    }
+
+    & li {
+      border-top: 1px solid var(--clr-fg);
+      border-bottom: 1px solid var(--clr-fg);
+    }
+
+    & a {
+      // border-top: 1px solid var(--clr-fg);
+      // border-bottom: 1px solid var(--clr-fg);
     }
   }
 
@@ -82,26 +105,30 @@ const header = await sanityClient.fetch<SiteHeader>(siteHeaderQuery, {
     white-space: nowrap;
   }
 
-  a[aria-current="page"],
-  .lang_switch a[aria-checked="true"] {
+  a[aria-current="page"] {
     background-color: var(--clr-3);
+  }
+  .lang_switch a[aria-checked="true"] {
+    font-weight: 700;
   }
 
   .lang_switch {
     flex: 0;
     min-width: unset;
     display: flex;
-    flex-direction: column;
-    // border-left: 1px solid var(--clr-fg);
+    align-items: center;
     margin-left: 1px;
-
-    @media screen and (min-width: 768px) {
-      flex-direction: row;
-    }
+    border: 1px solid var(--clr-fg);
+    border-radius: 1em;
+    font-size: 0.75rem;
+    line-height: 1;
+    padding: 0px 4px;
   }
 
   .lang_switch > a {
-    padding: 2px 5px;
+    padding: 2px 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
-
 </style>

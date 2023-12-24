@@ -96,18 +96,6 @@ export interface Artist extends SanityDocument {
   title: InternationalizedArrayString;
 
   /**
-   * Picture — `image`
-   *
-   * An image to display next to the artist in the index.
-   */
-  picture?: {
-    _type: "image";
-    asset: SanityReference<SanityImageAsset>;
-    crop?: SanityImageCrop;
-    hotspot?: SanityImageHotspot;
-  };
-
-  /**
    * Slug — `slug`
    *
    * Unique identifier for this artist. Paths will be "/artists/{slug}" or "/kr/artists/{slug}".
@@ -117,23 +105,30 @@ export interface Artist extends SanityDocument {
   /**
    * Tags — `tags`
    *
-   *
+   * Tags used to filter the artists in the /artists page.
    */
   artistTags?: Tags;
 
   /**
-   * Introduction Page — `array`
+   * Introduction — `internationalizedArrayEditorTextMedia`
    *
-   *
+   * The text / media content of the introduction.
    */
-  content_introduction?: Array<SanityKeyed<PageBlock>>;
+  introductionContent?: InternationalizedArrayEditorTextMedia;
 
   /**
-   * Interview Page — `array`
+   * Carousel Contents — `array`
    *
-   *
+   * Pictures for the post-introduction carousel.
    */
-  content_interview?: Array<SanityKeyed<PageBlock>>;
+  introductionCarousel?: Array<SanityKeyed<PictureTitled>>;
+
+  /**
+   * Interview — `internationalizedArrayEditorTextMedia`
+   *
+   * The text / media content of the interview, with footnotes.
+   */
+  interviewContent?: InternationalizedArrayEditorTextMedia;
 
   /**
    * SEO — `seo`
@@ -353,10 +348,6 @@ export interface SiteFooter extends SanityDocument {
   name: string;
 }
 
-export type EditorTextMedia = Array<
-  SanityKeyed<SanityBlock> | SanityKeyed<PictureTitled>
->;
-
 export type Link = {
   _type: "link";
   /**
@@ -467,11 +458,25 @@ export type Seo = {
 export type RecircPanel = {
   _type: "recircPanel";
   /**
-   * Link — `array`
+   * External Link? — `boolean`
    *
-   * The content to link to in this panel (Max: 1).
+   * Is the linked item from off-platform?
    */
-  target: Array<SanityKeyed<InternalLink> | SanityKeyed<Link>>;
+  isExternalLink?: boolean;
+
+  /**
+   * Link — `internalLink`
+   *
+   *
+   */
+  targetInternal?: InternalLink;
+
+  /**
+   * Link — `link`
+   *
+   *
+   */
+  targetExternal?: Link;
 
   /**
    * Undertext — `string`
@@ -529,6 +534,13 @@ type InternationalizedArrayString = any;
  * sanity-codegen will let you type this explicity.
  */
 type Tags = any;
+
+/**
+ * This interface is a stub. It was referenced in your sanity schema but
+ * the definition was not actually found. Future versions of
+ * sanity-codegen will let you type this explicity.
+ */
+type InternationalizedArrayEditorTextMedia = any;
 
 /**
  * This interface is a stub. It was referenced in your sanity schema but

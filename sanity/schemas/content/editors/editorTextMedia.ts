@@ -1,6 +1,7 @@
 import { styles } from "../text/styles";
 import { decorators } from "../text/decorators";
 import { annotations } from "../text/annotations";
+import { inline } from "../text/inline";
 
 export default {
   title: "Editor",
@@ -14,6 +15,7 @@ export default {
         { title: "Bullet", value: "bullet" },
         { title: "Number", value: "number" },
       ],
+      of: inline,
       marks: {
         decorators,
         annotations,

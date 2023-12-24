@@ -31,7 +31,7 @@ const schemaTypes = [
   siteHeader,
   siteFooter,
   // editorText,
-  editorTextMedia,
+  // editorTextMedia,
   link,
   internalLink,
   picture,
