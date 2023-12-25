@@ -30,10 +30,40 @@ export const artistsQuery = groq`
 
 export const artistQuery = groq`
 *[_type == "artist" && slug.current == $slug][0] {
-  ...,
   "title": coalesce(
     title[_key == $locale][0].value,
-    title[_key == $primaryLocale][0].value)
+    title[_key == $primaryLocale][0].value),
+  "introductionContent": coalesce(
+    introductionContent[_key == $locale][0].value,
+    introductionContent[_key == $primaryLocale][0].value),
+  introductionRecirc[] {
+    "undertext": coalesce(
+      undertext[_key == $locale][0].value,
+      undertext[_key == $primaryLocale][0].value),
+    "overtext": coalesce(
+      overtext[_key == $locale][0].value,
+      overtext[_key == $primaryLocale][0].value),
+    targetInternal {
+      _type,
+      "title": coalesce(
+        title[_key == $locale][0].value,
+        title[_key == $primaryLocale][0].value),
+      linkTarget -> {
+        _type,
+        "title": coalesce(
+          title[_key == $locale][0].value,
+          title[_key == $primaryLocale][0].value),
+        slug,
+        _type == "article" => {
+          file {
+            asset -> {
+              url
+            }
+          }
+        }
+      }
+    }
+  }
 }
 `;
 
@@ -85,20 +115,26 @@ export const pageBySlugQuery = groq`
     title[_key == $locale][0].value,
     title[_key == $primaryLocale][0].value),
   recirculation[] {
-    ...,
-    target[] {
-      ...,
-      _type == "internalLink" => {
+    "undertext": coalesce(
+      undertext[_key == $locale][0].value,
+      undertext[_key == $primaryLocale][0].value),
+    "overtext": coalesce(
+      overtext[_key == $locale][0].value,
+      overtext[_key == $primaryLocale][0].value),
+    targetInternal {
+      "title": coalesce(
+        title[_key == $locale][0].value,
+        title[_key == $primaryLocale][0].value),
+      linkTarget -> {
+        _type,
         "title": coalesce(
           title[_key == $locale][0].value,
           title[_key == $primaryLocale][0].value),
-        linkTarget -> {
-          _type,
-          "title": coalesce(
-            title[_key == $locale][0].value,
-            title[_key == $primaryLocale][0].value),
+        _type == "article" {
+          asset -> {
+            url
+          }
         }
-      }
     }
   }
 }

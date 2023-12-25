@@ -1,0 +1,12 @@
+---
+import { PortableText } from "astro-portabletext";
+import type { EditorTextMedia } from "@/sanity";
+
+interface Props {
+  content: NonNullable<EditorTextMedia>;
+}
+
+const { content } = Astro.props;
+---
+
+<PortableText value={content} />

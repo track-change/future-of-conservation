@@ -1,11 +1,11 @@
-import { BiImage } from "react-icons/bi/";
+import { BiImages } from "react-icons/bi/";
 import { defineType } from "sanity";
 
 export default defineType({
   title: "Image",
   name: "pictureTitled",
   type: "image",
-  icon: BiImage,
+  icon: BiImages,
   options: {
     hotspot: true,
   },
@@ -13,7 +13,7 @@ export default defineType({
     {
       title: "Caption",
       name: "caption",
-      type: "internationalizedArrayText",
+      type: "text",
       rows: 3,
     },
     {
@@ -33,11 +33,10 @@ export default defineType({
     },
     prepare(selection) {
       const { filename, caption, dimensions, image } = selection;
-      const captionText = caption?.find(({ _key }: any) => _key === "en").value;
       return {
         title: filename ?? "",
-        subtitle: captionText
-          ? captionText
+        subtitle: caption
+          ? caption
           : dimensions
             ? `(${dimensions.width}px × ${dimensions.height}px)`
             : "…",

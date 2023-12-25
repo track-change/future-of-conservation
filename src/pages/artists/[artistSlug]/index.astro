@@ -1,55 +1,63 @@
 ---
+import BodyText from "@/components/BodyText.astro";
 import Recirculation from "@/components/Recirculation.astro";
 import RootLayout from "@/layouts/RootLayout.astro";
-import type { Artist, SanityReference } from "@/sanity";
-import localizedQuery from "@/utils/localizedQuery";
-import { artistQuery } from "@/utils/queries";
+import type { Artist } from "@/sanity";
+import { localizedQuery, artistIntroQuery } from "@/queries/contentQueries";
 import { astroI18n } from "astro-i18n";
 
 const { artistSlug: slug } = Astro.params as { artistSlug: string };
-const artist = await localizedQuery<Artist | null>(artistQuery, { slug });
+const artist = await localizedQuery<Artist | null>(artistIntroQuery, { slug });
 if (!artist) {
   astroI18n.redirect("/404");
 }
 ---
 
-<RootLayout>
-  <h1>{artist?.title}</h1>
-  <!-- <embed
-    width="100%"
-    height="500px"
-    src="https://cdn.sanity.io/files/nz5k3cvv/production/1e4351e6562e3979b802c98b5291feaa57d079ae.pdf"
-    type="application/pdf"
-  /> -->
-  <Recirculation
-    recirc={[
-      {
-        _key: "artistPane",
-        _type: "recircPanel",
-        isExternalLink: false,
-        targetInternal: {
-          _type: "internalLink",
-          linkTarget: artist as unknown as SanityReference<Artist>,
-        },
-      },
-      {
-        _key: "interviewPane",
-        _type: "recircPanel",
-        isExternalLink: false,
-        targetInternal: {
-          _type: "internalLink",
-          linkTarget: artist as unknown as SanityReference<Artist>,
-        },
-      },
-    ]}
-  />
-</RootLayout>
+{
+  artist && (
+    <RootLayout>
+      <article class="body_content">
+        <h1>{artist.title}</h1>
+        <BodyText content={artist.introductionContent} />
+      </article>
+      {artist.introductionRecirc && (
+        <Recirculation recirc={artist?.introductionRecirc} />
+      )}
+    </RootLayout>
+  )
+}
 
-<style>
-  h1 {
+<style lang="scss" is:global>
+  .body_content {
+    width: 100%;
+    padding-bottom: 3rem;
+    counter-reset: footnotes;
+  }
+
+  .body_content p {
+    max-width: calc(700px + 4rem);
+    margin-left: auto;
+    margin-right: auto;
+    padding: 0 2rem;
+    margin-bottom: 1em;
+    line-height: 1.45;
+    font-size: 20px;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+
+    html[lang="kr"] & {
+      letter-spacing: 0.02em;
+    }
+  }
+
+  .body_content h1 {
     font-size: 5rem;
     text-align: center;
     padding: 2rem 1rem;
+    text-transform: uppercase;
+  }
+
+  .see_also {
+    text-align: center;
     text-transform: uppercase;
   }
 </style>

@@ -1,7 +1,6 @@
 import { styles } from "../text/styles";
 import { decorators } from "../text/decorators";
 import { annotations } from "../text/annotations";
-import { inline } from "../text/inline";
 import { defineField } from "sanity";
 
 export default defineField({

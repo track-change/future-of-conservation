@@ -1,7 +1,62 @@
 ---
+import BodyText from "@/components/BodyText.astro";
+import Recirculation from "@/components/Recirculation.astro";
 import RootLayout from "@/layouts/RootLayout.astro";
+import type { Artist } from "@/sanity";
+import { localizedQuery, artistInterviewQuery } from "@/queries/contentQueries";
+import { astroI18n } from "astro-i18n";
+
+const { artistSlug: slug } = Astro.params as { artistSlug: string };
+const artist = await localizedQuery<Artist | null>(artistInterviewQuery, {
+  slug,
+});
+if (!artist) {
+  astroI18n.redirect("/404");
+}
 ---
 
-<RootLayout>
-  <h1>Interview</h1>
-</RootLayout>
+{
+  artist && (
+    <RootLayout>
+      <article class="body_content">
+        <h1>Interview: {artist.title}</h1>
+        <BodyText content={artist.interviewContent} />
+      </article>
+      {artist.interviewRecirc && (
+        <Recirculation recirc={artist?.interviewRecirc} />
+      )}
+    </RootLayout>
+  )
+}
+
+<style lang="scss" is:global>
+  .body_content {
+    width: 100%;
+    padding-bottom: 3rem;
+    counter-reset: footnotes;
+  }
+
+  .body_content p {
+    max-width: calc(700px + 4em);
+    margin-left: auto;
+    margin-right: auto;
+    padding: 0 2em;
+    margin-bottom: 1em;
+    line-height: 1.45;
+    font-size: 20px;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  }
+
+  .body_content h1 {
+    font-size: 5rem;
+    text-align: center;
+    line-height: 0.66;
+    padding: 4rem 1rem;
+    text-transform: uppercase;
+  }
+
+  .see_also {
+    text-align: center;
+    text-transform: uppercase;
+  }
+</style>

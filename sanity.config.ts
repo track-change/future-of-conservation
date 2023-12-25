@@ -12,8 +12,6 @@ import {
   resolveProductionUrl,
 } from "./sanity/config/views";
 import { initialValueTemplates } from "./sanity/config/initialValueTemplates";
-import editorText from "./sanity/schemas/content/editors/editorText";
-import editorTextMedia from "./sanity/schemas/content/editors/editorTextMedia";
 
 const { projectId, dataset } = sanityClient.config();
 
@@ -34,7 +32,7 @@ export default defineConfig({
         { id: "kr", title: "Korean" },
       ],
       defaultLanguages: ["en"],
-      fieldTypes: ["string", "text", editorText, editorTextMedia],
+      fieldTypes: ["string", "text", "editorText", "editorTextMedia"],
     }),
     media(),
     visionTool(),

@@ -1,12 +1,11 @@
 ---
-import Header from "@/components/Header.astro";
 import { ViewTransitions } from "astro:transitions";
 import "@/styles/reset.scss";
 import "@/styles/variables.scss";
 import "@/styles/global.scss";
 import HrefLangs from "@/components/HrefLangs.astro";
 import { astroI18n } from "astro-i18n";
-import Nav from "@/components/Nav.astro";
+import Header from "@/components/Header.astro";
 import { AstroFont } from "astro-font";
 ---
 
@@ -40,10 +39,9 @@ import { AstroFont } from "astro-font";
   </head>
   <body>
     <Header />
-    <Nav />
-    <article>
+    <main>
       <slot />
-    </article>
+    </main>
     <style is:global>
       html,
       body {

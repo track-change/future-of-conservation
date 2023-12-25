@@ -9,6 +9,18 @@ export default defineType({
   icon: BsSuperscript,
   fields: [
     {
+      title: "Footnote ID",
+      description:
+        "A unique slug for the footnote to allow jumping to/from it.",
+      name: "slug",
+      type: "slug",
+      validation: (Rule) => Rule.required(),
+      codegen: { required: true },
+      initialValue: () => ({
+        current: "aaa",
+      }),
+    },
+    {
       title: "Internal Link",
       name: "linkTarget",
       type: "reference",
@@ -23,13 +35,13 @@ export default defineType({
       title: "Margin Content",
       description: "Footnote content to show in the margins",
       name: "marginContent",
-      type: "internationalizedArrayEditorText",
+      type: "text",
     },
     {
       title: "Post Content",
       description: "Footnote content to show at the end of the body text.",
       name: "marginContent",
-      type: "internationalizedArrayEditorText",
+      type: "text",
     },
   ],
 });

@@ -35,5 +35,7 @@ export function resolveLinkURL(
       return `/${link.slug?.current || ""}`;
     case "artist":
       return `/artists/${link.slug?.current || ""}`;
+    case "article":
+      return resolveReference(link.file.asset).url;
   }
 }

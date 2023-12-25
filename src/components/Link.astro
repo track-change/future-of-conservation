@@ -27,12 +27,24 @@ switch (link._type) {
   }
   case "internalLink": {
     const target = resolveReference(link.linkTarget);
-    const hrefRaw = resolveLinkURL(target);
+    let targetTitle = target.title;
+    let hrefRaw = resolveLinkURL(target);
     if (!hrefRaw) break;
+    if (link.subpath) hrefRaw += link.subpath;
     aProps.href = astroI18n.l(hrefRaw);
-    if (withAriaCurrent && route !== "/" && hrefRaw.startsWith(route))
+    if (
+      target._type === "artist" &&
+      link.subpath === "/interview" &&
+      target.interviewTitle
+    ) {
+      targetTitle += `: ${target.interviewTitle}`;
+    }
+    if (
+      withAriaCurrent &&
+      ((hrefRaw !== "/" && route.startsWith(hrefRaw)) || route === hrefRaw)
+    )
       aProps["aria-current"] = "page";
-    title = link.title || target.title;
+    title = link.title || targetTitle;
     break;
   }
   case "link": {

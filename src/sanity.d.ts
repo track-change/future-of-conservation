@@ -112,16 +112,30 @@ export interface Artist extends SanityDocument {
   /**
    * Introduction — `internationalizedArrayEditorTextMedia`
    *
-   * The text / media content of the introduction.
+   * The text / media content of the introduction, with footnotes.
    */
   introductionContent?: InternationalizedArrayEditorTextMedia;
 
   /**
-   * Carousel Contents — `array`
+   * Introduction Carousel — `array`
    *
    * Pictures for the post-introduction carousel.
    */
   introductionCarousel?: Array<SanityKeyed<PictureTitled>>;
+
+  /**
+   * Introduction Recirculation — `array`
+   *
+   * Outgoing links at the end of the introduction page.
+   */
+  introductionRecirc?: Array<SanityKeyed<RecircPanel>>;
+
+  /**
+   * Interview Title — `internationalizedArrayString`
+   *
+   * A title for the interview.
+   */
+  interviewTitle?: InternationalizedArrayString;
 
   /**
    * Interview — `internationalizedArrayEditorTextMedia`
@@ -129,6 +143,13 @@ export interface Artist extends SanityDocument {
    * The text / media content of the interview, with footnotes.
    */
   interviewContent?: InternationalizedArrayEditorTextMedia;
+
+  /**
+   * Interview Recirculation — `array`
+   *
+   * Outgoing links at the end of the introduction page.
+   */
+  interviewRecirc?: Array<SanityKeyed<RecircPanel>>;
 
   /**
    * SEO — `seo`
@@ -348,6 +369,12 @@ export interface SiteFooter extends SanityDocument {
   name: string;
 }
 
+export type EditorText = Array<SanityKeyed<SanityBlock>>;
+
+export type EditorTextMedia = Array<
+  SanityKeyed<SanityBlock> | SanityKeyed<PictureTitled>
+>;
+
 export type Link = {
   _type: "link";
   /**
@@ -375,12 +402,18 @@ export type Link = {
 export type InternalLink = {
   _type: "internalLink";
   /**
-   * Internal Link — `reference`
+   * Link Target — `reference`
    *
    *
    */
   linkTarget: SanityReference<
-    Page | Artist | PageHome | PageArtists | PageArticles | PageResources
+    | Page
+    | Artist
+    | Article
+    | PageHome
+    | PageArtists
+    | PageArticles
+    | PageResources
   >;
 
   /**
@@ -389,6 +422,13 @@ export type InternalLink = {
    * Keep empty to use the linked page's title
    */
   title?: InternationalizedArrayString;
+
+  /**
+   * Subpath — `string`
+   *
+   * A subpath under the referenced document to link to. For example, if your link target is an Artist, you can optionally link to the Artists' intervew with subpath `/interview`. In this special case, the link's default title will be the interview title.
+   */
+  subpath?: string;
 };
 
 export type Picture = {
@@ -458,13 +498,6 @@ export type Seo = {
 export type RecircPanel = {
   _type: "recircPanel";
   /**
-   * External Link? — `boolean`
-   *
-   * Is the linked item from off-platform?
-   */
-  isExternalLink?: boolean;
-
-  /**
    * Link — `internalLink`
    *
    *
@@ -472,25 +505,18 @@ export type RecircPanel = {
   targetInternal?: InternalLink;
 
   /**
-   * Link — `link`
+   * Overtext — `internationalizedArrayString`
    *
-   *
+   * Text placed above the link title
    */
-  targetExternal?: Link;
+  overtext?: InternationalizedArrayString;
 
   /**
-   * Undertext — `string`
+   * Undertext — `internationalizedArrayString`
    *
-   *
+   * Text placed below the link title
    */
-  undertext?: string;
-
-  /**
-   * Overtext — `string`
-   *
-   *
-   */
-  overtext?: string;
+  undertext?: InternationalizedArrayString;
 };
 
 export type PageBlock = {

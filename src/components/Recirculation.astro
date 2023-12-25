@@ -1,6 +1,7 @@
 ---
 import Link from "@/components/Link.astro";
 import type { Page } from "@/sanity";
+import { t } from "astro-i18n";
 interface Props {
   recirc: NonNullable<Page["recirculation"]>;
 }
@@ -8,37 +9,39 @@ interface Props {
 const { recirc } = Astro.props;
 ---
 
-<section>
-  <ul class="Recirc">
+<aside>
+  <h2>{t("recirc")}</h2>
+  <ul>
     {
       recirc.map((panel) => {
         return (
-          <li class="Recirc_item">
+          <li>
             <p>{panel.overtext || <>&nbsp;</>}</p>
-            <Link
-              link={
-                panel.isExternalLink
-                  ? panel.targetExternal!
-                  : panel.targetInternal!
-              }
-              class="Recirc_link"
-            />
+            {panel.targetInternal && (
+              <Link link={panel.targetInternal} class="Recirc_link" />
+            )}
             <p>{panel.undertext || <>&nbsp;</>}</p>
           </li>
         );
       })
     }
   </ul>
-</section>
+</aside>
 
-<style type="scss">
-  .Recirc {
+<style lang="scss">
+  h2 {
+    text-align: center;
+    padding: 1em 0;
+    text-transform: uppercase;
+  }
+
+  ul {
     display: flex;
     flex-wrap: wrap;
     width: 100%;
   }
 
-  .Recirc_item {
+  li {
     flex: 1;
     min-width: 200px;
     position: relative;
@@ -48,20 +51,30 @@ const { recirc } = Astro.props;
     text-align: center;
     padding: 1em;
     gap: 3em;
+  }
 
-    & > * {
-      z-index: 1;
-    }
+  p {
+    z-index: 1;
+    pointer-events: none;
+  }
 
-    & p {
-      pointer-events: none;
-    }
+  .Recirc_link {
+    font-size: min(8vw, 6rem);
+    text-transform: uppercase;
+    letter-spacing: -0.07em;
+    line-height: 0.66;
+    line-break: auto;
+    word-wrap: break-word;
+    -ms-hyphens: auto;
+    -webkit-hyphens: auto;
+    hyphens: auto;
+    z-index: 0;
 
     &::before {
       position: absolute;
       inset: 0;
       content: "";
-      z-index: 0;
+      z-index: -1;
       transition: all 0.2s ease-in-out;
       transform: scaleY(0);
       background: linear-gradient(180deg, #ffffff 0%, #ccff00 34%);
@@ -74,19 +87,11 @@ const { recirc } = Astro.props;
       transform: scaleY(1);
       opacity: 1;
     }
-  }
 
-  .Recirc_link {
-    font-size: min(8vw, 6rem);
-    text-transform: uppercase;
-    letter-spacing: -0.07em;
-    line-height: 0.66;
-
-    &::before {
+    &::after {
       position: absolute;
       inset: 0;
       content: "";
-      z-index: 2;
     }
   }
 </style>

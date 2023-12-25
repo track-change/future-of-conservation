@@ -1,65 +1,75 @@
+import { BiLinkAlt } from "react-icons/bi";
 import { defineField, defineType } from "sanity";
 
 export default defineType({
   title: "Recirculation Panel",
   name: "recircPanel",
   type: "object",
-  fieldsets: [{ name: "internality", title: "Link" }],
   fields: [
-    defineField({
-      title: "External Link?",
-      type: "boolean",
-      description: "Is the linked item from off-platform?",
-      name: "isExternalLink",
-      fieldset: "internality",
-      initialValue: false,
-    }),
     defineField({
       title: "Link",
       // description: "The content to link to in this panel (Max: 1).",
       name: "targetInternal",
-      fieldset: "internality",
       type: "internalLink",
-      hidden: ({ parent }) => parent && parent.isExternalLink,
-    }),
-    defineField({
-      title: "Link",
-      // description: "The content to link to in this panel (Max: 1).",
-      name: "targetExternal",
-      fieldset: "internality",
-      type: "link",
-      hidden: ({ parent }) => parent && !parent.isExternalLink,
-    }),
-    defineField({
-      title: "Undertext",
-      name: "undertext",
-      type: "string",
     }),
     defineField({
       title: "Overtext",
       name: "overtext",
-      type: "string",
+      type: "internationalizedArrayString",
+      description: "Text placed above the link title",
+    }),
+    defineField({
+      title: "Undertext",
+      name: "undertext",
+      type: "internationalizedArrayString",
+      description: "Text placed below the link title",
     }),
   ],
   preview: {
     select: {
-      title: "target",
-      subtitle: "undertext",
+      internalTitle: "targetInternal.title",
+      internalTargetType: "targetInternal.linkTarget._type",
+      internalTargetTitle: "targetInternal.linkTarget.title",
+      interviewTitle: "targetInternal.linkTarget.interviewTitle",
+      internalLink: "targetInternal.linkTarget.slug.current",
+      subPath: "targetInternal.subpath",
     },
-    prepare({ title: titleObj, subtitle }) {
+    prepare({
+      internalTitle,
+      internalTargetType,
+      internalTargetTitle,
+      interviewTitle,
+      internalLink,
+      subPath,
+    }) {
       let title = "";
-      if (titleObj.length > 0) {
-        if (titleObj[0].title) {
-          title = titleObj[0].title.find(
-            ({ _key }: any) => _key === "en",
-          ).value;
-        } else if (titleObj[0].linkTarget) {
-          title = titleObj[0].linkTarget._ref;
-        }
+      title =
+        internalTargetTitle?.find(({ _key }: any) => _key === "en").value ||
+        title;
+      switch (internalTargetType) {
+        case "pageHome":
+          internalLink = "/";
+          break;
+        case "pageArtists":
+          internalLink = "artists";
+          break;
+        case "artist":
+          internalLink = `artists/${internalLink}`;
+          if (subPath === "/interview")
+            title =
+              (title ? `${title}: ` : "") +
+                interviewTitle?.find(({ _key }: any) => _key === "en").value ||
+              title;
+          break;
       }
+      title =
+        internalTitle?.find(({ _key }: any) => _key === "en").value || title;
       return {
-        title: (title ?? "").toUpperCase(),
-        subtitle: subtitle,
+        title,
+        subtitle:
+          internalTargetType === "article"
+            ? "<Opens Article File>"
+            : `/${internalLink || ""}${subPath || ""}`,
       };
     },
   },

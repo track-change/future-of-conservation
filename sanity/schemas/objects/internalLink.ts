@@ -1,6 +1,6 @@
 import { BiDirections } from "react-icons/bi/";
 import { linkTargets } from "../../utils/internalLinkTargets";
-import { defineType } from "sanity";
+import { defineField, defineType } from "sanity";
 
 export default defineType({
   title: "Internal Link",
@@ -9,7 +9,7 @@ export default defineType({
   icon: BiDirections,
   fields: [
     {
-      title: "Internal Link",
+      title: "Link Target",
       name: "linkTarget",
       type: "reference",
       to: linkTargets,
@@ -25,6 +25,13 @@ export default defineType({
       name: "title",
       type: "internationalizedArrayString",
     },
+    defineField({
+      title: "Subpath",
+      description:
+        "A subpath under the referenced document to link to. For example, if your link target is an Artist, you can optionally link to the Artists' intervew with subpath `/interview`. In this special case, the link's default title will be the interview title.",
+      name: "subpath",
+      type: "string",
+    }),
   ],
   preview: {
     select: {

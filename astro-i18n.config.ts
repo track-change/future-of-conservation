@@ -16,12 +16,14 @@ export default defineAstroI18nConfig({
           line1: "Future of",
           line2: "Conservation",
         },
+        recirc: "See Also",
       },
       kr: {
         title: {
           line1: "보존의",
           line2: "미래",
         },
+        recirc: "See Also",
       },
     },
   }, // { [translation_group1]: { [locale1]: {}, ... } }

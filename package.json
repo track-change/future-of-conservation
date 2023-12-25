@@ -37,6 +37,7 @@
     "@sanity/eslint-config-studio": "^3.0.1",
     "@sanity/language-filter": "^3.2.1",
     "@sanity/ui": "^1.9.3",
+    "@sanity/uuid": "^3.0.2",
     "@sanity/vision": "^3.21.3",
     "@types/react": "^18.2.45",
     "eslint": "^8.56.0",
