@@ -1,0 +1,215 @@
+---
+import { miniSlugify } from "@/utils/helperFunctions";
+interface Props {
+  tags?: { value: string; label: string }[];
+  ariaControls?: string;
+}
+
+const orderedTags = Object.values(
+  Astro.props.tags?.reduce(
+    (acc, { value: val, label }: { value: string; label: string }) => {
+      const value = miniSlugify(val);
+      if (!acc[value]) acc[val] = { label, value, cnt: 0 };
+      else acc[value].cnt += 1;
+      return acc;
+    },
+    {} as { [key: string]: { label: string; value: string; cnt: number } },
+  ) || {},
+).sort(({ cnt: a }, { cnt: b }) => a - b);
+---
+
+<form
+  id="filter-control"
+  class="FilterControl"
+  aria-controls="artists"
+  role="menubar"
+>
+  <div class="FilterControl_head">
+    <h1>Explore by tag</h1>
+    <button
+      type="button"
+      id="filter-control-clear"
+      class="hoverable"
+      aria-label="Clear the filter"
+    >
+      clear
+    </button>
+  </div>
+  <div class="FilterControl_fields">
+    <button aria-label="Scroll the tag filter to the left" type="button">
+      {"<"}
+    </button>
+    <div class="">
+      {
+        orderedTags.map(({ value, label }) => (
+          <>
+            <input
+              type="checkbox"
+              class="FilterControl_input"
+              id={`filter-${value}`}
+              value={`${value}`}
+            />
+            <label class="hoverable" for={`filter-${value}`}>
+              {label}
+            </label>
+          </>
+        ))
+      }
+    </div>
+    <button aria-label="Scroll the tag filter to the right" type="button">
+      {">"}
+    </button>
+  </div>
+</form>
+
+<slot />
+
+<script>
+  const clearAll = document.getElementById("filter-control-clear");
+  const inputs = document.querySelectorAll<HTMLInputElement>(
+    ".FilterControl_input",
+  );
+  const targets = document.querySelectorAll<HTMLLIElement>(".filter-target");
+  console.log(targets);
+
+  // Filter update listener
+  function recalculateFilter() {
+    const newFilter = new Set();
+    inputs.forEach((node) => {
+      if (node.checked) newFilter.add(node.getAttribute("value"));
+    });
+    if (newFilter.size === 0) {
+      targets.forEach((targetNode) => {
+        targetNode.style.display = "block";
+      });
+      return;
+    }
+    targets.forEach((targetNode) => {
+      const tags = targetNode.getAttribute("data-tags");
+      if (!tags) return;
+      const tagArray: string[] = JSON.parse(tags);
+      targetNode.style.display = tagArray.some((tag) => newFilter.has(tag))
+        ? "block"
+        : "none";
+    });
+  }
+  inputs.forEach((input) => {
+    input.onchange = recalculateFilter;
+  });
+
+  // Filter clear listener
+  function clearFilters() {
+    inputs.forEach((node) => {
+      node.checked = false;
+    });
+    recalculateFilter();
+  }
+  if (clearAll) clearAll.onclick = clearFilters;
+
+  // disable form submission things
+  const form = document.getElementById("filter-control");
+  form!.onsubmit = function (e) {
+    e.preventDefault();
+    return false;
+  };
+</script>
+
+<style lang="scss">
+  .FilterControl {
+    display: grid;
+    grid-template:
+      "head" auto
+      "fields" auto / 1fr;
+    align-items: center;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+
+    @media screen and (min-width: 768px) {
+      grid-template: "head fields" auto / auto 1fr;
+    }
+
+    &_head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      padding: 1rem;
+      padding-bottom: 0;
+
+      @media screen and (min-width: 768px) {
+        padding-bottom: 1rem;
+      }
+
+      & h1 {
+        opacity: 0.5;
+      }
+
+      & button {
+        text-decoration: underline;
+      }
+    }
+
+    &_fields {
+      position: relative;
+      display: flex;
+      gap: 0.5rem;
+      align-items: center;
+      flex: 1;
+      overflow: scroll hidden;
+      max-width: 100%;
+      padding: 1rem;
+
+      &:has(input[type="checkbox"]:checked) label {
+        opacity: 0.3;
+      }
+
+      & div {
+        display: flex;
+        gap: 0.5rem;
+        align-items: center;
+        margin: 0 auto;
+        height: 100%;
+      }
+
+      & button {
+        display: block;
+        width: 1.5em;
+        height: 1.5em;
+        flex-shrink: 0;
+        background-color: var(--clr-fg);
+        color: var(--clr-bg);
+        border-radius: 100%;
+        position: sticky;
+        left: 0;
+
+        &:last-child {
+          left: unset;
+          right: 0;
+        }
+      }
+    }
+
+    & input[type="checkbox"] {
+      position: absolute;
+      left: -9999px;
+      top: 0px;
+    }
+
+    & label {
+      padding: 0.25em 0.5em;
+      border: 1px solid transparent;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: opacity 0.2s ease-in-out;
+    }
+
+    & input[type="checkbox"]:focus-visible + label {
+      outline: 3px solid var(--clr-hl);
+      opacity: 1 !important;
+    }
+
+    & input[type="checkbox"]:checked + label {
+      border: 1px solid var(--clr-fg);
+      opacity: 1 !important;
+    }
+  }
+</style>

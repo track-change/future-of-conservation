@@ -5,264 +5,48 @@ import type { Artist } from "@/sanity";
 import { localizedQuery, artistsQuery } from "@/queries/contentQueries";
 import Link from "@/components/Link.astro";
 import { miniSlugify } from "@/utils/helperFunctions";
+import FilterGridControls from "@/components/FilterGridControls.astro";
 
-// const { locale, primaryLocale } = astroI18n;
-// const artistsPage = await sanityClient.fetch<PageArtists>(pageArtistsQuery, {
-//   locale,
-//   primaryLocale,
-// });
 const artists = await localizedQuery<Artist[]>(artistsQuery);
-const possibleTags = Object.values(
-  artists.reduce(
-    (acc, artist) => {
-      artist.artistTags?.forEach(
-        ({ value: val, label }: { value: string; label: string }) => {
-          const value = miniSlugify(val);
-          if (!acc[value]) acc[val] = { label, value, cnt: 0 };
-          else acc[value].cnt += 1;
-        },
-      );
-      return acc;
-    },
-    {} as { [key: string]: { label: string; value: string; cnt: number } },
-  ),
-).sort(({ cnt: a }, { cnt: b }) => a - b);
+const possibleTags = artists
+  .flatMap(({ artistTags }) => artistTags)
+  .filter((x) => !!x);
 ---
 
 <RootLayout>
-  <form
-    id="artists-control"
-    class="ArtistsControl"
-    aria-controls="artists"
-    role="menubar"
-  >
-    <div class="ArtistsControl_head">
-      <h1>Explore by tag</h1>
-      <button
-        type="button"
-        id="artists-control-clear"
-        class="hoverable"
-        aria-label="Clear the artists tag filter"
-      >
-        clear
-      </button>
-    </div>
-    <div class="ArtistsControl_fields">
-      <button aria-label="Scroll the options to the left" type="button">
-        {"<"}
-      </button>
-      <div class="">
-        {
-          possibleTags.map(({ value, label }) => (
-            <>
-              <input
-                type="checkbox"
-                class="ArtistsControl_input"
-                id={`filter-${value}`}
-                value={`${value}`}
-              />
-              <label class="hoverable" for={`filter-${value}`}>
-                {label}
-              </label>
-            </>
-          ))
-        }
-      </div>
-      <button aria-label="Scroll the options to the right" type="button">
-        {">"}
-      </button>
-    </div>
-  </form>
-  <ul id="artists" class="Artists">
-    {
-      artists.map((artist) => (
-        <li
-          id={`artist-${artist._id}`}
-          class="Artists_artist"
-          data-artist-tags={`[${
-            artist.artistTags
-              ?.map(({ value }: { value: string }) => `"${miniSlugify(value)}"`)
-              .join(",") || ""
-          }]`}
-        >
-          <Link link={artist} />
-        </li>
-      ))
-    }
-  </ul>
-  <script>
-    const clearAll = document.getElementById("artists-control-clear");
-    const inputs = document.querySelectorAll<HTMLInputElement>(
-      ".ArtistsControl_input",
-    );
-    const artists = document.querySelectorAll<HTMLLIElement>(".Artists_artist");
-
-    // Filter update listener
-    function recalculateFilter() {
-      const newFilter = new Set();
-      inputs.forEach((node) => {
-        if (node.checked) newFilter.add(node.getAttribute("value"));
-      });
-      if (newFilter.size === 0) {
-        artists.forEach((artistNode) => {
-          artistNode.style.display = "block";
-        });
-        return;
+  <FilterGridControls tags={possibleTags} ariaControls="artists">
+    <ul id="artists">
+      {
+        artists.map((artist) => (
+          <li
+            class="filter-target"
+            data-tags={`[${
+              artist.artistTags
+                ?.map(
+                  ({ value }: { value: string }) => `"${miniSlugify(value)}"`,
+                )
+                .join(",") || ""
+            }]`}
+          >
+            <Link link={artist} />
+          </li>
+        ))
       }
-      artists.forEach((artistNode) => {
-        const tags = artistNode.getAttribute("data-artist-tags");
-        if (!tags) return;
-        const tagArray: string[] = JSON.parse(tags);
-        artistNode.style.display = tagArray.some((tag) => newFilter.has(tag))
-          ? "block"
-          : "none";
-      });
-    }
-    inputs.forEach((input) => {
-      input.onchange = recalculateFilter;
-    });
-
-    // Filter clear listener
-    function clearFilters() {
-      inputs.forEach((node) => {
-        node.checked = false;
-      });
-      recalculateFilter();
-    }
-    if (clearAll) clearAll.onclick = clearFilters;
-
-    function attach() {
-      const form = document.getElementById("artists-control");
-      if (!form) return;
-      function onFormSubmit(e: SubmitEvent) {
-        e.preventDefault();
-        return false;
-      }
-      form.onsubmit = onFormSubmit;
-    }
-    attach();
-  </script>
+    </ul>
+  </FilterGridControls>
 </RootLayout>
 
 <style lang="scss">
-  .ArtistsControl {
-    display: grid;
-    grid-template:
-      "head" auto
-      "fields" auto / 1fr;
-    align-items: center;
-    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-
-    @media screen and (min-width: 768px) {
-      grid-template: "head fields" auto / auto 1fr;
-    }
-
-    &_head {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 1rem;
-      padding: 1rem;
-      padding-bottom: 0;
-
-      @media screen and (min-width: 768px) {
-        padding-bottom: 1rem;
-      }
-
-      & h1 {
-        opacity: 0.5;
-      }
-
-      & button {
-        text-decoration: underline;
-      }
-    }
-
-    &_fields {
-      position: relative;
-      display: flex;
-      gap: 0.5rem;
-      align-items: center;
-      flex: 1;
-      overflow: scroll hidden;
-      max-width: 100%;
-      padding: 1rem;
-
-      @media screen and (min-width: 768px) {
-        flex-direction: row;
-      }
-
-      &:has(input[type="checkbox"]:checked) label {
-        opacity: 0.3;
-      }
-
-      & div {
-        display: flex;
-        gap: 0.5rem;
-        align-items: center;
-        margin: 0 auto;
-        height: 100%;
-      }
-
-      & button {
-        display: block;
-        width: 1.5em;
-        height: 1.5em;
-        flex-shrink: 0;
-        background-color: var(--clr-fg);
-        color: var(--clr-bg);
-        border-radius: 100%;
-        position: sticky;
-        left: 0;
-
-        &:last-child {
-          left: unset;
-          right: 0;
-        }
-      }
-    }
-
-    & input[type="checkbox"] {
-      position: absolute;
-      left: -9999px;
-      top: 0px;
-    }
-
-    & label {
-      padding: 0.25em 0.5em;
-      border: 1px solid transparent;
-      cursor: pointer;
-      white-space: nowrap;
-      transition: opacity 0.2s ease-in-out;
-    }
-
-    & input[type="checkbox"]:focus-visible + label {
-      outline: 3px solid var(--clr-hl);
-      opacity: 1 !important;
-    }
-
-    & input[type="checkbox"]:checked + label {
-      border: 1px solid var(--clr-fg);
-      opacity: 1 !important;
-    }
-  }
-  .Artists {
+  ul {
     width: 100%;
     display: grid;
     grid-template-columns: 1fr;
     padding: 1rem;
+    padding-top: 0;
     column-gap: 1rem;
-
-    & li:nth-child(1) {
-      border-top: 1px solid var(--clr-fg);
-    }
 
     @media screen and (min-width: 768px) {
       grid-template-columns: repeat(2, 1fr);
-
-      & li:nth-child(2) {
-        border-top: 1px solid var(--clr-fg);
-      }
     }
 
     & a {
@@ -290,6 +74,17 @@ const possibleTags = Object.values(
     -ms-hyphens: auto;
     -webkit-hyphens: auto;
     hyphens: auto; */
+    }
+  }
+
+  li {
+    &:nth-child(1) {
+      border-top: 1px solid var(--clr-fg);
+    }
+    @media screen and (min-width: 768px) {
+      &:nth-child(2) {
+        border-top: 1px solid var(--clr-fg);
+      }
     }
   }
 </style>

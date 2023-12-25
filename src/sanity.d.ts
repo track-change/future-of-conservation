@@ -117,13 +117,6 @@ export interface Artist extends SanityDocument {
   introductionContent?: InternationalizedArrayEditorTextMedia;
 
   /**
-   * Introduction Carousel — `array`
-   *
-   * Pictures for the post-introduction carousel.
-   */
-  introductionCarousel?: Array<SanityKeyed<PictureTitled>>;
-
-  /**
    * Introduction Recirculation — `array`
    *
    * Outgoing links at the end of the introduction page.
@@ -180,6 +173,13 @@ export interface Article extends SanityDocument {
    * The article's file, typically a PDF.
    */
   file: { _type: "file"; asset: SanityReference<any> };
+
+  /**
+   * Tags — `tags`
+   *
+   * Tags used to filter the articles in the /articles page.
+   */
+  articleTags?: Tags;
 
   /**
    * External Author — `boolean`
@@ -452,11 +452,11 @@ export type PictureTitled = {
   hotspot?: SanityImageHotspot;
 
   /**
-   * Caption — `text`
+   * Caption — `internationalizedArrayText`
    *
    *
    */
-  caption?: string;
+  caption?: InternationalizedArrayText;
 
   /**
    * Alternative Text — `string`

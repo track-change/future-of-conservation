@@ -76,14 +76,6 @@ export default defineType({
       group: "introduction",
     }),
     defineField({
-      title: "Introduction Carousel",
-      name: "introductionCarousel",
-      description: "Pictures for the post-introduction carousel.",
-      type: "array" as const,
-      group: "introduction",
-      of: [{ type: "pictureTitled" }],
-    }),
-    defineField({
       title: "Introduction Recirculation",
       description: "Outgoing links at the end of the introduction page.",
       name: "introductionRecirc",

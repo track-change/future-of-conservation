@@ -4,20 +4,36 @@ import RootLayout from "@/layouts/RootLayout.astro";
 import { type Article } from "@/sanity";
 import localizedQuery from "@/utils/localizedQuery";
 import { articlesQuery } from "@/utils/queries";
+import { miniSlugify } from "@/utils/helperFunctions";
+import FilterGridControls from "@/components/FilterGridControls.astro";
 
-const allArticles = await localizedQuery<Article[]>(articlesQuery);
+const articles = await localizedQuery<Article[]>(articlesQuery);
+const possibleTags = articles
+  .flatMap(({ articleTags }) => articleTags)
+  .filter((x) => !!x);
 ---
 
 <RootLayout>
-  <ul>
-    {
-      allArticles.map((article) => (
-        <li>
-          <Link link={article}>{article.title}</Link>
-        </li>
-      ))
-    }
-  </ul>
+  <FilterGridControls tags={possibleTags} ariaControls="articles">
+    <ul id="articles">
+      {
+        articles.map((article) => (
+          <li
+            class="filter-target"
+            data-tags={`[${
+              article.articleTags
+                ?.map(
+                  ({ value }: { value: string }) => `"${miniSlugify(value)}"`,
+                )
+                .join(",") || ""
+            }]`}
+          >
+            <Link link={article}>{article.title}</Link>
+          </li>
+        ))
+      }
+    </ul>
+  </FilterGridControls>
 </RootLayout>
 
 <style lang="scss">

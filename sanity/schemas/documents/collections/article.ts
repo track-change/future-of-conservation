@@ -25,6 +25,16 @@ export default defineType({
       codegen: { required: true },
     }),
     defineField({
+      title: "Tags",
+      name: "articleTags",
+      description: "Tags used to filter the articles in the /articles page.",
+      type: "tags",
+      options: {
+        includeFromRelated: "articleTags",
+      },
+      group: "content",
+    }),
+    defineField({
       type: "boolean",
       title: "External Author",
       description: "Is the author not an artist on the platform?",

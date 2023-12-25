@@ -1,5 +1,5 @@
 import { BiImage } from "react-icons/bi/";
-import { defineType } from "sanity";
+import { defineField, defineType } from "sanity";
 
 export default defineType({
   title: "Image",
@@ -10,12 +10,11 @@ export default defineType({
     hotspot: true,
   },
   fields: [
-    {
+    defineField({
       title: "Caption",
       name: "caption",
       type: "internationalizedArrayText",
-      rows: 3,
-    },
+    }),
     {
       title: "Alternative Text",
       name: "alt",

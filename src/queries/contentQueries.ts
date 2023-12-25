@@ -94,6 +94,7 @@ export const articlesQuery = groq`
       url
     }
   }
+  articleTags,
   isExternalAuthor,
   isExternalAuthor == true => {
     author -> {
