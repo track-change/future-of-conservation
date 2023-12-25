@@ -32,7 +32,6 @@ export default defineType({
       options: {
         includeFromRelated: "articleTags",
       },
-      group: "content",
     }),
     defineField({
       type: "boolean",

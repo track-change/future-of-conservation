@@ -15,7 +15,7 @@ const orderedTags = Object.values(
     },
     {} as { [key: string]: { label: string; value: string; cnt: number } },
   ) || {},
-).sort(({ cnt: a }, { cnt: b }) => a - b);
+).sort(({ cnt: a }, { cnt: b }) => b - a);
 ---
 
 <form
@@ -36,10 +36,27 @@ const orderedTags = Object.values(
     </button>
   </div>
   <div class="FilterControl_fields">
-    <button aria-label="Scroll the tag filter to the left" type="button">
-      {"<"}
-    </button>
-    <div class="">
+    <div class="FilterControl_button">
+      <button
+        id="filter-scroll-left"
+        aria-label="Scroll the tag filter to the left"
+        type="button"
+        disabled
+      >
+        {"<"}
+      </button>
+    </div>
+    <div class="FilterControl_button">
+      <button
+        id="filter-scroll-right"
+        aria-label="Scroll the tag filter to the right"
+        type="button"
+        disabled
+      >
+        {">"}
+      </button>
+    </div>
+    <div class="FilterControl_inner">
       {
         orderedTags.map(({ value, label }) => (
           <>
@@ -56,21 +73,19 @@ const orderedTags = Object.values(
         ))
       }
     </div>
-    <button aria-label="Scroll the tag filter to the right" type="button">
-      {">"}
-    </button>
   </div>
 </form>
 
 <slot />
 
 <script>
-  const clearAll = document.getElementById("filter-control-clear");
+  const clearAll = document.querySelector<HTMLButtonElement>(
+    "#filter-control-clear",
+  );
   const inputs = document.querySelectorAll<HTMLInputElement>(
     ".FilterControl_input",
   );
   const targets = document.querySelectorAll<HTMLLIElement>(".filter-target");
-  console.log(targets);
 
   // Filter update listener
   function recalculateFilter() {
@@ -78,6 +93,7 @@ const orderedTags = Object.values(
     inputs.forEach((node) => {
       if (node.checked) newFilter.add(node.getAttribute("value"));
     });
+    if (clearAll) clearAll.disabled = newFilter.size === 0;
     if (newFilter.size === 0) {
       targets.forEach((targetNode) => {
         targetNode.style.display = "block";
@@ -93,6 +109,7 @@ const orderedTags = Object.values(
         : "none";
     });
   }
+  recalculateFilter();
   inputs.forEach((input) => {
     input.onchange = recalculateFilter;
   });
@@ -111,6 +128,32 @@ const orderedTags = Object.values(
   form!.onsubmit = function (e) {
     e.preventDefault();
     return false;
+  };
+
+  // add scrollers
+  const inner = document.querySelector<HTMLDivElement>(
+    ".FilterControl_fields",
+  )!;
+  const leftFilter = document.querySelector<HTMLButtonElement>(
+    "#filter-scroll-left",
+  )!;
+  const rightFilter = document.querySelector<HTMLButtonElement>(
+    "#filter-scroll-right",
+  )!;
+  function onInnerScroll() {
+    const { scrollLeft, clientWidth, scrollWidth } = inner;
+    const scrollRight = scrollWidth - scrollLeft - clientWidth;
+    leftFilter.disabled = scrollLeft < 10;
+    rightFilter.disabled = scrollRight < 10;
+  }
+  onInnerScroll();
+  inner.onscroll = onInnerScroll;
+  window.onresize = onInnerScroll;
+  leftFilter.onclick = function scrollLeft() {
+    inner.scrollBy({ left: -300, behavior: "smooth" });
+  };
+  rightFilter.onclick = function scrollRight() {
+    inner.scrollBy({ left: 300, behavior: "smooth" });
   };
 </script>
 
@@ -145,45 +188,67 @@ const orderedTags = Object.values(
 
       & button {
         text-decoration: underline;
+
+        &:disabled {
+          pointer-events: none;
+          opacity: 0.3;
+          text-decoration: none;
+        }
       }
     }
 
     &_fields {
       position: relative;
       display: flex;
-      gap: 0.5rem;
       align-items: center;
       flex: 1;
       overflow: scroll hidden;
       max-width: 100%;
-      padding: 1rem;
 
       &:has(input[type="checkbox"]:checked) label {
         opacity: 0.3;
       }
+    }
 
-      & div {
-        display: flex;
-        gap: 0.5rem;
-        align-items: center;
-        margin: 0 auto;
-        height: 100%;
+    &_inner {
+      display: flex;
+      gap: 0.5rem;
+      align-items: center;
+      margin: 0 auto;
+      height: 100%;
+      padding: 1rem 0;
+    }
+
+    &_button {
+      position: sticky;
+      left: 0;
+      flex-shrink: 0;
+      background: linear-gradient(to right, var(--clr-bg) 80%, transparent);
+      padding: 1rem;
+      z-index: 1;
+      margin-right: -0.5rem;
+
+      &:nth-of-type(2) {
+        left: unset;
+        right: 0;
+        order: 3000;
+        margin-right: unset;
+        margin-left: -0.5rem;
+        background: linear-gradient(to left, var(--clr-bg) 80%, transparent);
       }
 
       & button {
         display: block;
         width: 1.5em;
         height: 1.5em;
-        flex-shrink: 0;
         background-color: var(--clr-fg);
         color: var(--clr-bg);
         border-radius: 100%;
-        position: sticky;
-        left: 0;
+        transition: background-color 0.3s ease-in-out;
 
-        &:last-child {
-          left: unset;
-          right: 0;
+        &:disabled {
+          pointer-events: none;
+          background-color: #c0c0c0;
         }
       }
     }

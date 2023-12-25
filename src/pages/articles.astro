@@ -2,8 +2,7 @@
 import Link from "@/components/Link.astro";
 import RootLayout from "@/layouts/RootLayout.astro";
 import { type Article } from "@/sanity";
-import localizedQuery from "@/utils/localizedQuery";
-import { articlesQuery } from "@/utils/queries";
+import { localizedQuery, articlesQuery } from "@/queries/contentQueries";
 import { miniSlugify } from "@/utils/helperFunctions";
 import FilterGridControls from "@/components/FilterGridControls.astro";
 
@@ -42,6 +41,7 @@ const possibleTags = articles
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     gap: 1rem;
     padding: 1rem;
+    padding-top: 0;
   }
 
   li {

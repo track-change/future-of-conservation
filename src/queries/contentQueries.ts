@@ -89,12 +89,13 @@ export const artistInterviewQuery = groq`
 export const articlesQuery = groq`
 *[_type == "article"] {
   _type,
+  articleTags,
+  ${localizedField("title")},
   file {
     asset -> {
       url
     }
-  }
-  articleTags,
+  },
   isExternalAuthor,
   isExternalAuthor == true => {
     author -> {
@@ -104,7 +105,7 @@ export const articlesQuery = groq`
     }
   },
   isExternalAuthor == false => {
-    authorExternal,
+    authorExternal
   }
 }
 `;

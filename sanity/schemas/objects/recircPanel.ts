@@ -12,12 +12,12 @@ export default defineType({
       name: "targetInternal",
       type: "internalLink",
     }),
-    defineField({
-      title: "Overtext",
-      name: "overtext",
-      type: "internationalizedArrayString",
-      description: "Text placed above the link title",
-    }),
+    // defineField({
+    //   title: "Overtext",
+    //   name: "overtext",
+    //   type: "internationalizedArrayString",
+    //   description: "Text placed above the link title",
+    // }),
     defineField({
       title: "Undertext",
       name: "undertext",

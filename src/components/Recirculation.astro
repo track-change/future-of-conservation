@@ -1,6 +1,7 @@
 ---
 import Link from "@/components/Link.astro";
 import type { Page } from "@/sanity";
+import { resolveReference } from "@/utils/resolveLinks";
 import { t } from "astro-i18n";
 interface Props {
   recirc: NonNullable<Page["recirculation"]>;
@@ -14,9 +15,21 @@ const { recirc } = Astro.props;
   <ul>
     {
       recirc.map((panel) => {
+        let title = "";
+        if (panel.targetInternal) {
+          const internalTarget = resolveReference(
+            panel.targetInternal.linkTarget,
+          );
+          title = internalTarget._type;
+          if (
+            internalTarget._type === "artist" &&
+            panel.targetInternal?.subpath === "/interview"
+          )
+            title = "interview";
+        }
         return (
           <li>
-            <p>{panel.overtext || <>&nbsp;</>}</p>
+            <p>{title || <>&nbsp;</>}</p>
             {panel.targetInternal && (
               <Link link={panel.targetInternal} class="Recirc_link" />
             )}
@@ -56,6 +69,7 @@ const { recirc } = Astro.props;
   p {
     z-index: 1;
     pointer-events: none;
+    text-transform: uppercase;
   }
 
   .Recirc_link {
