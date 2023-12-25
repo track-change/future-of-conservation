@@ -1,4 +1,12 @@
-on: [push]
+on:
+  push:
+    branches:
+      - main
+      - production
+  pull_request:
+    branches:
+      - main
+      - production
 env:
   SANITY_PROJECT_ID: ${{ vars.SANITY_PROJECT_ID }}
   SANITY_DATASET: ${{ vars.SANITY_DATASET }}
@@ -23,17 +31,19 @@ jobs:
           cache: "pnpm"
       - name: Build
         run: pnpm i && pnpm run build
+        env:
+          NODE_ENV: ${{ github.ref_name == 'refs/head/production' && 'production' || 'development' }}
       - name: Publish to Cloudflare Pages
         uses: cloudflare/pages-action@v1
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          projectName: Future of Conservation
+          projectName: ${{ secrets.CLOUDFLARE_PROJECT_NAME }}
           directory: dist
           # Optional: Enable this if you want to have GitHub Deployments triggered
           gitHubToken: ${{ secrets.GITHUB_TOKEN }}
           # Optional: Switch what branch you are publishing to.
-          # By default this will be the branch which triggered this workflow
+          # By default this will be the branch which triggered thi  s workflow
           # branch: main
           # Optional: Change the Wrangler version, allows you to point to a specific version or a tag such as `beta`
           wranglerVersion: "3"
