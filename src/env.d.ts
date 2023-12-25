@@ -14,9 +14,9 @@ declare module "sanity:studio" {
 interface ImportMetaEnv {
   readonly SANITY_PROJECT_ID: string;
   readonly SANITY_DATASET: string;
+  readonly SITE_URL: string;
 
   // Public env variables
-  readonly VITE_SANITY_FRONTEND_URL: string;
   readonly VITE_IS_PREVIEW: "yes" | string;
 }
 

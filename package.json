@@ -6,7 +6,7 @@
     "dev": "astro dev",
     "start": "astro dev",
     "build": "pnpm run codegen; astro build",
-    "preview": "wrangler pages dev ./dist --compatibility-date=2023-12-19",
+    "preview": "wrangler pages dev ./dist --compatibility-date=2023-10-30",
     "astro": "astro",
     "codegen": "sanity-codegen && pnpm run i18n:sync",
     "i18n:install": "astro-i18n install",
@@ -55,7 +55,7 @@
     "sanity-plugin-media": "^2.2.4",
     "sass": "^1.69.5",
     "typescript": "^5.3.3",
-    "wrangler": "^3.21.0"
+    "wrangler": "^3.22.1"
   },
   "browser": {
     "fs": false,

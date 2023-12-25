@@ -21,7 +21,7 @@ export async function localizedQuery<T>(
 }
 
 /* -------------------------------------------------------------------------- */
-/*                                    Pages                                   */
+/*                                Static Paths                                */
 /* -------------------------------------------------------------------------- */
 
 export const pageSlugsQuery = groq`
@@ -29,6 +29,16 @@ export const pageSlugsQuery = groq`
   "slug": slug.current
 }
 `;
+
+export const artistSlugsQuery = groq`
+*[_type == "artist" && defined(slug.current)] {
+  "artistSlug": slug.current
+}
+`;
+
+/* -------------------------------------------------------------------------- */
+/*                                    Pages                                   */
+/* -------------------------------------------------------------------------- */
 
 export const pageQuery = groq`
 *[_type == "page" && slug.current == $slug][0] {

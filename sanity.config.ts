@@ -43,10 +43,6 @@ export default defineConfig({
     templates: (prev) => initialValueTemplates(prev),
   },
   document: {
-    productionUrl: async (prev, context) =>
-      resolveProductionUrl({
-        context,
-        frontendUrl: import.meta.env.VITE_SANITY_FRONTEND_URL,
-      }),
+    productionUrl: async (prev, context) => resolveProductionUrl({ context }),
   },
 });

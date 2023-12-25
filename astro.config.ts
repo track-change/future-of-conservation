@@ -22,7 +22,7 @@ const locales = {
 // a preview version of the page based on the drafted content.
 const PREVIEW_CONFIG = (): AstroUserConfig => ({
   prefetch: true,
-  site: env.VITE_SANITY_FRONTEND_URL,
+  site: env.SITE_URL,
   integrations: [
     sanityIntegration({
       projectId: env.SANITY_PROJECT_ID,
@@ -44,7 +44,7 @@ const PREVIEW_CONFIG = (): AstroUserConfig => ({
 // generates sitemaps, and outputs plain, static html.
 const STATIC_CONFIG = (): AstroUserConfig => ({
   prefetch: true,
-  site: env.VITE_SANITY_FRONTEND_URL,
+  site: env.SITE_URL,
   integrations: [
     sanityIntegration({
       projectId: env.SANITY_PROJECT_ID,
@@ -67,5 +67,5 @@ const STATIC_CONFIG = (): AstroUserConfig => ({
 
 // https://astro.build/config
 export default defineConfig(
-  env.VITE_IS_PREVIEW ? PREVIEW_CONFIG() : STATIC_CONFIG(),
+  import.meta.env.DEV ? PREVIEW_CONFIG() : STATIC_CONFIG(),
 );

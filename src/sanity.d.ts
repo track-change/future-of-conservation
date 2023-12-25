@@ -505,13 +505,6 @@ export type RecircPanel = {
   targetInternal?: InternalLink;
 
   /**
-   * Overtext — `internationalizedArrayString`
-   *
-   * Text placed above the link title
-   */
-  overtext?: InternationalizedArrayString;
-
-  /**
    * Undertext — `internationalizedArrayString`
    *
    * Text placed below the link title

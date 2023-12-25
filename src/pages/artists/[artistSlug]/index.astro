@@ -3,8 +3,18 @@ import BodyText from "@/components/BodyText.astro";
 import Recirculation from "@/components/Recirculation.astro";
 import RootLayout from "@/layouts/RootLayout.astro";
 import type { Artist } from "@/sanity";
-import { localizedQuery, artistIntroQuery } from "@/queries/contentQueries";
-import { astroI18n } from "astro-i18n";
+import {
+  localizedQuery,
+  artistIntroQuery,
+  artistSlugsQuery,
+} from "@/queries/contentQueries";
+import { astroI18n, createGetStaticPaths } from "astro-i18n";
+
+export const getStaticPaths = createGetStaticPaths(async () => {
+  const slugs =
+    await sanityClient.fetch<{ artistSlug: string }[]>(artistSlugsQuery);
+  return slugs.map(({ artistSlug }) => ({ params: { artistSlug } }));
+});
 
 const { artistSlug: slug } = Astro.params as { artistSlug: string };
 const artist = await localizedQuery<Artist | null>(artistIntroQuery, { slug });

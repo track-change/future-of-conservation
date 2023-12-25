@@ -25,8 +25,6 @@ export const defaultDocumentNode: DefaultDocumentNodeResolver = (
   S,
   { schemaType },
 ) => {
-  const frontendUrl = import.meta.env.VITE_SANITY_FRONTEND_URL;
-
   if (previewSchemaTypes.includes(schemaType)) {
     return S.document().views([
       S.view.form(),
@@ -36,7 +34,7 @@ export const defaultDocumentNode: DefaultDocumentNodeResolver = (
         .options({
           key: "en",
           url: (doc: SanityDocument) =>
-            resolveProductionUrl({ doc, context: S.context, frontendUrl }),
+            resolveProductionUrl({ doc, context: S.context }),
           defaultSize: "desktop",
           reload: {
             button: true,
@@ -54,7 +52,6 @@ export const defaultDocumentNode: DefaultDocumentNodeResolver = (
             resolveProductionUrl({
               doc,
               context: S.context,
-              frontendUrl,
               prefix: "/kr",
             }),
           defaultSize: "desktop",
@@ -75,12 +72,10 @@ resolve production url
 export const resolveProductionUrl = async ({
   doc,
   context,
-  frontendUrl = "http://localhost:4321",
   prefix = "",
 }: {
   doc?: SanityDocument;
   context: ResolveProductionUrlContext | StructureContext;
-  frontendUrl: string;
   prefix?: string;
 }) => {
   const { getClient } = context;
@@ -96,7 +91,7 @@ export const resolveProductionUrl = async ({
     });
 
     // Build preview url
-    const url = new URL(frontendUrl);
+    const url = new URL(window.location.origin);
 
     // Switch for resolving doc type urls
     switch (doc._type) {
