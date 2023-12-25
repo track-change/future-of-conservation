@@ -23,3 +23,5 @@ pnpm-debug.log*
 
 # These pages are auto-generated
 src/pages/kr
+
+.wrangler
