@@ -1,4 +1,7 @@
 on: [push]
+env:
+  SANITY_PROJECT_ID: ${{ vars.SANITY_PROJECT_ID }}
+  SANITY_DATASET: ${{ vars.SANITY_DATASET }}
 
 jobs:
   publish:
