@@ -3,15 +3,11 @@ on:
     branches:
       - main
       - development
-  pull_request:
-    branches:
-      - main
-      - development
 
 env:
   SANITY_PROJECT_ID: ${{ vars.SANITY_PROJECT_ID }}
   SANITY_DATASET: ${{ vars.SANITY_DATASET }}
-  NODE_ENV: ${{ github.ref_name == 'refs/head/main' && 'production' || 'development' }}
+  NODE_ENV: ${{ github.ref_name == 'main' && 'production' || 'development' }}
 
 jobs:
   publish:
@@ -20,7 +16,7 @@ jobs:
       contents: read
       deployments: write
     name: Publish to Cloudflare Pages
-    environment: ${{ github.ref_name == 'refs/head/main' && 'production' || 'preview' }}
+    environment: ${{ github.ref_name == 'main' && 'production' || 'preview' }}
     steps:
       - name: Checkout
         uses: actions/checkout@v3
