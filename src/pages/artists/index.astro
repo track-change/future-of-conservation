@@ -1,13 +1,12 @@
 ---
 import RootLayout from "@/layouts/RootLayout.astro";
-import { astroI18n } from "astro-i18n";
 import type { Artist } from "@/sanity";
 import { localizedQuery, artistsQuery } from "@/queries/contentQueries";
 import Link from "@/components/Link.astro";
 import { miniSlugify } from "@/utils/helperFunctions";
 import FilterGridControls from "@/components/FilterGridControls.astro";
 
-const artists = await localizedQuery<Artist[]>(artistsQuery);
+const artists = await localizedQuery<Artist[]>(Astro)(artistsQuery);
 const possibleTags = artists
   .flatMap(({ artistTags }) => artistTags)
   .filter((x) => !!x);

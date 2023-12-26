@@ -2,6 +2,7 @@
 import BodyText from "@/components/BodyText.astro";
 import Recirculation from "@/components/Recirculation.astro";
 import RootLayout from "@/layouts/RootLayout.astro";
+import { sanityClient } from "sanity:client";
 import type { Artist } from "@/sanity";
 import {
   localizedQuery,
@@ -17,7 +18,7 @@ export const getStaticPaths = createGetStaticPaths(async () => {
 });
 
 const { artistSlug: slug } = Astro.params as { artistSlug: string };
-const artist = await localizedQuery<Artist | null>(artistIntroQuery, { slug });
+const artist = await localizedQuery<Artist>(Astro)(artistIntroQuery, { slug });
 if (!artist) {
   astroI18n.redirect("/404");
 }

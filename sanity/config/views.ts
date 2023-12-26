@@ -4,6 +4,7 @@ import {
   type DefaultDocumentNodeResolver,
   type StructureContext,
 } from "sanity/desk";
+// import { sanityClient } from "sanity:client";
 
 /*
 list of schema types supporting preview
@@ -33,8 +34,12 @@ export const defaultDocumentNode: DefaultDocumentNodeResolver = (
         .title("Preview: EN")
         .options({
           key: "en",
-          url: (doc: SanityDocument) =>
-            resolveProductionUrl({ doc, context: S.context }),
+          url: {
+            origin: "same-origin",
+            preview: (doc: SanityDocument) =>
+              resolveProductionUrl({ doc, context: S.context }),
+            draftMode: "/draftMode/enable",
+          },
           defaultSize: "desktop",
           reload: {
             button: true,
@@ -48,12 +53,12 @@ export const defaultDocumentNode: DefaultDocumentNodeResolver = (
         .title("Preview: KR")
         .options({
           key: "kr",
-          url: (doc: SanityDocument) =>
-            resolveProductionUrl({
-              doc,
-              context: S.context,
-              prefix: "/kr",
-            }),
+          url: {
+            origin: "same-origin",
+            preview: (doc: SanityDocument) =>
+              resolveProductionUrl({ doc, context: S.context }),
+            draftMode: "/draftMode/enable",
+          },
           defaultSize: "desktop",
           reload: {
             button: true,
@@ -73,10 +78,12 @@ export const resolveProductionUrl = async ({
   doc,
   context,
   prefix = "",
+  // preview = false,
 }: {
   doc?: SanityDocument;
   context: ResolveProductionUrlContext | StructureContext;
   prefix?: string;
+  // preview?: boolean;
 }) => {
   const { getClient } = context;
 
@@ -84,39 +91,53 @@ export const resolveProductionUrl = async ({
     doc = context.document as unknown as SanityDocument;
   }
 
+  const finalUrl = new URL(window.location.origin);
   if (previewSchemaTypes.includes(doc._type)) {
     const client = getClient({ apiVersion: "2022-05-04" });
     const slug = await client.fetch(`*[_id == $id][0].slug.current`, {
       id: doc._id,
     });
-
-    // Build preview url
-    const url = new URL(window.location.origin);
+    console.log(doc, slug);
 
     // Switch for resolving doc type urls
     switch (doc._type) {
       case "page":
-        url.pathname = `${prefix}/${slug}/`;
+        finalUrl.pathname = `${prefix}/${slug}/`;
         break;
       case "artist":
-        url.pathname = `${prefix}/artists/${slug}`;
+        finalUrl.pathname = `${prefix}/artists/${slug}`;
         break;
       case "pageArtists":
-        url.pathname = `${prefix}/artists`;
+        finalUrl.pathname = `${prefix}/artists`;
         break;
       case "pageHome":
       case "siteHeader":
       case "siteFooter":
       default:
-        url.pathname = `${prefix}/`;
+        finalUrl.pathname = `${prefix}/`;
         break;
     }
-
-    // Add preview url params
-    // url.searchParams.set("preview", "true");
-
-    return url.toString();
   }
 
-  return "";
+  // // If preview mode, add in Sanity api token
+  // if (preview) {
+  //   try {
+  //     const token = localStorage.getItem(
+  //       `__studio_auth_token_${sanityClient.config().projectId}`,
+  //     );
+  //     if (token) {
+  //       const prevPath = finalUrl.pathname;
+  //       finalUrl.pathname = "/preview/enter";
+  //       const tokenParsed = JSON.parse(token)["token"];
+  //       finalUrl.searchParams.set("redirect", prevPath);
+  //       finalUrl.searchParams.set("token", tokenParsed);
+  //     }
+  //   } catch (e) {
+  //     console.error(e);
+  //   }
+  // }
+
+  // console.log(finalUrl.toString());
+
+  return finalUrl.pathname;
 };

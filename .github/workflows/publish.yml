@@ -2,14 +2,16 @@ on:
   push:
     branches:
       - main
-      - production
+      - development
   pull_request:
     branches:
       - main
-      - production
+      - development
+
 env:
   SANITY_PROJECT_ID: ${{ vars.SANITY_PROJECT_ID }}
   SANITY_DATASET: ${{ vars.SANITY_DATASET }}
+  NODE_ENV: ${{ github.ref_name == 'refs/head/main' && 'production' || 'development' }}
 
 jobs:
   publish:
@@ -18,6 +20,7 @@ jobs:
       contents: read
       deployments: write
     name: Publish to Cloudflare Pages
+    environment: ${{ github.ref_name == 'refs/head/main' && 'production' || 'preview' }}
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -31,8 +34,6 @@ jobs:
           cache: "pnpm"
       - name: Build
         run: pnpm i && pnpm run build
-        env:
-          NODE_ENV: ${{ github.ref_name == 'refs/head/production' && 'production' || 'development' }}
       - name: Publish to Cloudflare Pages
         uses: cloudflare/pages-action@v1
         with:

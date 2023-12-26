@@ -6,7 +6,7 @@ import { localizedQuery, articlesQuery } from "@/queries/contentQueries";
 import { miniSlugify } from "@/utils/helperFunctions";
 import FilterGridControls from "@/components/FilterGridControls.astro";
 
-const articles = await localizedQuery<Article[]>(articlesQuery);
+const articles = await localizedQuery<Article[]>(Astro)(articlesQuery);
 const possibleTags = articles
   .flatMap(({ articleTags }) => articleTags)
   .filter((x) => !!x);

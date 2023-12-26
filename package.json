@@ -22,6 +22,7 @@
     "@sanity/astro": "^2.1.4",
     "@sanity/client": "^6.10.0",
     "@sanity/image-url": "^1.0.2",
+    "@sanity/preview-url-secret": "^1.4.0",
     "astro": "^3.5.0",
     "astro-font": "^0.0.28",
     "astro-i18n": "^2.2.0",

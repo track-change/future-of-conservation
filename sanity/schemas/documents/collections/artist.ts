@@ -126,8 +126,4 @@ export default defineType({
       };
     },
   },
-  initialValue: (...args) => {
-    console.log(args);
-    return {};
-  },
 });

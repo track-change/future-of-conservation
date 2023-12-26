@@ -6,6 +6,7 @@ import { allPages, pageBySlugQuery } from "@/utils/queries";
 import { astroI18n } from "astro-i18n";
 import { sanityClient } from "sanity:client";
 import { createGetStaticPaths } from "astro-i18n";
+import { localizedQuery } from "@/queries/contentQueries";
 
 export const getStaticPaths = createGetStaticPaths(async () => {
   // const { locale } = astroI18n; We no longer do whole diff documents
@@ -16,7 +17,7 @@ export const getStaticPaths = createGetStaticPaths(async () => {
 const { locale, primaryLocale, route } = astroI18n;
 const slug = route.replace("/", "");
 
-const page = await sanityClient.fetch<Page | null>(pageBySlugQuery, {
+const page = await localizedQuery<Page>(Astro)(pageBySlugQuery, {
   slug,
   locale,
   primaryLocale,

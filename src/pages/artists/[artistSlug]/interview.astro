@@ -9,6 +9,7 @@ import {
   artistSlugsQuery,
 } from "@/queries/contentQueries";
 import { astroI18n, createGetStaticPaths } from "astro-i18n";
+import { sanityClient } from "sanity:client";
 
 export const getStaticPaths = createGetStaticPaths(async () => {
   const slugs =
@@ -17,9 +18,10 @@ export const getStaticPaths = createGetStaticPaths(async () => {
 });
 
 const { artistSlug: slug } = Astro.params as { artistSlug: string };
-const artist = await localizedQuery<Artist | null>(artistInterviewQuery, {
-  slug,
-});
+const artist = await localizedQuery<Artist | null>(Astro)(
+  artistInterviewQuery,
+  { slug },
+);
 if (!artist) {
   astroI18n.redirect("/404");
 }

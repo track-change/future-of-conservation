@@ -7,17 +7,23 @@ import {
 import type { QueryParams } from "sanity";
 import { sanityClient } from "sanity:client";
 import { astroI18n } from "astro-i18n";
+import type { AstroCookies, AstroGlobal } from "astro";
 
-export async function localizedQuery<T>(
-  query: string,
-  params?: QueryParams,
-): Promise<T> {
-  const { locale, primaryLocale } = astroI18n;
-  return sanityClient.fetch<T>(query, {
-    locale,
-    primaryLocale,
-    ...params,
-  });
+export function localizedQuery<T>(Astro: Pick<AstroGlobal, "cookies">) {
+  const config = Astro.cookies?.get("astro_draft_mode")?.boolean()
+    ? ({
+        perspective: "previewDrafts",
+        token: import.meta.env.SANITY_API_READ_TOKEN,
+      } as const)
+    : {};
+  return async function (query: string, params?: QueryParams) {
+    const { locale, primaryLocale } = astroI18n;
+    return sanityClient.withConfig(config).fetch<T>(query, {
+      locale,
+      primaryLocale,
+      ...params,
+    });
+  };
 }
 
 /* -------------------------------------------------------------------------- */
