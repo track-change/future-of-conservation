@@ -27,7 +27,7 @@ const possibleTags = artists
                 .join(",") || ""
             }]`}
           >
-            <Link link={artist} />
+            <Link link={artist} data-astro-prefetch="viewport" />
           </li>
         ))
       }

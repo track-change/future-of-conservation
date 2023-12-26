@@ -42,7 +42,9 @@ const PREVIEW_CONFIG = (): AstroUserConfig => ({
 // This config is for the main site. It does not include the Sanity studio,
 // generates sitemaps, and outputs plain, static html.
 const STATIC_CONFIG = (): AstroUserConfig => ({
-  prefetch: { defaultStrategy: "viewport" },
+  prefetch: {
+    prefetchAll: true,
+  },
   site: env.SITE_URL,
   integrations: [
     sanityIntegration({
