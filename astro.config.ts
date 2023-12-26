@@ -21,7 +21,6 @@ const locales = {
 // We use this config for doing SSR—it reads a user's Sanity token and renders
 // a preview version of the page based on the drafted content.
 const PREVIEW_CONFIG = (): AstroUserConfig => ({
-  prefetch: true,
   site: env.SITE_URL,
   integrations: [
     sanityIntegration({
@@ -43,7 +42,7 @@ const PREVIEW_CONFIG = (): AstroUserConfig => ({
 // This config is for the main site. It does not include the Sanity studio,
 // generates sitemaps, and outputs plain, static html.
 const STATIC_CONFIG = (): AstroUserConfig => ({
-  prefetch: true,
+  prefetch: { defaultStrategy: "viewport" },
   site: env.SITE_URL,
   integrations: [
     sanityIntegration({

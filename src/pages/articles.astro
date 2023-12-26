@@ -27,7 +27,14 @@ const possibleTags = articles
                 .join(",") || ""
             }]`}
           >
-            <Link link={article}>{article.title}</Link>
+            <Link
+              link={article}
+              data-astro-prefetch="false"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              {article.title}
+            </Link>
           </li>
         ))
       }
