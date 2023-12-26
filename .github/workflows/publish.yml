@@ -9,7 +9,7 @@ env:
   SANITY_DATASET: ${{ vars.SANITY_DATASET }}
   SANITY_API_READ_TOKEN: ${{ secrets.SANITY_API_READ_TOKEN }}
   NODE_ENV: ${{ github.ref_name == 'main' && 'production' || 'development' }}
-  SITE_URL: ${{ vars.SITE_URL }}
+  SITE_URL: ${{ github.ref_name == 'main' && 'https://future-of-conservation.com' || 'https://dev.future-of-conservation.com' }}
 
 jobs:
   publish:
