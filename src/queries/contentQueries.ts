@@ -7,7 +7,7 @@ import {
 import type { QueryParams } from "sanity";
 import { sanityClient } from "sanity:client";
 import { astroI18n } from "astro-i18n";
-import type { AstroCookies, AstroGlobal } from "astro";
+import type { AstroGlobal } from "astro";
 
 export function localizedQuery<T>(Astro: Pick<AstroGlobal, "cookies">) {
   const config =

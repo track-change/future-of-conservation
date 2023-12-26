@@ -27,7 +27,7 @@ const PREVIEW_CONFIG = (): AstroUserConfig => ({
       projectId: env.SANITY_PROJECT_ID,
       dataset: env.SANITY_DATASET,
       useCdn: false,
-      perspective: "previewDrafts",
+      perspective: "published",
       studioBasePath: "/admin",
     }),
     react(),
