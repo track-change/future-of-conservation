@@ -44,6 +44,7 @@ const PREVIEW_CONFIG = (): AstroUserConfig => ({
 const STATIC_CONFIG = (): AstroUserConfig => ({
   prefetch: {
     prefetchAll: true,
+    defaultStrategy: "viewport",
   },
   site: env.SITE_URL,
   integrations: [

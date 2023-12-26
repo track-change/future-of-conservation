@@ -6,6 +6,7 @@ import HrefLangs from "@/components/HrefLangs.astro";
 import { astroI18n } from "astro-i18n";
 import Header from "@/components/Header.astro";
 import { AstroFont } from "astro-font";
+import { ViewTransitions } from "astro:transitions";
 ---
 
 <!doctype html>
@@ -35,6 +36,7 @@ import { AstroFont } from "astro-font";
     />
     <!-- <ViewTransitions /> -->
     <!-- <BaseHead title={title}/> -->
+    <slot name="head" />
   </head>
   <body>
     <Header />
