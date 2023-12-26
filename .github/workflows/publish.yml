@@ -7,6 +7,7 @@ on:
 env:
   SANITY_PROJECT_ID: ${{ vars.SANITY_PROJECT_ID }}
   SANITY_DATASET: ${{ vars.SANITY_DATASET }}
+  SANITY_API_READ_TOKEN: ${{ secrets.SANITY_API_READ_TOKEN }}
   NODE_ENV: ${{ github.ref_name == 'main' && 'production' || 'development' }}
 
 jobs:
