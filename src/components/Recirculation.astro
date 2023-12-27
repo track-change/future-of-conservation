@@ -12,7 +12,7 @@ const { recirc } = Astro.props;
 
 <aside>
   <h2>{t("recirc")}</h2>
-  <ul>
+  <ul class="grid">
     {
       recirc.map((panel) => {
         let title = "";
@@ -42,16 +42,19 @@ const { recirc } = Astro.props;
 </aside>
 
 <style lang="scss">
+  aside {
+    margin-bottom: -1px;
+  }
+
   h2 {
-    text-align: center;
-    padding: 1em 0;
     text-transform: uppercase;
+    padding: var(--page-padding);
+    font-family: var(--font-sans);
   }
 
   ul {
     display: flex;
     flex-wrap: wrap;
-    width: 100%;
   }
 
   li {
@@ -62,7 +65,7 @@ const { recirc } = Astro.props;
     flex-direction: column;
     justify-content: space-between;
     text-align: center;
-    padding: 1em;
+    padding: var(--page-padding);
     gap: 3em;
   }
 
@@ -83,29 +86,31 @@ const { recirc } = Astro.props;
     -webkit-hyphens: auto;
     hyphens: auto;
     z-index: 0;
+    font-family: var(--font-serif);
 
     &::before {
       position: absolute;
       inset: 0;
       content: "";
       z-index: -1;
-      transition: all 0.2s ease-in-out;
-      transform: scaleY(0);
-      background: linear-gradient(180deg, #ffffff 0%, #ccff00 34%);
-      transform-origin: 50% 100%;
-      opacity: 0;
+      // transition: all 0.2s ease-in-out;
+      // transform: scaleY(0);
+      // background: linear-gradient(180deg, #ffffff 0%, #ccff00 34%);
+      // transform-origin: 50% 100%;
+      // opacity: 0;
     }
 
     &:hover::before,
     &:focus-visible::before {
-      transform: scaleY(1);
-      opacity: 1;
+      // transform: scaleY(1);
+      background-color: var(--clr-hl);
+      // opacity: 1;
     }
 
-    &::after {
-      position: absolute;
-      inset: 0;
-      content: "";
-    }
+    // &::after {
+    //   position: absolute;
+    //   inset: 0;
+    //   content: "";
+    // }
   }
 </style>

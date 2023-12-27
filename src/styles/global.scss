@@ -4,7 +4,19 @@ body {
   background-color: var(--clr-bg);
   color: var(--clr-fg);
   line-height: 1.25;
+  letter-spacing: 0.02em;
   font-size: 16px;
+  font-family: var(--font-sans);
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+main {
+  flex: 1;
 }
 
 // ::selection {
@@ -22,7 +34,21 @@ body {
   outline-offset: 1px;
 }
 
-.inverted {
-  --clr-bg: var(--clr-2);
-  --clr-fg: var(--clr-1);
+.grid {
+  width: calc(100% + 1px);
+  border-top: 1px solid var(--clr-fg);
+
+  & li {
+    border-left: 1px solid var(--clr-fg);
+    border-bottom: 1px solid var(--clr-fg);
+    border-right: 1px solid var(--clr-fg);
+    margin-left: -1px;
+  }
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--font-serif);
 }

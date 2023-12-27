@@ -1,5 +1,4 @@
 ---
-import BodyText from "@/components/BodyText.astro";
 import Recirculation from "@/components/Recirculation.astro";
 import RootLayout from "@/layouts/RootLayout.astro";
 import { sanityClient } from "sanity:client";
@@ -10,6 +9,7 @@ import {
   artistSlugsQuery,
 } from "@/queries/contentQueries";
 import { astroI18n, createGetStaticPaths } from "astro-i18n";
+import Text from "@/components/Text.astro";
 
 export const getStaticPaths = createGetStaticPaths(async () => {
   const slugs =
@@ -29,7 +29,7 @@ if (!artist) {
     <RootLayout>
       <article class="body_content">
         <h1>{artist.title}</h1>
-        <BodyText content={artist.introductionContent} />
+        <Text content={artist.introductionContent} />
       </article>
       {artist.introductionRecirc && (
         <Recirculation recirc={artist?.introductionRecirc} />
@@ -49,11 +49,10 @@ if (!artist) {
     max-width: calc(700px + 4rem);
     margin-left: auto;
     margin-right: auto;
-    padding: 0 2rem;
+    padding: 0 var(--page-padding);
     margin-bottom: 1em;
     line-height: 1.45;
     font-size: 20px;
-    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 
     html[lang="kr"] & {
       letter-spacing: 0.02em;

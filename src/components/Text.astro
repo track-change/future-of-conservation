@@ -1,9 +1,9 @@
 ---
 import { PortableText } from "astro-portabletext";
-import type { EditorTextMedia } from "@/sanity";
+import type { EditorText, EditorTextMedia } from "@/sanity";
 
 interface Props {
-  content: NonNullable<EditorTextMedia>;
+  content: EditorText | EditorTextMedia;
 }
 
 const { content } = Astro.props;

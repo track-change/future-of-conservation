@@ -1,5 +1,5 @@
 import { BiSliderAlt } from "react-icons/bi/";
-import { defineType } from "sanity";
+import { defineField, defineType } from "sanity";
 
 export default defineType({
   name: "siteFooter",
@@ -7,14 +7,30 @@ export default defineType({
   title: "Site Footer",
   icon: BiSliderAlt,
   fields: [
-    {
-      title: "Page Title",
-      name: "name",
-      type: "string",
-      validation: (Rule) => Rule.required(),
-      codegen: { required: true },
-      group: "page",
-    },
+    defineField({
+      title: "Description",
+      name: "description",
+      description: "Text for the site description, top of column 1",
+      type: "internationalizedArrayEditorText",
+    }),
+    defineField({
+      title: "Credits",
+      name: "credits",
+      description: "Text for the credits, top of column 2",
+      type: "internationalizedArrayEditorText",
+    }),
+    defineField({
+      title: "Copyright",
+      name: "copyright",
+      description: "Text for the copyright, bottom of columns 1 + 2",
+      type: "internationalizedArrayEditorText",
+    }),
+    defineField({
+      title: "Support",
+      name: "support",
+      description: "Text for the support, bottom of column 3 (below the logos)",
+      type: "internationalizedArrayEditorText",
+    }),
   ],
   preview: {
     prepare({}) {

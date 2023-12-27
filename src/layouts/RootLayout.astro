@@ -5,6 +5,7 @@ import "@/styles/global.scss";
 import HrefLangs from "@/components/HrefLangs.astro";
 import { astroI18n } from "astro-i18n";
 import Header from "@/components/Header.astro";
+import Footer from "@/components/Footer.astro";
 import { AstroFont } from "astro-font";
 import { ViewTransitions } from "astro:transitions";
 ---
@@ -43,14 +44,6 @@ import { ViewTransitions } from "astro:transitions";
     <main>
       <slot />
     </main>
-    <style is:global>
-      html,
-      body {
-        width: 100%;
-        background-color: var(--clr-bg);
-        color: var(--clr-fg);
-        font-family: "TO Leaf", "Times New Roman", Times, serif;
-      }
-    </style>
+    <Footer />
   </body></html
 >

@@ -29,7 +29,7 @@ const orderedTags = Object.values(
     <button
       type="button"
       id="filter-control-clear"
-      class="hoverable"
+      class="FilterControl_clear hoverable"
       aria-label="Clear the filter"
     >
       clear
@@ -164,10 +164,10 @@ const orderedTags = Object.values(
       "head" auto
       "fields" auto / 1fr;
     align-items: center;
-    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 
     @media screen and (min-width: 768px) {
       grid-template: "head fields" auto / auto 1fr;
+      padding: 0 var(--page-padding);
     }
 
     &_head {
@@ -179,21 +179,23 @@ const orderedTags = Object.values(
       padding-bottom: 0;
 
       @media screen and (min-width: 768px) {
-        padding-bottom: 1rem;
+        padding-bottom: var(--page-padding);
       }
 
       & h1 {
         opacity: 0.5;
+        font-size: 0.75rem;
+        font-family: var(--font-sans);
       }
+    }
 
-      & button {
-        text-decoration: underline;
+    &_clear {
+      text-transform: uppercase;
 
-        &:disabled {
-          pointer-events: none;
-          opacity: 0.3;
-          text-decoration: none;
-        }
+      &:disabled {
+        pointer-events: none;
+        opacity: 0.3;
+        text-decoration: none;
       }
     }
 
@@ -267,13 +269,9 @@ const orderedTags = Object.values(
       transition: opacity 0.2s ease-in-out;
     }
 
-    & input[type="checkbox"]:focus-visible + label {
-      outline: 3px solid var(--clr-hl);
-      opacity: 1 !important;
-    }
-
+    & input[type="checkbox"]:focus-visible + label,
     & input[type="checkbox"]:checked + label {
-      border: 1px solid var(--clr-fg);
+      background-color: rgba(238, 238, 238, 1);
       opacity: 1 !important;
     }
   }

@@ -1,7 +1,81 @@
 ---
+import Text from "@/components/Text.astro";
+import { localizedQuery, siteFooterQuery } from "@/queries/contentQueries";
+import type { SiteFooter } from "@/sanity";
 import { sanityClient } from "sanity:client";
-import { type SiteNav } from "@/sanity";
-import { siteNavQuery } from "../utils/queries";
 
-const siteNav = await sanityClient.fetch<SiteNav>(siteNavQuery);
+const siteFooter = await localizedQuery<SiteFooter>(Astro)(siteFooterQuery);
 ---
+
+<footer class="Footer">
+  <div class="Footer_desc limited_p"
+    ><Text content={siteFooter.description} /></div
+  >
+  <div class="Footer_credits limited_p"
+    ><Text content={siteFooter.credits} /></div
+  >
+  <div class="Footer_copyr"><Text content={siteFooter.copyright} /></div>
+  <div class="Footer_support"><Text content={siteFooter.support} /></div>
+</footer>
+
+<style lang="scss" is:global>
+  .Footer {
+    background-color: var(--clr-bg2);
+    color: var(--clr-fg2);
+    border-top: 1px solid var(--clr-brdr2);
+    margin-top: -1px;
+    position: relative;
+    z-index: 10;
+    padding: var(--page-padding);
+    font-size: 13px;
+    line-height: 1.25;
+    text-wrap: balance;
+
+    display: grid;
+    row-gap: calc(3 * var(--page-padding));
+    column-gap: calc(2 * var(--page-padding));
+    grid-template:
+      "desc" auto
+      "credits" auto
+      "copyr" auto
+      "logos" auto
+      "support" auto / 1fr;
+
+    @media screen and (min-width: 768px) {
+      padding: var(--page-padding) calc(2 * var(--page-padding));
+      grid-template:
+        "desc credits logos" 1fr
+        "copyr copyr support" auto / 1fr 1fr 1fr;
+    }
+
+    &_desc {
+      grid-area: desc;
+    }
+    &_credits {
+      grid-area: credits;
+    }
+    &_copyr {
+      grid-area: copyr;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+    }
+    &_logos {
+      grid-area: logos;
+    }
+    &_support {
+      grid-area: support;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+    }
+  }
+
+  .limited_p {
+    @media screen and (min-width: 768px) {
+      & p {
+        max-width: 330px;
+      }
+    }
+  }
+</style>

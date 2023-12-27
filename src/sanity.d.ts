@@ -362,11 +362,32 @@ export interface SiteFooter extends SanityDocument {
   _type: "siteFooter";
 
   /**
-   * Page Title — `string`
+   * Description — `internationalizedArrayEditorText`
    *
-   *
+   * Text for the site description, top of column 1
    */
-  name: string;
+  description?: InternationalizedArrayEditorText;
+
+  /**
+   * Credits — `internationalizedArrayEditorText`
+   *
+   * Text for the credits, top of column 2
+   */
+  credits?: InternationalizedArrayEditorText;
+
+  /**
+   * Copyright — `internationalizedArrayEditorText`
+   *
+   * Text for the copyright, bottom of columns 1 + 2
+   */
+  copyright?: InternationalizedArrayEditorText;
+
+  /**
+   * Support — `internationalizedArrayEditorText`
+   *
+   * Text for the support, bottom of column 3 (below the logos)
+   */
+  support?: InternationalizedArrayEditorText;
 }
 
 export type EditorText = Array<SanityKeyed<SanityBlock>>;
@@ -566,11 +587,11 @@ type InternationalizedArrayEditorTextMedia = any;
  * the definition was not actually found. Future versions of
  * sanity-codegen will let you type this explicity.
  */
-type InternationalizedArrayText = any;
+type InternationalizedArrayEditorText = any;
 
 /**
  * This interface is a stub. It was referenced in your sanity schema but
  * the definition was not actually found. Future versions of
  * sanity-codegen will let you type this explicity.
  */
-type InternationalizedArrayEditorText = any;
+type InternationalizedArrayText = any;

@@ -65,6 +65,15 @@ export const siteHeaderQuery = groq`
 }
 `;
 
+export const siteFooterQuery = groq`
+*[_type == "siteFooter"][0] {
+  ${localizedField("description")},
+  ${localizedField("credits")},
+  ${localizedField("copyright")},
+  ${localizedField("support")}
+}
+`;
+
 /* -------------------------------------------------------------------------- */
 /*                                 Collections                                */
 /* -------------------------------------------------------------------------- */

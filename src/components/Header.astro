@@ -2,42 +2,59 @@
 import LanguageSwitcher from "@/components/LanguageSwitcher.astro";
 import { localizedQuery, siteHeaderQuery } from "@/queries/contentQueries";
 import Link from "@/components/Link.astro";
-import { l, t } from "astro-i18n";
+import { astroI18n, l, t } from "astro-i18n";
 import type { SiteHeader } from "@/sanity";
 
+const { locale, route } = astroI18n;
 const header = await localizedQuery<SiteHeader>(Astro)(siteHeaderQuery);
 ---
 
 <header>
   <h1>
     <a href={l("/")}>
-      {t("title.line1")}<br />{t("title.line2")}
+      FUTURE OF <br />CONSERVATION
     </a>
   </h1>
   <nav>
-    {
-      header.navItems?.map((link) => (
-        <li>
-          <Link link={link} withAriaCurrent class="hoverable" />
-        </li>
-      ))
-    }
-    <LanguageSwitcher />
+    <ul class="grid">
+      {
+        header.navItems?.map((link) => (
+          <li class="navlink">
+            <Link link={link} withAriaCurrent class="hoverable" />
+          </li>
+        ))
+      }
+      <li class="lang">
+        <a
+          role="radio"
+          href={l(route, undefined, { targetLocale: "kr" })}
+          aria-current={locale === "kr" ? "page" : undefined}
+          class="hoverable"
+        >
+          KR
+        </a>
+      </li>
+      <li class="lang">
+        <a
+          role="radio"
+          href={l(route, undefined, { targetLocale: "en" })}
+          aria-current={locale === "en" ? "page" : undefined}
+          class="hoverable"
+        >
+          EN
+        </a>
+      </li>
+    </ul>
   </nav>
 </header>
 
 <style lang="scss">
+  $headerPadding: 0.9;
+
   header {
     position: sticky;
-    font-size: max(2.5rem, min(5vw, 5rem));
-    line-height: 0.66;
-    top: calc((-2em * 0.66) - 0.8em + 0.25rem);
-
-    :global([lang="kr"]) & {
-      font-size: max(2.3rem, min(4vw, 4rem));
-      line-height: 0.88;
-      top: calc((-2em * 0.88) - 0.8em + 0.25rem);
-    }
+    top: calc(-1 * var(--header-height) + 0.25rem);
+    z-index: 10;
 
     // undo spacing on non-h1 elements
     & > :not(h1) {
@@ -45,11 +62,18 @@ const header = await localizedQuery<SiteHeader>(Astro)(siteHeaderQuery);
       line-height: 1.2;
     }
   }
+
   h1 {
+    height: var(--header-height);
+    font-size: calc((var(--header-height) / (2 + 2 * $headerPadding)) * 1.32);
+    padding: $headerPadding * 1em 0;
+
     text-transform: uppercase;
     letter-spacing: -0.07em;
     text-align: center;
-    padding: 0.4em 0;
+    display: flex;
+    line-height: 0.66;
+    font-family: var(--font-serif);
 
     & a {
       width: min-content;
@@ -57,45 +81,42 @@ const header = await localizedQuery<SiteHeader>(Astro)(siteHeaderQuery);
     }
   }
 
-  nav {
-    font-family:
-      Helvetica Neue,
-      Helvetica,
-      Arial,
-      sans-serif;
+  ul {
     text-transform: uppercase;
-    display: flex;
     background-color: var(--clr-bg);
-    column-gap: 0.25rem;
-    row-gap: 0.1rem;
-    padding: 0 0.25rem;
+    display: flex;
     flex-wrap: wrap;
   }
 
   li {
+    height: 1.75em;
+  }
+
+  .navlink {
     flex: 1;
-    border-top: 1px solid var(--clr-fg);
-    border-bottom: 1px solid var(--clr-fg);
 
     @media screen and (max-width: 768px) {
-      min-width: 40%;
-      border-top: unset;
-
       &:nth-child(1),
       &:nth-child(2) {
-        border-top: 1px solid var(--clr-fg);
+        min-width: 50%;
       }
     }
   }
 
+  .lang {
+  }
+
   a {
-    padding: 2px 10px;
-    display: block;
+    height: 100%;
+    display: flex;
     text-align: center;
+    justify-content: center;
+    align-items: center;
     white-space: nowrap;
+    padding: 0 0.5em;
 
     &[aria-current="page"] {
-      background-color: var(--clr-3);
+      background-color: var(--clr-hl);
     }
   }
 </style>
