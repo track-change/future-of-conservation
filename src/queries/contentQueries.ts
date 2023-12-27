@@ -3,13 +3,14 @@ import {
   linkQuery,
   localizedField,
   localizedFieldLang,
+  localizedFieldWithLang,
   recircPanelQuery,
 } from "@/queries/helperFragments";
 import type { QueryParams } from "sanity";
 import { sanityClient } from "sanity:client";
 import { astroI18n } from "astro-i18n";
 import type { AstroGlobal } from "astro";
-import type { Artist } from "@/sanity";
+import type { Artist, SiteFooter } from "@/sanity";
 
 export function localizedQuery<T>(Astro: Pick<AstroGlobal, "cookies">) {
   const config =
@@ -67,12 +68,19 @@ export const siteHeaderQuery = groq`
 }
 `;
 
+export type SiteFooterQueryType = SiteFooter & {
+  descriptionLang?: string;
+  creditsLang?: string;
+  copyrightLang?: string;
+  supportLang?: string;
+};
+
 export const siteFooterQuery = groq`
 *[_type == "siteFooter"][0] {
-  ${localizedField("description")},
-  ${localizedField("credits")},
-  ${localizedField("copyright")},
-  ${localizedField("support")}
+  ${localizedFieldWithLang("description")},
+  ${localizedFieldWithLang("credits")},
+  ${localizedFieldWithLang("copyright")},
+  ${localizedFieldWithLang("support")}
 }
 `;
 
@@ -89,16 +97,19 @@ export const artistsQuery = groq`
   _type,
   slug,
   picture,
-  ${localizedFieldLang("title", "titleLang")},
-  ${localizedField("title")},
+  ${localizedFieldWithLang("title")},
   artistTags
 }
 `;
 
+export type ArtistIntroQueryType = Artist & {
+  titleLang?: string;
+  introductionContentLang?: string;
+};
 export const artistIntroQuery = groq`
 *[_type == "artist" && slug.current == $slug][0] {
-  ${localizedField("title")},
-  ${localizedField("introductionContent")},
+  ${localizedFieldWithLang("title")},
+  ${localizedFieldWithLang("introductionContent")},
   introductionRecirc[] {
     ${recircPanelQuery}
   }

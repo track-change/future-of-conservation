@@ -7,9 +7,11 @@ import {
   localizedQuery,
   artistIntroQuery,
   artistSlugsQuery,
+  type ArtistIntroQueryType,
 } from "@/queries/contentQueries";
 import { astroI18n, createGetStaticPaths } from "astro-i18n";
 import Text from "@/components/Text.astro";
+import ArticleLayout from "@/layouts/ArticleLayout.astro";
 
 export const getStaticPaths = createGetStaticPaths(async () => {
   const slugs =
@@ -18,7 +20,10 @@ export const getStaticPaths = createGetStaticPaths(async () => {
 });
 
 const { artistSlug: slug } = Astro.params as { artistSlug: string };
-const artist = await localizedQuery<Artist>(Astro)(artistIntroQuery, { slug });
+const artist = await localizedQuery<ArtistIntroQueryType>(Astro)(
+  artistIntroQuery,
+  { slug },
+);
 if (!artist) {
   astroI18n.redirect("/404");
 }
@@ -27,47 +32,25 @@ if (!artist) {
 {
   artist && (
     <RootLayout>
-      <article class="body_content">
-        <h1>{artist.title}</h1>
-        <Text content={artist.introductionContent} />
-      </article>
-      {artist.introductionRecirc && (
-        <Recirculation recirc={artist?.introductionRecirc} />
-      )}
+      <ArticleLayout>
+        <h1 lang={artist.titleLang}>{artist.title}</h1>
+        <div class="passthrough" lang={artist.introductionContentLang}>
+          <Text content={artist.introductionContent} />
+        </div>
+
+        {artist.introductionRecirc && (
+          <Recirculation recirc={artist?.introductionRecirc} />
+        )}
+      </ArticleLayout>
     </RootLayout>
   )
 }
 
-<style lang="scss" is:global>
-  .body_content {
-    width: 100%;
-    padding-bottom: 3rem;
-    counter-reset: footnotes;
-  }
-
-  .body_content p {
-    max-width: calc(700px + 4rem);
-    margin-left: auto;
-    margin-right: auto;
-    padding: 0 var(--page-padding);
-    margin-bottom: 1em;
-    line-height: 1.45;
-    font-size: 20px;
-
-    html[lang="kr"] & {
-      letter-spacing: 0.02em;
-    }
-  }
-
-  .body_content h1 {
-    font-size: 5rem;
+<style lang="scss">
+  h1 {
+    font-size: 3.75rem;
     text-align: center;
-    padding: 2rem 1rem;
-    text-transform: uppercase;
-  }
-
-  .see_also {
-    text-align: center;
+    margin: 1.1em 0 2.5em;
     text-transform: uppercase;
   }
 </style>

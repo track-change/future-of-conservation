@@ -18,9 +18,5 @@
 
   $fontSizeMin: 2rem;
   $fontSizeMax: 4.5rem;
-  $headerPadding: 0.9;
-  --header-height: #{max(
-      $fontSizeMin * (2 + 2 * $headerPadding),
-      min(15vw, $fontSizeMax * (2 + 2 * $headerPadding))
-    )};
+  --header-font-size: #{max($fontSizeMin, min(6vw, $fontSizeMax))};
 }

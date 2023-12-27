@@ -96,7 +96,7 @@ const orderedTags = Object.values(
     if (clearAll) clearAll.disabled = newFilter.size === 0;
     if (newFilter.size === 0) {
       targets.forEach((targetNode) => {
-        targetNode.style.display = "block";
+        targetNode.style.display = "";
       });
       return;
     }
@@ -105,7 +105,7 @@ const orderedTags = Object.values(
       if (!tags) return;
       const tagArray: string[] = JSON.parse(tags);
       targetNode.style.display = tagArray.some((tag) => newFilter.has(tag))
-        ? "block"
+        ? ""
         : "none";
     });
   }
@@ -164,6 +164,7 @@ const orderedTags = Object.values(
       "head" auto
       "fields" auto / 1fr;
     align-items: center;
+    font-size: 0.875rem;
 
     @media screen and (min-width: 768px) {
       grid-template: "head fields" auto / auto 1fr;
@@ -174,12 +175,13 @@ const orderedTags = Object.values(
       display: flex;
       justify-content: space-between;
       align-items: center;
-      gap: 1rem;
-      padding: 1rem;
+      gap: var(--page-padding);
+      padding: var(--page-padding);
       padding-bottom: 0;
 
       @media screen and (min-width: 768px) {
         padding-bottom: var(--page-padding);
+        margin-right: calc(-1 * var(--page-padding));
       }
 
       & h1 {

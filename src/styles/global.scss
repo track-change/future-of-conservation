@@ -31,14 +31,18 @@ main {
 
 :focus-visible {
   outline: 3px solid var(--clr-hl);
-  outline-offset: 1px;
+  outline-offset: -1px;
+}
+
+.passthrough {
+  display: contents;
 }
 
 .grid {
   width: calc(100% + 1px);
   border-top: 1px solid var(--clr-fg);
 
-  & li {
+  & > li {
     border-left: 1px solid var(--clr-fg);
     border-bottom: 1px solid var(--clr-fg);
     border-right: 1px solid var(--clr-fg);
@@ -58,6 +62,16 @@ h4 {
     font-family: var(--font-serif-kr);
     line-height: 0.88;
     letter-spacing: -0.12em;
+  }
+}
+
+.body-text p {
+  margin-bottom: 1em;
+  line-height: 1.45;
+
+  &:lang("kr") {
+    letter-spacing: 0.02em;
+    line-height: 1.55;
   }
 }
 

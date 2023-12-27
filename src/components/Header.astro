@@ -11,7 +11,7 @@ const header = await localizedQuery<SiteHeader>(Astro)(siteHeaderQuery);
 <header>
   <h1>
     <a href={l("/")}>
-      FUTURE OF <br />CONSERVATION
+      Future of <br />Conservation
     </a>
   </h1>
   <nav>
@@ -48,11 +48,15 @@ const header = await localizedQuery<SiteHeader>(Astro)(siteHeaderQuery);
 </header>
 
 <style lang="scss">
+  $headerLineHeight: 0.66;
   $headerPadding: 0.9;
 
   header {
     position: sticky;
-    top: calc(-1 * var(--header-height) + 0.25rem);
+    top: calc(
+      -1 * var(--header-font-size) * (2 * ($headerPadding + $headerLineHeight)) +
+        0.25em
+    );
     z-index: 10;
   }
 
@@ -62,16 +66,19 @@ const header = await localizedQuery<SiteHeader>(Astro)(siteHeaderQuery);
   }
 
   h1 {
-    height: var(--header-height);
-    font-size: calc((var(--header-height) / (2 + 2 * $headerPadding)) * 1.32);
+    font-size: var(--header-font-size);
     padding: $headerPadding * 1em 0;
 
     text-transform: uppercase;
     text-align: center;
     display: flex;
+    justify-content: center;
+    align-items: center;
 
     & a {
+      display: block;
       width: min-content;
+      height: fit-content;
       margin: 0 auto;
     }
   }

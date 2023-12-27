@@ -1,22 +1,47 @@
 ---
+import { Image } from "astro:assets";
+import visualArts from "@/images/visualart.png";
 import Text from "@/components/Text.astro";
-import { localizedQuery, siteFooterQuery } from "@/queries/contentQueries";
-import type { SiteFooter } from "@/sanity";
-import { sanityClient } from "sanity:client";
+import {
+  localizedQuery,
+  siteFooterQuery,
+  type SiteFooterQueryType,
+} from "@/queries/contentQueries";
+import { Icon } from "astro-icon/components";
 
-const siteFooter = await localizedQuery<SiteFooter>(Astro)(siteFooterQuery);
+const siteFooter =
+  await localizedQuery<SiteFooterQueryType>(Astro)(siteFooterQuery);
 ---
 
 <footer class="Footer">
-  <div class="Footer_desc limited_p"
+  <div class="Footer_desc limited_p" lang={siteFooter.descriptionLang}
     ><Text content={siteFooter.description} /></div
   >
-  <div class="Footer_credits limited_p"
+  <div class="Footer_credits limited_p" lang={siteFooter.creditsLang}
     ><Text content={siteFooter.credits} /></div
   >
-  <div class="Footer_copyr"><Text content={siteFooter.copyright} /></div>
-  <div class="Footer_support"><Text content={siteFooter.support} /></div>
+  <div class="Footer_copyr" lang={siteFooter.copyrightLang}
+    ><Text content={siteFooter.copyright} /></div
+  >
+  <div class="Footer_logos">
+    <Icon name="artscouncil" />
+    <Image src={visualArts} alt="Some alt..." />
+  </div>
+  <div class="Footer_support" lang={siteFooter.supportLang}
+    ><Text content={siteFooter.support} /></div
+  >
 </footer>
+
+<style>
+  [data-icon="artscouncil"] {
+    width: 177px;
+    height: auto;
+  }
+
+  img {
+    width: 130px;
+  }
+</style>
 
 <style lang="scss" is:global>
   .Footer {
@@ -27,9 +52,8 @@ const siteFooter = await localizedQuery<SiteFooter>(Astro)(siteFooterQuery);
     position: relative;
     z-index: 10;
     padding: var(--page-padding);
-    font-size: 13px;
-    line-height: 1.25;
     text-wrap: balance;
+    min-height: 22.5rem;
 
     display: grid;
     row-gap: calc(3 * var(--page-padding));
@@ -48,6 +72,15 @@ const siteFooter = await localizedQuery<SiteFooter>(Astro)(siteFooterQuery);
         "copyr copyr support" auto / 1fr 1fr 1fr;
     }
 
+    & > div {
+      font-size: 0.8125rem;
+      line-height: 1.25;
+
+      &:lang("kr") {
+        line-height: 1.45;
+      }
+    }
+
     &_desc {
       grid-area: desc;
     }
@@ -62,7 +95,17 @@ const siteFooter = await localizedQuery<SiteFooter>(Astro)(siteFooterQuery);
     }
     &_logos {
       grid-area: logos;
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      height: fit-content;
+
+      @media screen and (min-width: 768px) {
+        max-width: 330px;
+        gap: 1rem;
+      }
     }
+
     &_support {
       grid-area: support;
       display: flex;

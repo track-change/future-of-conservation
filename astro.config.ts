@@ -4,6 +4,7 @@ import {
   type AstroUserConfig,
   passthroughImageService,
 } from "astro/config";
+import icon from "astro-icon";
 import react from "@astrojs/react";
 import cloudflare from "@astrojs/cloudflare";
 import { loadEnv } from "vite";
@@ -23,6 +24,7 @@ const locales = {
 const PREVIEW_CONFIG = (): AstroUserConfig => ({
   site: env.SITE_URL,
   integrations: [
+    icon(),
     sanityIntegration({
       projectId: env.SANITY_PROJECT_ID,
       dataset: env.SANITY_DATASET,
@@ -48,6 +50,7 @@ const STATIC_CONFIG = (): AstroUserConfig => ({
   },
   site: env.SITE_URL,
   integrations: [
+    icon(),
     sanityIntegration({
       projectId: env.SANITY_PROJECT_ID,
       dataset: env.SANITY_DATASET,

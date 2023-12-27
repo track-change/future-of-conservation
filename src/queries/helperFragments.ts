@@ -9,6 +9,10 @@ export const localizedField = (field: string) => `
   ${field}[_key == $locale][0].value,
   ${field}[_key == $primaryLocale][0].value)
 `;
+export const localizedFieldWithLang = (field: string) => `
+${localizedField(field)},
+${localizedFieldLang(field, field + "Lang")}
+`;
 
 export const linkQuery = groq`
 _type,

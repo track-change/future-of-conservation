@@ -1,0 +1,19 @@
+<article class="TextBody body-text">
+  <slot />
+</article>
+
+<style is:global lang="scss">
+  .TextBody {
+    width: 100%;
+    padding-bottom: 3rem;
+    counter-reset: footnotes;
+
+    & p {
+      max-width: calc(700px + 4rem);
+      margin-left: auto;
+      margin-right: auto;
+      padding: 0 var(--page-padding);
+      font-size: 1.25rem;
+    }
+  }
+</style>

@@ -18,12 +18,12 @@ const possibleTags = artists
 
 <RootLayout>
   <FilterGridControls tags={possibleTags} ariaControls="artists">
-    <div>
-      <ul id="artists" class="grid">
+    <div class="Artists">
+      <ul id="artists" class="Artists_list grid">
         {
           artists.map((artist) => (
             <li
-              class="filter-target"
+              class="Artists_li filter-target"
               data-tags={`[${
                 artist.artistTags
                   ?.map(
@@ -35,6 +35,13 @@ const possibleTags = artists
               <h4 lang={artist.titleLang}>
                 <Link link={artist} data-astro-prefetch="viewport" />
               </h4>
+              {artist.artistTags?.length ? (
+                <ul class="Artists_tags">
+                  {artist.artistTags?.map(({ label }: { label: string }) => (
+                    <li>{label}</li>
+                  ))}
+                </ul>
+              ) : undefined}
             </li>
           ))
         }
@@ -44,42 +51,74 @@ const possibleTags = artists
 </RootLayout>
 
 <style lang="scss">
-  div {
+  .Artists {
     min-height: 60vh;
     width: 100%;
     overflow-x: hidden;
-  }
-  ul {
-    display: grid;
-    grid-template-columns: 1fr;
 
-    @media screen and (min-width: 768px) {
-      grid-template-columns: repeat(2, 1fr);
-    }
-
-    & a {
-      display: flex;
-      min-height: 3em;
-      font-size: 8vw;
-      padding: 1rem;
-      width: 100%;
-      text-transform: uppercase;
-      text-align: center;
-      align-items: center;
-      justify-content: center;
+    &_list {
+      display: grid;
+      grid-template-columns: 1fr;
 
       @media screen and (min-width: 768px) {
-        font-size: 4vw;
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    &_li {
+      display: flex;
+      flex-direction: column;
+      gap: var(--page-padding);
+      min-height: 24vw;
+      padding: 3rem 1rem;
+      position: relative;
+      align-items: center;
+      justify-content: center;
+      z-index: 0;
+
+      @media screen and (min-width: 768px) {
+        min-height: 12vw;
       }
 
-      &:hover,
-      &:focus-visible {
-        background-color: var(--clr-hl);
+      & h4 {
+        text-align: center;
       }
-      /* word-wrap: break-word;
-    -ms-hyphens: auto;
-    -webkit-hyphens: auto;
-    hyphens: auto; */
+
+      & a {
+        font-size: 8vw;
+        text-transform: uppercase;
+        text-align: center;
+        @media screen and (min-width: 768px) {
+          font-size: 4vw;
+        }
+
+        &:hover::before,
+        &:focus-visible::before {
+          background-color: var(--clr-hl);
+        }
+
+        &::before {
+          content: "";
+          position: absolute;
+          inset: 0;
+          z-index: -1;
+        }
+      }
+    }
+
+    &_tags {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-wrap: wrap;
+      pointer-events: none;
+      max-width: 30rem;
+      gap: calc(0.5 * var(--page-padding));
+
+      & > li {
+        padding: 0.25rem 0.5rem;
+        background-color: rgba(238, 238, 238, 1);
+      }
     }
   }
 </style>
