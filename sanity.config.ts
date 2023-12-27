@@ -2,11 +2,9 @@ import { visionTool } from "@sanity/vision";
 import { defineConfig } from "sanity";
 import { internationalizedArray } from "sanity-plugin-internationalized-array";
 import { deskTool } from "sanity/desk";
-import { presentationTool } from "sanity/presentation";
 import { sanityClient } from "sanity:client";
 import { media } from "sanity-plugin-media";
 import schemaTypes from "./sanity/schemas";
-import { tags } from "sanity-plugin-tags";
 import { structure } from "./sanity/config/structure";
 import {
   defaultDocumentNode,
@@ -37,7 +35,6 @@ export default defineConfig({
     }),
     media(),
     visionTool(),
-    tags(),
   ],
   schema: {
     types: schemaTypes,

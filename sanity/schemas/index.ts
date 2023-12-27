@@ -19,11 +19,13 @@ import article from "./documents/collections/article";
 import pageArtists from "./documents/singletons/pageArtists";
 import pageResources from "./documents/singletons/pageResources";
 import pageArticles from "./documents/singletons/pageArticles";
+import tag from "./documents/collections/tag";
 
 const schemaTypes = [
   page,
   artist,
   article,
+  tag,
   pageHome,
   pageArtists,
   pageArticles,

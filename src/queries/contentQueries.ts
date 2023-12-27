@@ -104,7 +104,10 @@ export const artistsQuery = groq`
   slug,
   picture,
   ${localizedFieldWithLang("title")},
-  artistTags
+  tags[] -> {
+    ${localizedFieldWithLang("title")},
+    slug
+  }
 }
 `;
 

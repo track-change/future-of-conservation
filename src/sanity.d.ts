@@ -103,11 +103,11 @@ export interface Artist extends SanityDocument {
   slug: { _type: "slug"; current: string };
 
   /**
-   * Tags — `tags`
+   * Tags — `array`
    *
    * Tags used to filter the artists in the /artists page.
    */
-  artistTags?: Tags;
+  tags?: Array<SanityKeyedReference<Tag>>;
 
   /**
    * Introduction — `internationalizedArrayEditorTextMedia`
@@ -201,6 +201,29 @@ export interface Article extends SanityDocument {
    * The article's author.
    */
   author?: SanityReference<Artist>;
+}
+
+/**
+ * Tag
+ *
+ *
+ */
+export interface Tag extends SanityDocument {
+  _type: "tag";
+
+  /**
+   * Title — `internationalizedArrayString`
+   *
+   * Localized title of the tag
+   */
+  title: InternationalizedArrayString;
+
+  /**
+   * Slug — `slug`
+   *
+   * Unique ID for this tag to use in filtering.
+   */
+  slug: { _type: "slug"; current: string };
 }
 
 /**
@@ -554,6 +577,7 @@ export type Documents =
   | Page
   | Artist
   | Article
+  | Tag
   | PageHome
   | PageArtists
   | PageArticles
@@ -567,13 +591,6 @@ export type Documents =
  * sanity-codegen will let you type this explicity.
  */
 type InternationalizedArrayString = any;
-
-/**
- * This interface is a stub. It was referenced in your sanity schema but
- * the definition was not actually found. Future versions of
- * sanity-codegen will let you type this explicity.
- */
-type Tags = any;
 
 /**
  * This interface is a stub. It was referenced in your sanity schema but

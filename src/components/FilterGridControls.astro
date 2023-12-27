@@ -1,7 +1,8 @@
 ---
+import type { Tag } from "@/sanity";
 import { miniSlugify } from "@/utils/helperFunctions";
 interface Props {
-  tags?: { value: string; label: string }[];
+  tags?: (Tag & { titleLang?: string })[];
   ariaControls?: string;
 }
 
@@ -9,13 +10,18 @@ const { ariaControls } = Astro.props;
 
 const orderedTags = Object.values(
   Astro.props.tags?.reduce(
-    (acc, { value: val, label }: { value: string; label: string }) => {
-      const value = miniSlugify(val);
-      if (!acc[value]) acc[val] = { label, value, cnt: 0 };
-      else acc[value].cnt += 1;
+    (acc, { title, titleLang, slug }) => {
+      if (!acc[slug.current])
+        acc[slug.current] = { title, titleLang, slug, cnt: 0 };
+      else acc[slug.current].cnt += 1;
       return acc;
     },
-    {} as { [key: string]: { label: string; value: string; cnt: number } },
+    {} as {
+      [key: string]: Pick<Tag, "title" | "slug"> & {
+        titleLang?: string;
+        cnt: number;
+      };
+    },
   ) || {},
 ).sort(({ cnt: a }, { cnt: b }) => b - a);
 ---
@@ -60,16 +66,16 @@ const orderedTags = Object.values(
     </div>
     <div class="FilterControl_inner">
       {
-        orderedTags.map(({ value, label }) => (
+        orderedTags.map(({ title, titleLang, slug: { current: slug } }) => (
           <>
             <input
               type="checkbox"
               class="FilterControl_input"
-              id={`filter-${value}`}
-              value={`${value}`}
+              id={`filter-${slug}`}
+              value={`${slug}`}
             />
-            <label class="hoverable" for={`filter-${value}`}>
-              {label}
+            <label class="hoverable" for={`filter-${slug}`} lang={titleLang}>
+              {title}
             </label>
           </>
         ))
@@ -198,7 +204,7 @@ const orderedTags = Object.values(
 
       &:disabled {
         pointer-events: none;
-        opacity: 0.3;
+        opacity: 0.1;
         text-decoration: none;
       }
     }
@@ -254,7 +260,7 @@ const orderedTags = Object.values(
 
         &:disabled {
           pointer-events: none;
-          background-color: #c0c0c0;
+          background-color: #f0f0f0;
         }
       }
     }

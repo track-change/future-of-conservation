@@ -1,6 +1,6 @@
 ---
 import RootLayout from "@/layouts/RootLayout.astro";
-import type { Artist } from "@/sanity";
+import type { Artist, Tag } from "@/sanity";
 import {
   localizedQuery,
   artistsQuery,
@@ -9,11 +9,13 @@ import {
 import Link from "@/components/Link.astro";
 import { miniSlugify } from "@/utils/helperFunctions";
 import FilterGridControls from "@/components/FilterGridControls.astro";
+import { resolveReference } from "@/utils/resolveLinks";
 
 const artists = await localizedQuery<ArtistsQueryType>(Astro)(artistsQuery);
 const possibleTags = artists
-  .flatMap(({ artistTags }) => artistTags)
-  .filter((x) => !!x);
+  .flatMap(({ tags }) => tags)
+  .filter((x) => !!x)
+  .map((x) => resolveReference(x!));
 ---
 
 <RootLayout>
@@ -25,21 +27,24 @@ const possibleTags = artists
             <li
               class="filter-target"
               data-tags={`[${
-                artist.artistTags
-                  ?.map(
-                    ({ value }: { value: string }) => `"${miniSlugify(value)}"`,
-                  )
+                artist.tags
+                  ?.map(resolveReference)
+                  .map(({ slug }) => `"${slug.current}"`)
                   .join(",") || ""
               }]`}
             >
               <h2 lang={artist.titleLang}>
                 <Link link={artist} data-astro-prefetch="viewport" />
               </h2>
-              {artist.artistTags?.length ? (
+              {artist.tags?.length ? (
                 <ul class="Artists_tags">
-                  {artist.artistTags?.map(({ label }: { label: string }) => (
-                    <li>{label}</li>
-                  ))}
+                  {artist.tags
+                    ?.map(resolveReference)
+                    .map(
+                      ({ title, titleLang }: Tag & { titleLang?: string }) => (
+                        <li lang={titleLang}>{title}</li>
+                      ),
+                    )}
                 </ul>
               ) : undefined}
             </li>

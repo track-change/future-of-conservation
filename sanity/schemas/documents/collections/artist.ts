@@ -59,12 +59,10 @@ export default defineType({
     },
     defineField({
       title: "Tags",
-      name: "artistTags",
+      name: "tags",
       description: "Tags used to filter the artists in the /artists page.",
-      type: "tags",
-      options: {
-        includeFromRelated: "artistTags",
-      },
+      type: "array" as const,
+      of: [{ type: "reference", to: [{ type: "tag" }] }],
       group: "content",
     }),
     defineField({
