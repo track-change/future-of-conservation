@@ -56,6 +56,11 @@ const header = await localizedQuery<SiteHeader>(Astro)(siteHeaderQuery);
     z-index: 10;
   }
 
+  nav {
+    width: 100%;
+    overflow-x: hidden;
+  }
+
   h1 {
     height: var(--header-height);
     font-size: calc((var(--header-height) / (2 + 2 * $headerPadding)) * 1.32);

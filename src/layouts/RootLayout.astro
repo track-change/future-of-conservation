@@ -8,10 +8,11 @@ import Header from "@/components/Header.astro";
 import Footer from "@/components/Footer.astro";
 import { AstroFont } from "astro-font";
 import { ViewTransitions } from "astro:transitions";
+import { astroI18n } from "astro-i18n";
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang={astroI18n.locale}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -45,7 +46,7 @@ import { ViewTransitions } from "astro:transitions";
     <!-- <BaseHead title={title}/> -->
     <slot name="head" />
   </head>
-  <body>
+  <body lang="en">
     <Header />
     <main>
       <slot />
