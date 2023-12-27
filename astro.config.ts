@@ -33,11 +33,7 @@ const PREVIEW_CONFIG = (): AstroUserConfig => ({
     react(),
   ],
   output: "server",
-  adapter: cloudflare({
-    routes: {
-      strategy: "include",
-    },
-  }),
+  adapter: cloudflare(),
   image: {
     service: passthroughImageService(),
   },
