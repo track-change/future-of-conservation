@@ -25,4 +25,3 @@ pnpm-debug.log*
 src/pages/kr
 
 .wrangler
-public/__astro_font_generated__

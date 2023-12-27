@@ -25,7 +25,7 @@ const header = await localizedQuery<SiteHeader>(Astro)(siteHeaderQuery);
       }
       <li class="lang">
         <a
-          role="radio"
+          aria-label="View this page in Korean"
           href={l(route, undefined, { targetLocale: "kr" })}
           aria-current={locale === "kr" ? "page" : undefined}
           class="hoverable"
@@ -35,7 +35,7 @@ const header = await localizedQuery<SiteHeader>(Astro)(siteHeaderQuery);
       </li>
       <li class="lang">
         <a
-          role="radio"
+          aria-label="View this page in English"
           href={l(route, undefined, { targetLocale: "en" })}
           aria-current={locale === "en" ? "page" : undefined}
           class="hoverable"

@@ -5,6 +5,8 @@ interface Props {
   ariaControls?: string;
 }
 
+const { ariaControls } = Astro.props;
+
 const orderedTags = Object.values(
   Astro.props.tags?.reduce(
     (acc, { value: val, label }: { value: string; label: string }) => {
@@ -21,7 +23,7 @@ const orderedTags = Object.values(
 <form
   id="filter-control"
   class="FilterControl"
-  aria-controls="artists"
+  aria-controls={ariaControls}
   role="menubar"
 >
   <div class="FilterControl_head">

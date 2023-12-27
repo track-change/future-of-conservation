@@ -23,7 +23,7 @@ const possibleTags = artists
         {
           artists.map((artist) => (
             <li
-              class="Artists_li filter-target"
+              class="filter-target"
               data-tags={`[${
                 artist.artistTags
                   ?.map(
@@ -32,9 +32,9 @@ const possibleTags = artists
                   .join(",") || ""
               }]`}
             >
-              <h4 lang={artist.titleLang}>
+              <h2 lang={artist.titleLang}>
                 <Link link={artist} data-astro-prefetch="viewport" />
-              </h4>
+              </h2>
               {artist.artistTags?.length ? (
                 <ul class="Artists_tags">
                   {artist.artistTags?.map(({ label }: { label: string }) => (
@@ -50,7 +50,7 @@ const possibleTags = artists
   </FilterGridControls>
 </RootLayout>
 
-<style lang="scss">
+<style lang="scss" is:global>
   .Artists {
     min-height: 60vh;
     width: 100%;
@@ -63,45 +63,45 @@ const possibleTags = artists
       @media screen and (min-width: 768px) {
         grid-template-columns: repeat(2, 1fr);
       }
-    }
 
-    &_li {
-      display: flex;
-      flex-direction: column;
-      gap: var(--page-padding);
-      min-height: 24vw;
-      padding: 3rem 1rem;
-      position: relative;
-      align-items: center;
-      justify-content: center;
-      z-index: 0;
+      & > li {
+        display: flex;
+        flex-direction: column;
+        gap: var(--page-padding);
+        min-height: 24vw;
+        padding: 3rem 1rem;
+        position: relative;
+        align-items: center;
+        justify-content: center;
+        z-index: 0;
 
-      @media screen and (min-width: 768px) {
-        min-height: 12vw;
-      }
-
-      & h4 {
-        text-align: center;
-      }
-
-      & a {
-        font-size: 8vw;
-        text-transform: uppercase;
-        text-align: center;
         @media screen and (min-width: 768px) {
-          font-size: 4vw;
+          min-height: 12vw;
         }
 
-        &:hover::before,
-        &:focus-visible::before {
-          background-color: var(--clr-hl);
+        & > h2 {
+          text-align: center;
         }
 
-        &::before {
-          content: "";
-          position: absolute;
-          inset: 0;
-          z-index: -1;
+        & > h2 > a {
+          font-size: 8vw;
+          text-transform: uppercase;
+          text-align: center;
+          @media screen and (min-width: 768px) {
+            font-size: 4vw;
+          }
+
+          &:hover::before,
+          &:focus-visible::before {
+            background-color: var(--clr-hl);
+          }
+
+          &::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            z-index: -1;
+          }
         }
       }
     }

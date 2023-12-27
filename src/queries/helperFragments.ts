@@ -17,12 +17,12 @@ ${localizedFieldLang(field, field + "Lang")}
 export const linkQuery = groq`
 _type,
 subpath,
-${localizedField("title")},
+${localizedFieldWithLang("title")},
 _type == "internalLink" => {
   linkTarget -> {
     _type,
     slug,
-    ${localizedField("title")},
+    ${localizedFieldWithLang("title")},
     _type == "article" => {
       file {
         asset -> {
@@ -31,7 +31,7 @@ _type == "internalLink" => {
       }
     },
     _type == "artist" => {
-      ${localizedField("interviewTitle")}
+      ${localizedFieldWithLang("interviewTitle")}
     }
   }
 }

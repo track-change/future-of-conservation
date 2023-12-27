@@ -1,5 +1,6 @@
 import { BiNews } from "react-icons/bi";
 import { defineField, defineType } from "sanity";
+import { slugify, validateSlug } from "../../../utils/helperFunctions";
 
 export default defineType({
   title: "Article",
@@ -16,6 +17,19 @@ export default defineType({
       validation: (Rule) => Rule.required(),
       codegen: { required: true },
     }),
+    {
+      title: "Slug",
+      name: "slug",
+      type: "slug",
+      description:
+        'Unique identifier for this article. Path will be "/articles/{slug}".',
+      options: {
+        source: "title",
+        slugify: slugify,
+      },
+      validation: validateSlug,
+      codegen: { required: true },
+    },
     defineField({
       title: "File",
       description: "The article's file, typically a PDF.",
@@ -23,15 +37,6 @@ export default defineType({
       type: "file",
       validation: (Rule) => Rule.required(),
       codegen: { required: true },
-    }),
-    defineField({
-      title: "Tags",
-      name: "articleTags",
-      description: "Tags used to filter the articles in the /articles page.",
-      type: "tags",
-      options: {
-        includeFromRelated: "articleTags",
-      },
     }),
     defineField({
       type: "boolean",

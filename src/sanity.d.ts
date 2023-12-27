@@ -70,7 +70,7 @@ export interface Page extends SanityDocument {
    *
    * Outgoing links at the end of the page.
    */
-  recirculation?: Array<SanityKeyed<RecircPanel>>;
+  recirculation?: Array<SanityKeyed<InternalLink> | SanityKeyed<Link>>;
 
   /**
    * SEO — `seo`
@@ -121,7 +121,7 @@ export interface Artist extends SanityDocument {
    *
    * Outgoing links at the end of the introduction page.
    */
-  introductionRecirc?: Array<SanityKeyed<RecircPanel>>;
+  introductionRecirc?: Array<SanityKeyed<InternalLink> | SanityKeyed<Link>>;
 
   /**
    * Interview Title — `internationalizedArrayString`
@@ -142,7 +142,7 @@ export interface Artist extends SanityDocument {
    *
    * Outgoing links at the end of the introduction page.
    */
-  interviewRecirc?: Array<SanityKeyed<RecircPanel>>;
+  interviewRecirc?: Array<SanityKeyed<InternalLink> | SanityKeyed<Link>>;
 
   /**
    * SEO — `seo`
@@ -168,18 +168,18 @@ export interface Article extends SanityDocument {
   title: InternationalizedArrayString;
 
   /**
+   * Slug — `slug`
+   *
+   * Unique identifier for this article. Path will be "/articles/{slug}".
+   */
+  slug: { _type: "slug"; current: string };
+
+  /**
    * File — `file`
    *
    * The article's file, typically a PDF.
    */
   file: { _type: "file"; asset: SanityReference<any> };
-
-  /**
-   * Tags — `tags`
-   *
-   * Tags used to filter the articles in the /articles page.
-   */
-  articleTags?: Tags;
 
   /**
    * External Author — `boolean`

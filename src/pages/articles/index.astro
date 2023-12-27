@@ -1,0 +1,127 @@
+---
+import Link from "@/components/Link.astro";
+import RootLayout from "@/layouts/RootLayout.astro";
+import {
+  localizedQuery,
+  articlesQuery,
+  type ArticlesQueryType,
+} from "@/queries/contentQueries";
+import SearchGridControls from "@/components/SearchGridControls.astro";
+import { resolveReference } from "@/utils/resolveLinks";
+
+const articles = await localizedQuery<ArticlesQueryType>(Astro)(articlesQuery);
+---
+
+<RootLayout>
+  <SearchGridControls ariaControls="articles">
+    <div class="Articles">
+      <ul id="articles" class="grid">
+        {
+          articles.map((article) => (
+            <li class="filter-target">
+              <div class="Article central-column">
+                <div>01</div>
+                <h2 class="legible" lang={article.titleLang}>
+                  <Link
+                    link={article}
+                    data-astro-prefetch="false"
+                    target="_blank"
+                  >
+                    {article.title}
+                  </Link>
+                </h2>
+                <h3>
+                  {article.author
+                    ? resolveReference(article.author).title
+                    : article.authorExternal}
+                </h3>
+                <p>VIEW PDF</p>
+              </div>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </SearchGridControls>
+</RootLayout>
+
+<style lang="scss" is:global>
+  .Articles {
+    min-height: 60vh;
+    width: 100%;
+    overflow-x: hidden;
+
+    & > ul {
+      display: flex;
+      flex-direction: column;
+
+      & > li {
+        padding: var(--page-padding) 0;
+        position: relative;
+        z-index: 0;
+      }
+    }
+  }
+
+  .Article {
+    display: grid;
+    grid-template:
+      "num title" auto
+      "author author" auto
+      "type type" auto / auto 1fr;
+    column-gap: calc(0.5 * var(--page-padding));
+    row-gap: calc(2.5 * var(--page-padding));
+
+    & > div {
+      grid-area: num;
+      font-size: 0.875rem;
+    }
+
+    & > h2 {
+      grid-area: title;
+      font-size: 8.5vw;
+      @media screen and (min-width: 768px) {
+        font-size: 3.5vw;
+      }
+
+      & a {
+        display: block;
+
+        &:hover::before,
+        &:focus-visible::before {
+          background-color: var(--clr-hl);
+        }
+
+        &::before {
+          content: "";
+          position: absolute;
+          inset: 0;
+          z-index: -1;
+        }
+
+        &::after {
+          content: "";
+          position: absolute;
+          inset: 0;
+          z-index: 1;
+        }
+      }
+    }
+
+    & > h3 {
+      grid-area: author;
+      text-transform: uppercase;
+      text-align: center;
+      font-size: 7.5vw;
+      @media screen and (min-width: 768px) {
+        font-size: 3.5vw;
+      }
+    }
+
+    & > p {
+      grid-area: type;
+      text-align: center;
+      font-size: 0.875rem;
+    }
+  }
+</style>

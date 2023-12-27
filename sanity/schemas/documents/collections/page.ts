@@ -54,7 +54,7 @@ export default defineType({
       description: "Outgoing links at the end of the page.",
       name: "recirculation",
       type: "array",
-      of: [{ type: "recircPanel" }],
+      of: [{ type: "internalLink" }, { type: "link" }],
       group: "content",
     },
     {

@@ -81,7 +81,7 @@ export default defineType({
       name: "introductionRecirc",
       type: "array",
       group: "introduction",
-      of: [{ type: "recircPanel" }],
+      of: [{ type: "internalLink" }, { type: "link" }],
     }),
     defineField({
       title: "Interview Title",
@@ -103,7 +103,7 @@ export default defineType({
       name: "interviewRecirc",
       type: "array",
       group: "interview",
-      of: [{ type: "recircPanel" }],
+      of: [{ type: "internalLink" }, { type: "link" }],
     }),
     defineField({
       title: "SEO",

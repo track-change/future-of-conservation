@@ -11,7 +11,7 @@ import {
 } from "@/queries/contentQueries";
 import { astroI18n, createGetStaticPaths } from "astro-i18n";
 import Text from "@/components/Text.astro";
-import ArticleLayout from "@/layouts/ArticleLayout.astro";
+import ArticleLayout from "@/layouts/ReadableLayout.astro";
 
 export const getStaticPaths = createGetStaticPaths(async () => {
   const slugs =
@@ -37,11 +37,10 @@ if (!artist) {
         <div class="passthrough" lang={artist.introductionContentLang}>
           <Text content={artist.introductionContent} />
         </div>
-
-        {artist.introductionRecirc && (
-          <Recirculation recirc={artist?.introductionRecirc} />
-        )}
       </ArticleLayout>
+      {artist.introductionRecirc && (
+        <Recirculation recirc={artist?.introductionRecirc} />
+      )}
     </RootLayout>
   )
 }

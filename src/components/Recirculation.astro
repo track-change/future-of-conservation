@@ -14,26 +14,31 @@ const { recirc } = Astro.props;
   <h2 class="header-reset">See Also</h2>
   <ul class="grid">
     {
-      recirc.map((panel) => {
-        let title = "";
-        if (panel.targetInternal) {
-          const internalTarget = resolveReference(
-            panel.targetInternal.linkTarget,
-          );
-          title = internalTarget._type;
-          if (
-            internalTarget._type === "artist" &&
-            panel.targetInternal?.subpath === "/interview"
-          )
-            title = "interview";
+      recirc.map((link) => {
+        let overText = "";
+        let underText = "Read More";
+        switch (link._type) {
+          case "internalLink": {
+            const target = resolveReference(link.linkTarget);
+            overText = target._type;
+            if (target._type.startsWith("page")) {
+              overText = "Visit";
+            } else if (
+              target._type === "artist" &&
+              link.subpath === "/interview"
+            ) {
+              overText = "Interview";
+            } else if (target._type === "article") {
+              underText = "View PDF";
+            }
+            break;
+          }
         }
         return (
           <li>
-            <p>{title || <>&nbsp;</>}</p>
-            {panel.targetInternal && (
-              <Link link={panel.targetInternal} class="Recirc_link" />
-            )}
-            <p>{panel.undertext || <>&nbsp;</>}</p>
+            <p>{overText || <>&nbsp;</>}</p>
+            <Link link={link} class="Recirc_link" />
+            <p>{underText || <>&nbsp;</>}</p>
           </li>
         );
       })
@@ -59,7 +64,7 @@ const { recirc } = Astro.props;
 
   li {
     flex: 1;
-    min-width: 200px;
+    min-width: 300px;
     position: relative;
     display: flex;
     flex-direction: column;
@@ -73,13 +78,11 @@ const { recirc } = Astro.props;
     z-index: 1;
     pointer-events: none;
     text-transform: uppercase;
+    font-size: 0.875rem;
   }
 
   .Recirc_link {
-    font-size: min(8vw, 6rem);
-    text-transform: uppercase;
-    letter-spacing: -0.07em;
-    line-height: 0.66;
+    font-size: max(2rem, min(6vw, 3.75rem));
     line-break: auto;
     word-wrap: break-word;
     -ms-hyphens: auto;
@@ -93,24 +96,11 @@ const { recirc } = Astro.props;
       inset: 0;
       content: "";
       z-index: -1;
-      // transition: all 0.2s ease-in-out;
-      // transform: scaleY(0);
-      // background: linear-gradient(180deg, #ffffff 0%, #ccff00 34%);
-      // transform-origin: 50% 100%;
-      // opacity: 0;
     }
 
     &:hover::before,
     &:focus-visible::before {
-      // transform: scaleY(1);
       background-color: var(--clr-hl);
-      // opacity: 1;
     }
-
-    // &::after {
-    //   position: absolute;
-    //   inset: 0;
-    //   content: "";
-    // }
   }
 </style>

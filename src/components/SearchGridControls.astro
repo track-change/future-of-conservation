@@ -1,0 +1,31 @@
+---
+interface Props {
+  ariaControls?: string;
+}
+
+const { ariaControls } = Astro.props;
+---
+
+<form
+  id="search-control"
+  class="SearchControl"
+  role="search"
+  aria-controls={ariaControls}
+>
+  SEARCH
+</form>
+
+<slot />
+
+<style lang="scss">
+  .SearchControl {
+    display: flex;
+    font-size: 0.875rem;
+    padding: var(--page-padding);
+    counter-reset: search;
+
+    @media screen and (min-width: 768px) {
+      padding: var(--page-padding) calc(2 * var(--page-padding));
+    }
+  }
+</style>

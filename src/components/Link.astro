@@ -12,6 +12,7 @@ interface Props extends HTMLAttributes<"a"> {
 const { link, withAriaCurrent, ...rest } = Astro.props;
 const { route } = astroI18n;
 
+let lang: string | undefined = undefined;
 let title: string | undefined = undefined;
 const aProps = { ...rest };
 switch (link._type) {
@@ -22,22 +23,29 @@ switch (link._type) {
     break;
   }
   case "article": {
-    aProps.href = resolveReference(link.file.asset).url;
+    aProps.href = resolveLinkURL(link);
+    title = link.title;
     break;
   }
   case "internalLink": {
     const target = resolveReference(link.linkTarget);
+    (aProps as any)["data-link-type"] = target._type;
     let targetTitle = target.title;
     let hrefRaw = resolveLinkURL(target);
     if (!hrefRaw) break;
     if (link.subpath) hrefRaw += link.subpath;
-    aProps.href = astroI18n.l(hrefRaw);
+    if (target._type !== "article") {
+      aProps.href = astroI18n.l(hrefRaw);
+    } else {
+      aProps.href = hrefRaw;
+    }
     if (
       target._type === "artist" &&
       link.subpath === "/interview" &&
       target.interviewTitle
     ) {
       targetTitle += `: ${target.interviewTitle}`;
+      (aProps as any)["data-link-type"] = "interview";
     }
     if (
       withAriaCurrent &&

@@ -16,6 +16,8 @@
 
   --page-padding: 1rem;
 
+  --max-content-width: 700px;
+
   $fontSizeMin: 2rem;
   $fontSizeMax: 4.5rem;
   --header-font-size: #{max($fontSizeMin, min(6vw, $fontSizeMax))};

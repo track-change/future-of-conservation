@@ -35,20 +35,46 @@ export default defineType({
   ],
   preview: {
     select: {
-      title: "title",
+      linkTitle: "title",
       targetType: "linkTarget._type",
       targetTitle: "linkTarget.title",
-      subtitle: "linkTarget.slug.current",
+      linkTarget: "linkTarget.slug.current",
+      interviewTitle: "linkTarget.interviewTitle",
+      subpath: "subpath",
     },
-    prepare({ title, targetType, targetTitle, subtitle }) {
-      const title1 = title?.find(({ _key }: any) => _key === "en").value;
-      const title2 = targetTitle.find(({ _key }: any) => _key === "en").value;
-      if (targetType === "pageHome") subtitle = "/";
-      if (targetType === "pageArtists") subtitle = "artists";
+    prepare({
+      linkTitle,
+      targetType,
+      targetTitle,
+      linkTarget,
+      interviewTitle,
+      subpath,
+    }) {
+      let title =
+        targetTitle.find(({ _key }: any) => _key === "en").value || "";
+      switch (targetType) {
+        case "pageHome":
+          linkTarget = "";
+          break;
+        case "pageArtists":
+          linkTarget = "artists";
+          break;
+        case "artist":
+          linkTarget = `artists/${linkTarget}`;
+          if (subpath === "/interview")
+            title =
+              (title ? `${title}: ` : "") +
+                interviewTitle?.find(({ _key }: any) => _key === "en").value ||
+              title;
+          break;
+      }
+      title = linkTitle?.find(({ _key }: any) => _key === "en").value || title;
       return {
-        title: title1 ?? title2 ?? "",
-        subtitle: `/${subtitle || ""}`,
-        media: BiDirections,
+        title,
+        subtitle:
+          targetType === "article"
+            ? "<Opens Article File>"
+            : `/${linkTarget || ""}${subpath || ""}`,
       };
     },
   },

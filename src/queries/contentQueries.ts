@@ -10,7 +10,7 @@ import type { QueryParams } from "sanity";
 import { sanityClient } from "sanity:client";
 import { astroI18n } from "astro-i18n";
 import type { AstroGlobal } from "astro";
-import type { Artist, SiteFooter } from "@/sanity";
+import type { Article, Artist, SiteFooter } from "@/sanity";
 
 export function localizedQuery<T>(Astro: Pick<AstroGlobal, "cookies">) {
   const config =
@@ -43,6 +43,12 @@ export const pageSlugsQuery = groq`
 export const artistSlugsQuery = groq`
 *[_type == "artist" && defined(slug.current)] {
   "artistSlug": slug.current
+}
+`;
+
+export const articlesSlugQuery = groq`
+*[_type == "article" && defined(slug.current)] {
+  "slug": slug.current
 }
 `;
 
@@ -111,7 +117,7 @@ export const artistIntroQuery = groq`
   ${localizedFieldWithLang("title")},
   ${localizedFieldWithLang("introductionContent")},
   introductionRecirc[] {
-    ${recircPanelQuery}
+    ${linkQuery}
   }
 }
 `;
@@ -121,33 +127,51 @@ export const artistInterviewQuery = groq`
   ${localizedField("title")},
   ${localizedField("interviewContent")},
   interviewRecirc[] {
-    ${recircPanelQuery}
+    ${linkQuery}
   }
 }
 `;
 
 /* -------------------------------- Articles -------------------------------- */
 
+export type ArticlesQueryType = (Article & {
+  titleLang?: string;
+  authorExternalLang?: string;
+})[];
+
 export const articlesQuery = groq`
 *[_type == "article"] {
   _type,
   articleTags,
-  ${localizedField("title")},
+  ${localizedFieldWithLang("title")},
+  slug,
   file {
     asset -> {
       url
     }
   },
   isExternalAuthor,
-  isExternalAuthor == true => {
+  isExternalAuthor == false => {
     author -> {
       _type,
       slug,
-      ${localizedField("title")}
+      ${localizedFieldWithLang("title")}
     }
   },
-  isExternalAuthor == false => {
-    authorExternal
+  isExternalAuthor == true => {
+    ${localizedFieldWithLang("authorExternal")}
+  }
+}
+`;
+
+export const articleQuery = groq`
+*[_type == "article" && slug.current == $slug][0] {
+  ${localizedFieldWithLang("title")},
+  slug,
+  file {
+    asset -> {
+      url
+    }
   }
 }
 `;
