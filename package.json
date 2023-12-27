@@ -19,6 +19,7 @@
     "@astrojs/cloudflare": "^8.0.0",
     "@astrojs/react": "^3.0.7",
     "@astrojs/sitemap": "^3.0.3",
+    "@fontsource/noto-serif-kr": "^5.0.4",
     "@sanity-codegen/types": "1.0.0-alpha.13",
     "@sanity/astro": "^2.1.4",
     "@sanity/client": "^6.10.0",

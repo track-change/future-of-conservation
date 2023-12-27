@@ -55,12 +55,6 @@ const header = await localizedQuery<SiteHeader>(Astro)(siteHeaderQuery);
     position: sticky;
     top: calc(-1 * var(--header-height) + 0.25rem);
     z-index: 10;
-
-    // undo spacing on non-h1 elements
-    & > :not(h1) {
-      font-size: 1rem;
-      line-height: 1.2;
-    }
   }
 
   h1 {
@@ -69,11 +63,8 @@ const header = await localizedQuery<SiteHeader>(Astro)(siteHeaderQuery);
     padding: $headerPadding * 1em 0;
 
     text-transform: uppercase;
-    letter-spacing: -0.07em;
     text-align: center;
     display: flex;
-    line-height: 0.66;
-    font-family: var(--font-serif);
 
     & a {
       width: min-content;

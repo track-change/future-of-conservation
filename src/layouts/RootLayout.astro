@@ -1,9 +1,10 @@
 ---
+import "@fontsource/noto-serif-kr/600.css";
 import "@/styles/reset.scss";
 import "@/styles/variables.scss";
 import "@/styles/global.scss";
+import "@/styles/overrides.scss";
 import HrefLangs from "@/components/HrefLangs.astro";
-import { astroI18n } from "astro-i18n";
 import Header from "@/components/Header.astro";
 import Footer from "@/components/Footer.astro";
 import { AstroFont } from "astro-font";
@@ -11,7 +12,7 @@ import { ViewTransitions } from "astro:transitions";
 ---
 
 <!doctype html>
-<html lang={astroI18n.locale}>
+<html lang="en">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />

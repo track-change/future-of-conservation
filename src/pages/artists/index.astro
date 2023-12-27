@@ -1,12 +1,16 @@
 ---
 import RootLayout from "@/layouts/RootLayout.astro";
 import type { Artist } from "@/sanity";
-import { localizedQuery, artistsQuery } from "@/queries/contentQueries";
+import {
+  localizedQuery,
+  artistsQuery,
+  type ArtistsQueryType,
+} from "@/queries/contentQueries";
 import Link from "@/components/Link.astro";
 import { miniSlugify } from "@/utils/helperFunctions";
 import FilterGridControls from "@/components/FilterGridControls.astro";
 
-const artists = await localizedQuery<Artist[]>(Astro)(artistsQuery);
+const artists = await localizedQuery<ArtistsQueryType>(Astro)(artistsQuery);
 const possibleTags = artists
   .flatMap(({ artistTags }) => artistTags)
   .filter((x) => !!x);
@@ -28,7 +32,7 @@ const possibleTags = artists
                   .join(",") || ""
               }]`}
             >
-              <h4>
+              <h4 lang={artist.titleLang}>
                 <Link link={artist} data-astro-prefetch="viewport" />
               </h4>
             </li>
@@ -57,7 +61,6 @@ const possibleTags = artists
       font-size: 8vw;
       padding: 1rem;
       width: 100%;
-      line-height: 0.66;
       text-transform: uppercase;
       text-align: center;
       align-items: center;

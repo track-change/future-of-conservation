@@ -2,12 +2,14 @@ import groq from "groq";
 import {
   linkQuery,
   localizedField,
+  localizedFieldLang,
   recircPanelQuery,
 } from "@/queries/helperFragments";
 import type { QueryParams } from "sanity";
 import { sanityClient } from "sanity:client";
 import { astroI18n } from "astro-i18n";
 import type { AstroGlobal } from "astro";
+import type { Artist } from "@/sanity";
 
 export function localizedQuery<T>(Astro: Pick<AstroGlobal, "cookies">) {
   const config =
@@ -80,11 +82,14 @@ export const siteFooterQuery = groq`
 
 /* --------------------------------- Artists -------------------------------- */
 
+export type ArtistsQueryType = (Artist & { titleLang?: string })[];
+
 export const artistsQuery = groq`
 *[_type == "artist"] {
   _type,
   slug,
   picture,
+  ${localizedFieldLang("title", "titleLang")},
   ${localizedField("title")},
   artistTags
 }

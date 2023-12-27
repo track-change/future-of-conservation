@@ -1,5 +1,9 @@
 import groq from "groq";
 
+export const localizedFieldLang = (field: string, projectInto: string) => `
+"${projectInto}": ${field}[_key == $locale][0]._key
+`;
+
 export const localizedField = (field: string) => `
 "${field}": coalesce(
   ${field}[_key == $locale][0].value,
