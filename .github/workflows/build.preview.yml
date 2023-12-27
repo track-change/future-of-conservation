@@ -1,15 +1,17 @@
+name: "Deploy Preview Site to CF"
+
 on:
   push:
-    branches:
+    branches-ignore:
       - main
-      - development
 
 env:
   SANITY_PROJECT_ID: ${{ vars.SANITY_PROJECT_ID }}
   SANITY_DATASET: ${{ vars.SANITY_DATASET }}
   SANITY_API_READ_TOKEN: ${{ secrets.SANITY_API_READ_TOKEN }}
-  NODE_ENV: ${{ github.ref_name == 'main' && 'production' || 'development' }}
-  SITE_URL: ${{ github.ref_name == 'main' && 'https://future-of-conservation.com' || 'https://dev.future-of-conservation.com' }}
+  NODE_ENV: "development"
+  # This canonical URL won't be correct for any branch other than development, but whatever
+  SITE_URL: "https://dev.future-of-conservation.com"
 
 jobs:
   publish:
@@ -38,10 +40,5 @@ jobs:
           accountId: ${{ vars.CLOUDFLARE_ACCOUNT_ID }}
           projectName: ${{ vars.CLOUDFLARE_PROJECT_NAME }}
           directory: dist
-          # Optional: Enable this if you want to have GitHub Deployments triggered
           gitHubToken: ${{ secrets.GITHUB_TOKEN }}
-          # Optional: Switch what branch you are publishing to.
-          # By default this will be the branch which triggered this workflow
-          # branch: main
-          # Optional: Change the Wrangler version, allows you to point to a specific version or a tag such as `beta`
           wranglerVersion: "3"
