@@ -1,12 +1,5 @@
 ---
-import "@fontsource/noto-serif-kr/korean-600.css";
-import "@/styles/reset.scss";
-import "@/styles/variables.scss";
-import "@/styles/global.scss";
-import "@/styles/overrides.scss";
-import Header from "@/components/Header.astro";
-import Footer from "@/components/Footer.astro";
-import { AstroFont } from "astro-font";
+
 ---
 
 <!doctype html>
@@ -15,24 +8,6 @@ import { AstroFont } from "astro-font";
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="generator" content={Astro.generator} />
-    <AstroFont
-      config={[
-        {
-          name: "TO Leaf",
-          src: [
-            {
-              style: "normal",
-              weight: "400",
-              path: "./public/fonts/TOLeaf-Regular.otf",
-            },
-          ],
-          display: "swap",
-          preload: true,
-          selector: "body",
-          fallback: "serif",
-        },
-      ]}
-    />
     <!-- <ViewTransitions /> -->
     <!-- <BaseHead title={title}/> -->
     <slot name="head" />

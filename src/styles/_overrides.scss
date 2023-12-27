@@ -1,7 +1,6 @@
 // This is a crazy override to allow us to intermix TOLeaf with Noto Serif KR.
 // This basically overrides the latin characters in Noto Serif KR to use the
 // TOLeaf-Regular font, as long as this is put in the page *after * Noto Serif KR.
-
 @font-face {
   font-family: "Noto Serif KR";
   font-style: normal;

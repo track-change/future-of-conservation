@@ -1,5 +1,4 @@
 ---
-import "@/styles/reset.scss";
 import {
   articleQuery,
   articlesSlugQuery,
@@ -10,6 +9,7 @@ import type { Article } from "@/sanity";
 import { resolveReference } from "@/utils/resolveLinks";
 import { createGetStaticPaths } from "astro-i18n";
 import { sanityClient } from "sanity:client";
+import "@/styles/main.scss";
 
 export const getStaticPaths = createGetStaticPaths(async () => {
   // const { locale } = astroI18n; We no longer do whole diff documents

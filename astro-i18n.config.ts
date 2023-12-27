@@ -9,23 +9,6 @@ export default defineAstroI18nConfig({
   showPrimaryLocale: false, // "/en/about" vs "/about"
   translationLoadingRules: [], // per page group loading
   translationDirectory: {}, // translation directory names
-  translations: {
-    common: {
-      en: {
-        title: {
-          line1: "Future of",
-          line2: "Conservation",
-        },
-        recirc: "See Also",
-      },
-      kr: {
-        title: {
-          line1: "보존의",
-          line2: "미래",
-        },
-        recirc: "See Also",
-      },
-    },
-  }, // { [translation_group1]: { [locale1]: {}, ... } }
+  translations: {}, // { [translation_group1]: { [locale1]: {}, ... } }
   routes: {}, // { [secondary_locale1]: { about: "about-translated", ... } }
 });

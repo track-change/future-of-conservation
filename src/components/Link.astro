@@ -47,6 +47,10 @@ switch (link._type) {
       targetTitle += `: ${target.interviewTitle}`;
       (aProps as any)["data-link-type"] = "interview";
     }
+    if (target._type === "article") {
+      aProps.target = "_blank";
+      aProps.rel = "noopener noreferrer";
+    }
     if (
       withAriaCurrent &&
       ((hrefRaw !== "/" && route.startsWith(hrefRaw)) || route === hrefRaw)
