@@ -14,14 +14,14 @@ const articles = await localizedQuery<ArticlesQueryType>(Astro)(articlesQuery);
 
 <RootLayout>
   <SearchGridControls ariaControls="articles">
-    <div class="Articles">
+    <section class="Articles">
       <ul id="articles" class="grid">
         {
           articles.map((article) => (
             <li class="filter-target">
-              <div class="Article central-column">
+              <article class="Article central-column">
                 <div>01</div>
-                <h2 class="legible" lang={article.titleLang}>
+                <h1 class="legible" lang={article.titleLang}>
                   <Link
                     link={article}
                     target="_blank"
@@ -29,19 +29,19 @@ const articles = await localizedQuery<ArticlesQueryType>(Astro)(articlesQuery);
                   >
                     {article.title}
                   </Link>
-                </h2>
-                <h3>
+                </h1>
+                <h2>
                   {article.author
                     ? resolveReference(article.author).title
                     : article.authorExternal}
-                </h3>
+                </h2>
                 <p>VIEW PDF</p>
-              </div>
+              </article>
             </li>
           ))
         }
       </ul>
-    </div>
+    </section>
   </SearchGridControls>
 </RootLayout>
 
@@ -77,7 +77,7 @@ const articles = await localizedQuery<ArticlesQueryType>(Astro)(articlesQuery);
       font-size: 0.875rem;
     }
 
-    & > h2 {
+    & > h1 {
       grid-area: title;
       font-size: 8.5vw;
       @media screen and (min-width: 768px) {
@@ -108,7 +108,7 @@ const articles = await localizedQuery<ArticlesQueryType>(Astro)(articlesQuery);
       }
     }
 
-    & > h3 {
+    & > h2 {
       grid-area: author;
       text-transform: uppercase;
       text-align: center;

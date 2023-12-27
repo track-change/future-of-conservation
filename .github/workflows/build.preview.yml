@@ -8,6 +8,7 @@ on:
 env:
   SANITY_PROJECT_ID: ${{ vars.SANITY_PROJECT_ID }}
   SANITY_DATASET: ${{ vars.SANITY_DATASET }}
+  SANITY_CDN_ORIGIN: ${{ vars.SANITY_CDN_ORIGIN }}
   SANITY_API_READ_TOKEN: ${{ secrets.SANITY_API_READ_TOKEN }}
   NODE_ENV: "development"
   # This canonical URL won't be correct for any branch other than development, but whatever

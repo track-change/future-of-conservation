@@ -125,10 +125,14 @@ export const artistIntroQuery = groq`
 }
 `;
 
+export type ArtistInterQueryType = Artist & {
+  titleLang?: string;
+  interviewContentLang?: string;
+};
 export const artistInterviewQuery = groq`
 *[_type == "artist" && slug.current == $slug][0] {
-  ${localizedField("title")},
-  ${localizedField("interviewContent")},
+  ${localizedFieldWithLang("title")},
+  ${localizedFieldWithLang("interviewContent")},
   interviewRecirc[] {
     ${linkQuery}
   }
