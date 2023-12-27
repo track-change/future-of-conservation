@@ -17,19 +17,6 @@ export default defineType({
       validation: (Rule) => Rule.required(),
       codegen: { required: true },
     }),
-    {
-      title: "Slug",
-      name: "slug",
-      type: "slug",
-      description:
-        'Unique identifier for this article. Path will be "/articles/{slug}".',
-      options: {
-        source: "title",
-        slugify: slugify,
-      },
-      validation: validateSlug,
-      codegen: { required: true },
-    },
     defineField({
       title: "File",
       description: "The article's file, typically a PDF.",

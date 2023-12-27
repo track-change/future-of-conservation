@@ -24,8 +24,8 @@ const articles = await localizedQuery<ArticlesQueryType>(Astro)(articlesQuery);
                 <h2 class="legible" lang={article.titleLang}>
                   <Link
                     link={article}
-                    data-astro-prefetch="false"
                     target="_blank"
+                    rel="noopener noreferrer"
                   >
                     {article.title}
                   </Link>

@@ -168,13 +168,6 @@ export interface Article extends SanityDocument {
   title: InternationalizedArrayString;
 
   /**
-   * Slug — `slug`
-   *
-   * Unique identifier for this article. Path will be "/articles/{slug}".
-   */
-  slug: { _type: "slug"; current: string };
-
-  /**
    * File — `file`
    *
    * The article's file, typically a PDF.

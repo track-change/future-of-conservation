@@ -16,6 +16,7 @@ interface ImportMetaEnv {
   readonly SANITY_PROJECT_ID: string;
   readonly SANITY_DATASET: string;
   readonly SANITY_API_READ_TOKEN: string;
+  readonly SANITY_CDN_ORIGIN: string;
   readonly SITE_URL: string;
 }
 
@@ -27,7 +28,7 @@ interface ImportMeta {
 type PrimaryLocale = "en"
 type SecondaryLocale = "kr"
 type Locale = PrimaryLocale | SecondaryLocale
-type RouteParameters = {"/404":undefined;"/[...slug]":{"slug":unknown;};"/":undefined;"/resources":undefined;"/articles/[slug]":{"slug":unknown;};"/articles":undefined;"/artists":undefined;"/artists/[artistSlug]":{"artistSlug":unknown;};"/artists/[artistSlug]/interview":{"artistSlug":unknown;};}
+type RouteParameters = {"/404":undefined;"/[...slug]":{"slug":unknown;};"/articles":undefined;"/":undefined;"/resources":undefined;"/artists":undefined;"/artists/[artistSlug]":{"artistSlug":unknown;};"/artists/[artistSlug]/interview":{"artistSlug":unknown;};}
 type Route = keyof RouteParameters
 type TranslationVariables = object
 type Translation = keyof TranslationVariables

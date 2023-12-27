@@ -23,8 +23,14 @@ switch (link._type) {
     break;
   }
   case "article": {
-    aProps.href = resolveLinkURL(link);
-    title = link.title;
+    const url = new URL(
+      import.meta.env.SANITY_CDN_ORIGIN ||
+        "https://files.future-of-conservation.com",
+    );
+    url.pathname = resolveLinkURL(link);
+    aProps.href = url.toString();
+    aProps.target = "_blank";
+    aProps.rel = "noopener noreferrer";
     break;
   }
   case "internalLink": {
@@ -48,6 +54,12 @@ switch (link._type) {
       (aProps as any)["data-link-type"] = "interview";
     }
     if (target._type === "article") {
+      const url = new URL(
+        import.meta.env.SANITY_CDN_ORIGIN ||
+          "https://files.future-of-conservation.com",
+      );
+      url.pathname = hrefRaw;
+      aProps.href = url.toString();
       aProps.target = "_blank";
       aProps.rel = "noopener noreferrer";
     }

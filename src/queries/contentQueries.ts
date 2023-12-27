@@ -147,7 +147,6 @@ export const articlesQuery = groq`
   _type,
   articleTags,
   ${localizedFieldWithLang("title")},
-  slug,
   file {
     asset -> {
       url
@@ -163,18 +162,6 @@ export const articlesQuery = groq`
   },
   isExternalAuthor == true => {
     ${localizedFieldWithLang("authorExternal")}
-  }
-}
-`;
-
-export const articleQuery = groq`
-*[_type == "article" && slug.current == $slug][0] {
-  ${localizedFieldWithLang("title")},
-  slug,
-  file {
-    asset -> {
-      url
-    }
   }
 }
 `;
