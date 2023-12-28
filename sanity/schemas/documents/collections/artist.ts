@@ -36,13 +36,6 @@ export default defineType({
       codegen: { required: true },
       group: "content",
     }),
-    // defineField({
-    //   title: "Picture",
-    //   name: "picture",
-    //   description: "An image to display next to the artist in the index.",
-    //   type: "image",
-    //   group: "content",
-    // }),
     {
       title: "Slug",
       name: "slug",
@@ -68,10 +61,21 @@ export default defineType({
     defineField({
       title: "Introduction",
       name: "introductionContent",
-      description:
-        "The text / media content of the introduction, with footnotes.",
+      description: "Text content introduction the artist.",
       type: "internationalizedArrayEditorTextMedia",
       group: "introduction",
+    }),
+    defineField({
+      title: "Introduction Carousel",
+      name: "introductionImages",
+      description:
+        "Captioned pictures to put in a carousel at the end of the intro.",
+      type: "array" as const,
+      of: [{ type: "pictureTitled" }],
+      group: "introduction",
+      // options: {
+      //   layout: "grid",
+      // },
     }),
     defineField({
       title: "Introduction Recirculation",

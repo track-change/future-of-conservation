@@ -1,6 +1,5 @@
 ---
 import type { Tag } from "@/sanity";
-import { miniSlugify } from "@/utils/helperFunctions";
 interface Props {
   tags?: (Tag & { titleLang?: string })[];
   ariaControls?: string;
@@ -31,17 +30,17 @@ const orderedTags = Object.values(
   class="FilterControl"
   aria-label="Filter page contents by tag"
   aria-controls={ariaControls}
-  role="menubar"
 >
   <div class="FilterControl_head">
     <h1 class="header-reset" id="filter-head"><small>Explore by tag</small></h1>
     <button
       type="button"
       id="filter-control-clear"
-      class="FilterControl_clear hoverable"
+      class="FilterControl_clear"
       aria-label="Clear the filter"
+      tabindex="0"
     >
-      clear
+      Clear
     </button>
   </div>
   <div class="FilterControl_fields">
@@ -50,6 +49,7 @@ const orderedTags = Object.values(
         id="filter-scroll-left"
         aria-label="Scroll the tag filter to the left"
         type="button"
+        tabindex="0"
         disabled
       >
         {"<"}
@@ -60,6 +60,7 @@ const orderedTags = Object.values(
         id="filter-scroll-right"
         aria-label="Scroll the tag filter to the right"
         type="button"
+        tabindex="0"
         disabled
       >
         {">"}
@@ -75,7 +76,7 @@ const orderedTags = Object.values(
               id={`filter-${slug}`}
               value={`${slug}`}
             />
-            <label class="hoverable" for={`filter-${slug}`} lang={titleLang}>
+            <label for={`filter-${slug}`} lang={titleLang}>
               {title}
             </label>
           </>
@@ -216,8 +217,8 @@ const orderedTags = Object.values(
       overflow: scroll hidden;
       max-width: 100%;
 
-      &:has(input[type="checkbox"]:checked) label {
-        opacity: 0.3;
+      &:where(:has(input[type="checkbox"]:checked)) label {
+        color: var(--clr-fg2);
       }
     }
 
@@ -283,9 +284,13 @@ const orderedTags = Object.values(
     }
 
     & input[type="checkbox"]:focus-visible + label,
+    & label:hover {
+      outline: 3px solid var(--clr-hl);
+    }
+
     & input[type="checkbox"]:checked + label {
       background-color: rgba(238, 238, 238, 1);
-      opacity: 1 !important;
+      color: var(--clr-fg);
     }
   }
 </style>

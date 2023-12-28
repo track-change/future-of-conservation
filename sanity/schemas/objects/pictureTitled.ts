@@ -13,7 +13,7 @@ export default defineType({
     defineField({
       title: "Caption",
       name: "caption",
-      type: "internationalizedArrayText",
+      type: "internationalizedArrayString",
     }),
     {
       title: "Alternative Text",

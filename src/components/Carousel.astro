@@ -1,0 +1,95 @@
+---
+import SanityPicture, { setSanityPictureDefaults } from "astro-sanity-picture";
+import type { Artist } from "@/sanity";
+import { imageBuilder } from "@/utils/imageBuilder";
+import "keen-slider/keen-slider.min.css";
+import { resolveReference } from "@/utils/resolveLinks";
+
+interface Props {
+  id: string;
+  carousel: NonNullable<Artist["introductionImages"]>;
+}
+
+setSanityPictureDefaults({ imageUrlBuilder: imageBuilder });
+
+const { id, carousel } = Astro.props;
+---
+
+<section id={"carousel"} class="keen-slider">
+  {
+    carousel.map((picture) => {
+      const img = resolveReference(picture.asset);
+      return (
+        <div class="keen-slider__slide">
+          <SanityPicture
+            class="Picture"
+            src={img}
+            sizes="500px"
+            img={{ alt: picture.alt }}
+          />
+        </div>
+      );
+    })
+  }
+  {
+    carousel.map((picture) => {
+      const img = resolveReference(picture.asset);
+      return (
+        <div class="keen-slider__slide">
+          <SanityPicture
+            class="Picture"
+            src={img}
+            sizes="500px"
+            img={{ alt: picture.alt }}
+          />
+        </div>
+      );
+    })
+  }
+  {
+    carousel.map((picture) => {
+      const img = resolveReference(picture.asset);
+      return (
+        <div class="keen-slider__slide">
+          <SanityPicture
+            class="Picture"
+            src={img}
+            sizes="500px"
+            img={{ alt: picture.alt }}
+          />
+        </div>
+      );
+    })
+  }
+</section>
+
+<style>
+  section {
+    width: 100%;
+    aspect-ratio: 4/3;
+    margin: 3rem 0;
+  }
+
+  div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    aspect-ratio: 4/3;
+  }
+
+  .Picture {
+    width: 100%;
+    height: 100%;
+  }
+</style>
+
+<script>
+  import KeenSlider from "keen-slider";
+  var slider = new KeenSlider(`#carousel`, {
+    vertical: true,
+    slides: {
+      perView: 1,
+    },
+  });
+</script>

@@ -112,9 +112,16 @@ export interface Artist extends SanityDocument {
   /**
    * Introduction — `internationalizedArrayEditorTextMedia`
    *
-   * The text / media content of the introduction, with footnotes.
+   * Text content introduction the artist.
    */
   introductionContent?: InternationalizedArrayEditorTextMedia;
+
+  /**
+   * Introduction Carousel — `array`
+   *
+   * Captioned pictures to put in a carousel at the end of the intro.
+   */
+  introductionImages?: Array<SanityKeyed<PictureTitled>>;
 
   /**
    * Introduction Recirculation — `array`
@@ -534,11 +541,11 @@ export type PictureTitled = {
   hotspot?: SanityImageHotspot;
 
   /**
-   * Caption — `internationalizedArrayText`
+   * Caption — `internationalizedArrayString`
    *
    *
    */
-  caption?: InternationalizedArrayText;
+  caption?: InternationalizedArrayString;
 
   /**
    * Alternative Text — `string`

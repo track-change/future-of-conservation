@@ -25,12 +25,18 @@ const { ariaControls } = Astro.props;
     display: flex;
     gap: var(--page-padding);
     font-size: 0.875rem;
-    padding: var(--page-padding);
+    padding: calc(0.75 * var(--page-padding)) var(--page-padding);
     counter-reset: search;
+    align-items: center;
 
     @media screen and (min-width: 768px) {
-      padding: var(--page-padding) calc(2 * var(--page-padding));
+      padding: calc(0.75 * var(--page-padding)) calc(2 * var(--page-padding));
     }
+  }
+
+  label {
+    display: block;
+    text-transform: uppercase;
   }
 
   #search-input {

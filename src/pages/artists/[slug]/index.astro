@@ -10,6 +10,7 @@ import {
 import { astroI18n, createGetStaticPaths } from "astro-i18n";
 import Text from "@/components/Text.astro";
 import ReadableLayout from "@/layouts/ReadableLayout.astro";
+import Carousel from "@/components/Carousel.astro";
 
 export const getStaticPaths = createGetStaticPaths(slugsFor("artist"));
 
@@ -30,6 +31,14 @@ if (!artist) {
         <h1 lang={artist.titleLang}>{artist.title}</h1>
         <div class="passthrough" lang={artist.introductionContentLang}>
           <Text content={artist.introductionContent} />
+        </div>
+        <div>
+          {artist.introductionImages && (
+            <Carousel
+              id="intro-carousel"
+              carousel={artist.introductionImages}
+            />
+          )}
         </div>
       </ReadableLayout>
       {artist.introductionRecirc && (

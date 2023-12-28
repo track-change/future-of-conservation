@@ -2,29 +2,27 @@
 import Recirculation from "@/components/Recirculation.astro";
 import RootLayout from "@/layouts/RootLayout.astro";
 import type { Page } from "@/sanity";
-import { allPages, pageBySlugQuery } from "@/utils/queries";
 import { astroI18n } from "astro-i18n";
-import { sanityClient } from "sanity:client";
 import { createGetStaticPaths } from "astro-i18n";
-import { localizedQuery, slugsFor } from "@/queries/contentQueries";
+import { localizedQuery, pageQuery, slugsFor } from "@/queries/contentQueries";
 
 export const getStaticPaths = createGetStaticPaths(slugsFor("page"));
 
-const { locale, primaryLocale, route } = astroI18n;
+const { route } = astroI18n;
 const slug = route.replace("/", "");
 
-const page = await localizedQuery<Page>(Astro)(pageBySlugQuery, {
-  slug,
-  locale,
-  primaryLocale,
-});
+const page = await localizedQuery<Page>(Astro)(pageQuery, { slug });
 if (!page) {
   astroI18n.redirect("/404");
 }
 ---
 
-<RootLayout>
-  {page && page.recirculation && <Recirculation recirc={page.recirculation} />}
-</RootLayout>
+{
+  page && (
+    <RootLayout>
+      {page.recirculation && <Recirculation recirc={page.recirculation} />}
+    </RootLayout>
+  )
+}
 
 <style></style>

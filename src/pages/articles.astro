@@ -1,4 +1,5 @@
 ---
+import { SEO } from "astro-seo";
 import Link from "@/components/Link.astro";
 import RootLayout from "@/layouts/RootLayout.astro";
 import {
@@ -6,13 +7,20 @@ import {
   articlesQuery,
   type ArticlesQueryType,
 } from "@/queries/contentQueries";
-import SearchGridControls from "@/components/SearchGridControls.astro";
+import SearchGridControls from "@/components/GridControlsSearch.astro";
 import { resolveReference } from "@/utils/resolveLinks";
 
 const articles = await localizedQuery<ArticlesQueryType>(Astro)(articlesQuery);
 ---
 
 <RootLayout>
+  <SEO
+    slot="head"
+    title="Articles"
+    titleTemplate="%s | Future Of Conservation"
+    charset="UTF-8"
+    description=""
+  />
   <SearchGridControls ariaControls="articles">
     <section class="Articles" aria-label="Articles">
       <ul id="articles" class="grid">
@@ -30,12 +38,22 @@ const articles = await localizedQuery<ArticlesQueryType>(Astro)(articlesQuery);
                     {article.title}
                   </Link>
                 </h1>
-                <h2>
-                  {article.author
-                    ? resolveReference(article.author).title
-                    : article.authorExternal}
+                <h2
+                  lang={
+                    article.isExternalAuthor
+                      ? article.authorExternalLang
+                      : article.author
+                        ? (resolveReference(article.author) as any).titleLang
+                        : undefined
+                  }
+                >
+                  {article.isExternalAuthor
+                    ? article.authorExternal
+                    : article.author
+                      ? resolveReference(article.author).title
+                      : undefined}
                 </h2>
-                <p>VIEW PDF</p>
+                <p>VIEW PDF ↗</p>
               </article>
             </li>
           ))
@@ -56,7 +74,7 @@ const articles = await localizedQuery<ArticlesQueryType>(Astro)(articlesQuery);
       flex-direction: column;
 
       & > li {
-        padding: var(--page-padding) 0;
+        padding: calc(0.75 * var(--page-padding)) 0;
         position: relative;
         z-index: 0;
       }
@@ -70,7 +88,11 @@ const articles = await localizedQuery<ArticlesQueryType>(Astro)(articlesQuery);
       "author author" auto
       "type type" auto / auto 1fr;
     column-gap: calc(0.5 * var(--page-padding));
-    row-gap: calc(2.5 * var(--page-padding));
+    row-gap: calc(2 * var(--page-padding));
+
+    @media screen and (min-width: 768px) {
+      column-gap: var(--page-padding);
+    }
 
     & > div {
       grid-area: num;
@@ -79,10 +101,7 @@ const articles = await localizedQuery<ArticlesQueryType>(Astro)(articlesQuery);
 
     & > h1 {
       grid-area: title;
-      font-size: 8.5vw;
-      @media screen and (min-width: 768px) {
-        font-size: 3.5vw;
-      }
+      font-size: clamp(2rem, 8vw, 3.75rem);
 
       & a {
         display: block;
@@ -112,10 +131,7 @@ const articles = await localizedQuery<ArticlesQueryType>(Astro)(articlesQuery);
       grid-area: author;
       text-transform: uppercase;
       text-align: center;
-      font-size: 7.5vw;
-      @media screen and (min-width: 768px) {
-        font-size: 3.5vw;
-      }
+      font-size: clamp(2rem, 8vw, 3.75rem);
     }
 
     & > p {

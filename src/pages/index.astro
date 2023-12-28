@@ -1,9 +1,16 @@
 ---
+import { SEO } from "astro-seo";
 import ReadableLayout from "@/layouts/ReadableLayout.astro";
 import RootLayout from "@/layouts/RootLayout.astro";
 ---
 
 <RootLayout>
+  <SEO
+    slot="head"
+    title="Future Of Conservation"
+    charset="UTF-8"
+    description=""
+  />
   <ReadableLayout>
     <h1>What Could We Learn From Conservation?</h1>
     <h2>The Questions</h2>

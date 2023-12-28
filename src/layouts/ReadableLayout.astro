@@ -16,7 +16,7 @@
     }
 
     & h1 {
-      font-size: 3.75rem;
+      font-size: clamp(2rem, 8vw, 3.75rem);
       margin-top: 1em;
       margin-bottom: 1em;
       min-height: 3.66em;
@@ -24,7 +24,7 @@
     }
 
     & h2 {
-      font-size: 3.75rem;
+      font-size: clamp(2rem, 8vw, 3.75rem);
       text-align: center;
       margin-top: 1em;
       text-transform: uppercase;
@@ -36,6 +36,7 @@
 
     & p {
       font-size: 1.25rem;
+      min-height: 1px;
     }
 
     & h2 + p {

@@ -114,6 +114,12 @@ export const artistIntroQuery = groq`
   ${localizedFieldWithLang("introductionContent")},
   introductionRecirc[] {
     ${linkQuery}
+  },
+  introductionImages[] {
+    ...,
+    asset -> {
+      ...
+    }
   }
 }
 `;

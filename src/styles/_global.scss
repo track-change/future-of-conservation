@@ -33,6 +33,7 @@ main {
   opacity: 0.4;
 }
 
+button:focus,
 :focus-visible {
   outline: 3px solid var(--clr-hl);
   outline-offset: -1px;

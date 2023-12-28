@@ -1,7 +1,33 @@
 ---
+import { SEO } from "astro-seo";
 import RootLayout from "@/layouts/RootLayout.astro";
 ---
 
 <RootLayout>
-  <div>404</div>
+  <SEO titleTemplate="%s | Future of Conservation" noindex={true} />
+  <div>
+    <h1 class="legible">404</h1>
+    <p>Page not found.</p>
+    <a href="/">Return home? &rarr;</a>
+  </div>
 </RootLayout>
+
+<style lang="scss">
+  div {
+    min-height: 400px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  h1 {
+    font-size: 5rem;
+  }
+
+  a {
+    &:hover {
+      opacity: 0.5;
+    }
+  }
+</style>

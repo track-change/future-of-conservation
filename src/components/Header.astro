@@ -25,7 +25,7 @@ const header = await localizedQuery<SiteHeader>(Astro)(siteHeaderQuery);
       }
       <li class="lang">
         <a
-          aria-label="View this page in Korean"
+          aria-description="View this page in Korean"
           href={l(route, undefined, { targetLocale: "kr" })}
           aria-current={locale === "kr" ? "page" : undefined}
           class="hoverable"
@@ -35,7 +35,7 @@ const header = await localizedQuery<SiteHeader>(Astro)(siteHeaderQuery);
       </li>
       <li class="lang">
         <a
-          aria-label="View this page in English"
+          aria-description="View this page in English"
           href={l(route, undefined, { targetLocale: "en" })}
           aria-current={locale === "en" ? "page" : undefined}
           class="hoverable"
@@ -57,7 +57,7 @@ const header = await localizedQuery<SiteHeader>(Astro)(siteHeaderQuery);
       -1 * var(--header-font-size) * (2 * ($headerPadding + $headerLineHeight)) +
         0.25em
     );
-    z-index: 10;
+    z-index: 9999;
   }
 
   nav {
