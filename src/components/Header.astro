@@ -14,55 +14,49 @@ const header = await localizedQuery<SiteHeader>(Astro)(siteHeaderQuery);
       Future of <br />Conservation
     </a>
   </h1>
-  <nav aria-label="Main">
-    <ul class="grid">
-      {
-        header.navItems?.map((link) => (
-          <li class="navlink">
-            <Link link={link} withAriaCurrent class="hoverable" />
-          </li>
-        ))
-      }
-      <li class="lang">
-        <a
-          aria-description="View this page in Korean"
-          href={l(route, undefined, { targetLocale: "kr" })}
-          aria-current={locale === "kr" ? "page" : undefined}
-          class="hoverable"
-        >
-          KR
-        </a>
-      </li>
-      <li class="lang">
-        <a
-          aria-description="View this page in English"
-          href={l(route, undefined, { targetLocale: "en" })}
-          aria-current={locale === "en" ? "page" : undefined}
-          class="hoverable"
-        >
-          EN
-        </a>
-      </li>
-    </ul>
-  </nav>
 </header>
+<nav aria-label="Main">
+  <ul class="grid">
+    {
+      header.navItems?.map((link) => (
+        <li class="navlink">
+          <Link link={link} withAriaCurrent class="hoverable" />
+        </li>
+      ))
+    }
+    <li class="lang">
+      <a
+        aria-description="View this page in Korean"
+        href={l(route, undefined, { targetLocale: "kr" })}
+        aria-current={locale === "kr" ? "page" : undefined}
+        class="hoverable"
+      >
+        KR
+      </a>
+    </li>
+    <li class="lang">
+      <a
+        aria-description="View this page in English"
+        href={l(route, undefined, { targetLocale: "en" })}
+        aria-current={locale === "en" ? "page" : undefined}
+        class="hoverable"
+      >
+        EN
+      </a>
+    </li>
+  </ul>
+</nav>
 
 <style lang="scss">
   $headerLineHeight: 0.66;
   $headerPadding: 0.9;
 
-  header {
-    position: sticky;
-    top: calc(
-      -1 * var(--header-font-size) * (2 * ($headerPadding + $headerLineHeight)) +
-        0.25em
-    );
-    z-index: 9999;
-  }
-
   nav {
     width: 100%;
     overflow-x: hidden;
+    position: sticky;
+    top: 0.25em;
+    z-index: 9999;
   }
 
   h1 {
