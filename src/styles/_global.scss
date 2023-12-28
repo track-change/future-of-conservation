@@ -62,7 +62,7 @@ h2,
   line-height: 0.66;
   letter-spacing: -0.07em;
 
-  &:lang("kr") {
+  &:lang(kr) {
     font-family: var(--font-serif-kr);
     line-height: 0.88;
     letter-spacing: -0.12em;
@@ -73,7 +73,7 @@ h2,
     letter-spacing: 0;
     text-transform: capitalize;
 
-    &:lang("kr") {
+    &:lang(kr) {
       line-height: 1.05;
       letter-spacing: 0;
     }
@@ -89,7 +89,7 @@ small,
   margin-bottom: 1em;
   line-height: 1.45;
 
-  &:lang("kr") {
+  &:lang(kr) {
     letter-spacing: 0.02em;
     line-height: 1.55;
   }
