@@ -38,6 +38,7 @@ switch (link._type) {
     const target = resolveReference(link.linkTarget);
     (aProps as any)["data-link-type"] = target._type;
     let targetTitle = target.title;
+    let targetLang = (target as any).titleLang;
     let hrefRaw = resolveLinkURL(target);
     if (!hrefRaw) break;
     if (link.subpath) hrefRaw += link.subpath;
@@ -52,6 +53,7 @@ switch (link._type) {
       target.interviewTitle
     ) {
       targetTitle += `: ${target.interviewTitle}`;
+      targetLang = (target as any).interviewTitleLang;
       (aProps as any)["data-link-type"] = "interview";
     }
     if (target._type === "article") {
@@ -70,6 +72,7 @@ switch (link._type) {
     )
       aProps["aria-current"] = "page";
     title = link.title || targetTitle;
+    aProps.lang = (link as any).titleLang || targetLang;
     break;
   }
   case "link": {
