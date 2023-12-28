@@ -19,10 +19,14 @@ main {
   flex: 1;
 }
 
-// ::selection {
-//   background-color: var(--clr-fg);
-//   color: var(--clr-bg);
-// }
+:target {
+  scroll-padding-top: 100px;
+}
+
+::selection {
+  background-color: var(--clr-fg);
+  color: var(--clr-bg);
+}
 
 .hoverable:not([aria-current="page"]):hover,
 .hoverable:not([aria-current="page"]):focus-visible {
@@ -75,6 +79,11 @@ h2,
   }
 }
 
+small,
+.small-text {
+  font-size: 0.875rem;
+}
+
 .body-text p {
   margin-bottom: 1em;
   line-height: 1.45;
@@ -88,6 +97,7 @@ h2,
 .header-reset {
   line-height: 1.25;
   letter-spacing: 0.02em;
+  font-family: var(--font-sans);
 }
 
 .central-column {

@@ -1,6 +1,7 @@
 import { BiNews } from "react-icons/bi";
 import { defineField, defineType } from "sanity";
 import { slugify, validateSlug } from "../../../utils/helperFunctions";
+import { FiArchive } from "react-icons/fi";
 
 export default defineType({
   name: "pageResources",
@@ -67,7 +68,7 @@ export default defineType({
       const localTitle = title.find(({ _key }: any) => _key == "en")?.value;
       return {
         title: `Page - ${localTitle || "Resources"}`,
-        media: BiNews,
+        media: FiArchive,
         subtitle: `/${subtitle}`,
       };
     },

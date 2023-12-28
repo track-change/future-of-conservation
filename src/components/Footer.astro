@@ -14,27 +14,38 @@ const siteFooter =
 ---
 
 <footer class="Footer">
-  <div class="Footer_desc limited_p" lang={siteFooter.descriptionLang}
-    ><Text content={siteFooter.description} /></div
+  <section
+    class="Footer_desc limited_p"
+    aria-label="Project Description"
+    lang={siteFooter.descriptionLang}
+    ><Text content={siteFooter.description} /></section
   >
-  <div class="Footer_credits limited_p" lang={siteFooter.creditsLang}
-    ><Text content={siteFooter.credits} /></div
+  <section
+    class="Footer_credits limited_p"
+    aria-label="Project Credits"
+    lang={siteFooter.creditsLang}><Text content={siteFooter.credits} /></section
   >
-  <div class="Footer_copyr" lang={siteFooter.copyrightLang}
-    ><Text content={siteFooter.copyright} /></div
+  <section
+    class="Footer_copyr"
+    aria-label="Copyright Information"
+    lang={siteFooter.copyrightLang}
+    ><Text content={siteFooter.copyright} /></section
   >
-  <div class="Footer_logos">
+  <section class="Footer_logos" aria-label="Organization Links">
     <a
       href="https://www.arko.or.kr/eng/index"
       target="_blank"
       rel="noopener noreferrer"
+      aria-label="Go to the Arts Council of Korea website"
     >
-      <Icon name="artscouncil" />
+      <Icon name="artscouncil" role="img" title="Arts Council Korea" />
     </a>
     <Image src={visualArts} alt="Some alt..." />
-  </div>
-  <div class="Footer_support" lang={siteFooter.supportLang}
-    ><Text content={siteFooter.support} /></div
+  </section>
+  <section
+    class="Footer_support"
+    aria-label="Support & Funding"
+    lang={siteFooter.supportLang}><Text content={siteFooter.support} /></section
   >
 </footer>
 
@@ -78,7 +89,7 @@ const siteFooter =
         "copyr copyr support" auto / 1fr 1fr 1fr;
     }
 
-    & > div {
+    & > section {
       font-size: 0.8125rem;
       line-height: 1.25;
 

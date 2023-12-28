@@ -1,25 +1,19 @@
 ---
 import Recirculation from "@/components/Recirculation.astro";
 import RootLayout from "@/layouts/RootLayout.astro";
-import type { Artist } from "@/sanity";
 import {
   localizedQuery,
   artistInterviewQuery,
-  artistSlugsQuery,
+  slugsFor,
   type ArtistInterQueryType,
 } from "@/queries/contentQueries";
 import { astroI18n, createGetStaticPaths } from "astro-i18n";
-import { sanityClient } from "sanity:client";
 import Text from "@/components/Text.astro";
 import ReadableLayout from "@/layouts/ReadableLayout.astro";
 
-export const getStaticPaths = createGetStaticPaths(async () => {
-  const slugs =
-    await sanityClient.fetch<{ artistSlug: string }[]>(artistSlugsQuery);
-  return slugs.map(({ artistSlug }) => ({ params: { artistSlug } }));
-});
+export const getStaticPaths = createGetStaticPaths(slugsFor("artist"));
 
-const { artistSlug: slug } = Astro.params as { artistSlug: string };
+const { slug } = Astro.params as { slug: string };
 const artist = await localizedQuery<ArtistInterQueryType>(Astro)(
   artistInterviewQuery,
   { slug },
@@ -32,10 +26,18 @@ if (!artist) {
 {
   artist && (
     <RootLayout>
+      <Fragment slot="head">
+        <title>Interview: Soyo Lee</title>
+      </Fragment>
       <ReadableLayout>
-        <h1>Interview</h1>
-        <h2>{artist.title}</h2>
-        <h3>Artist and Conservator</h3>
+        <hgroup class="passthrough">
+          <h1>Interview</h1>
+          <h2 lang={artist.titleLang}>{artist.title}</h2>
+          <p>Artist and Conservator</p>
+          <p>
+            <small>Interviewed and edited by Junghyun Kim</small>
+          </p>
+        </hgroup>
         <div class="passthrough" lang={artist.interviewContentLang}>
           <Text content={artist.interviewContent} />
         </div>

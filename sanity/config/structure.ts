@@ -1,5 +1,6 @@
 import { type StructureResolver } from "sanity/desk";
-import { singletons } from "../utils/internalLinkTargets";
+import { documents, singletons } from "../utils/internalLinkTargets";
+import { capitalized } from "../utils/helperFunctions";
 
 export const structure: StructureResolver = (S) =>
   S.list()
@@ -7,6 +8,25 @@ export const structure: StructureResolver = (S) =>
     .items([
       S.documentListItem().id("siteHeader").schemaType("siteHeader"),
       S.documentListItem().id("siteFooter").schemaType("siteFooter"),
+      S.divider(),
+      ...documents
+        .filter((type) => type !== "page")
+        .map((type) =>
+          S.listItem({
+            title: capitalized(type + "s"),
+            id: type,
+            schemaType: type,
+            child: () =>
+              S.documentTypeList(type)
+                .title(capitalized(type + "s"))
+                .defaultOrdering([
+                  {
+                    field: "title",
+                    direction: "asc",
+                  },
+                ]),
+          }),
+        ),
       S.divider(),
       ...singletons.map((id) => S.documentListItem().id(id).schemaType(id)),
       S.listItem({
@@ -16,35 +36,6 @@ export const structure: StructureResolver = (S) =>
         child: () =>
           S.documentTypeList("page")
             .title("Custom Pages")
-            .defaultOrdering([
-              {
-                field: "title",
-                direction: "asc",
-              },
-            ]),
-      }),
-      S.divider(),
-      S.listItem({
-        title: "Artists",
-        id: "artists",
-        schemaType: "artist",
-        child: () =>
-          S.documentTypeList("artist")
-            .title("Artists")
-            .defaultOrdering([
-              {
-                field: "title",
-                direction: "asc",
-              },
-            ]),
-      }),
-      S.listItem({
-        title: "Articles",
-        id: "articles",
-        schemaType: "article",
-        child: () =>
-          S.documentTypeList("article")
-            .title("Articles")
             .defaultOrdering([
               {
                 field: "title",

@@ -1,11 +1,11 @@
 ---
-import type { Article, Artist, InternalLink, Link } from "@/sanity";
+import type { Article, Artist, InternalLink, Link, Resource } from "@/sanity";
 import { resolveLinkURL, resolveReference } from "@/utils/resolveLinks";
 import { astroI18n, l } from "astro-i18n";
 import type { HTMLAttributes } from "astro/types";
 
 interface Props extends HTMLAttributes<"a"> {
-  link: InternalLink | Link | Artist | Article;
+  link: InternalLink | Link | Artist | Article | Resource;
   withAriaCurrent?: boolean;
 }
 
@@ -16,6 +16,7 @@ let lang: string | undefined = undefined;
 let title: string | undefined = undefined;
 const aProps = { ...rest };
 switch (link._type) {
+  case "resource":
   case "artist": {
     const href = resolveLinkURL(link);
     aProps.href = astroI18n.l(href);

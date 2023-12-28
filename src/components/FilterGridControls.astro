@@ -29,11 +29,12 @@ const orderedTags = Object.values(
 <form
   id="filter-control"
   class="FilterControl"
+  aria-label="Filter page contents by tag"
   aria-controls={ariaControls}
   role="menubar"
 >
   <div class="FilterControl_head">
-    <h1 class="header-reset">Explore by tag</h1>
+    <h1 class="header-reset" id="filter-head"><small>Explore by tag</small></h1>
     <button
       type="button"
       id="filter-control-clear"
@@ -194,8 +195,6 @@ const orderedTags = Object.values(
 
       & h1 {
         opacity: 0.5;
-        font-size: 0.75rem;
-        font-family: var(--font-sans);
       }
     }
 
@@ -228,7 +227,11 @@ const orderedTags = Object.values(
       align-items: center;
       margin: 0 auto;
       height: 100%;
-      padding: 1rem 0;
+      padding: var(--page-padding) calc(0.5 * var(--page-padding));
+
+      @media screen and (min-width: 768px) {
+        margin-left: 0;
+      }
     }
 
     &_button {

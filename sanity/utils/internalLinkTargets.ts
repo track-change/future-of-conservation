@@ -5,9 +5,9 @@ export const singletons = [
   "pageResources",
 ];
 
+export const documents = ["page", "artist", "article", "resource"];
+
 export const linkTargets = [
-  { type: "page" },
-  { type: "artist" },
-  { type: "article" },
+  ...documents.map((type) => ({ type })),
   ...singletons.map((type) => ({ type })),
 ];

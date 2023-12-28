@@ -10,7 +10,7 @@ import type { QueryParams } from "sanity";
 import { sanityClient } from "sanity:client";
 import { astroI18n } from "astro-i18n";
 import type { AstroGlobal } from "astro";
-import type { Article, Artist, SiteFooter } from "@/sanity";
+import type { Article, Artist, Resource, SiteFooter } from "@/sanity";
 
 export function localizedQuery<T>(Astro: Pick<AstroGlobal, "cookies">) {
   const config =
@@ -34,23 +34,16 @@ export function localizedQuery<T>(Astro: Pick<AstroGlobal, "cookies">) {
 /*                                Static Paths                                */
 /* -------------------------------------------------------------------------- */
 
-export const pageSlugsQuery = groq`
-*[_type == "page" && defined(slug.current)] {
+const slugsQuery = (type: string) => groq`
+*[_type == "${type}" && defined(slug.current)] {
   "slug": slug.current
 }
 `;
 
-export const artistSlugsQuery = groq`
-*[_type == "artist" && defined(slug.current)] {
-  "artistSlug": slug.current
-}
-`;
-
-export const articlesSlugQuery = groq`
-*[_type == "article" && defined(slug.current)] {
-  "slug": slug.current
-}
-`;
+export const slugsFor = (type: string) => async () => {
+  const slugs = await sanityClient.fetch<{ slug: string }[]>(slugsQuery(type));
+  return slugs.map(({ slug }: { slug: string }) => ({ params: { slug } }));
+};
 
 /* -------------------------------------------------------------------------- */
 /*                                    Pages                                   */
@@ -166,6 +159,38 @@ export const articlesQuery = groq`
   },
   isExternalAuthor == true => {
     ${localizedFieldWithLang("authorExternal")}
+  }
+}
+`;
+
+/* -------------------------------- Resources ------------------------------- */
+
+export type ResourcesQueryType = (Resource & {
+  titleLang?: string;
+})[];
+
+export const resourcesQuery = groq`
+*[_type == "resource"] {
+  _type,
+  slug,
+  ${localizedFieldWithLang("title")},
+}
+`;
+
+export type ResourceQueryType =
+  | (Resource & {
+      titleLang?: string;
+      contentLang?: string;
+    })
+  | null;
+
+export const resourceQuery = groq`
+*[_type == "resource" && slug.current == $slug][0] {
+  _type,
+  ${localizedFieldWithLang("title")},
+  ${localizedFieldWithLang("content")},
+  recirc[] {
+    ${linkQuery}
   }
 }
 `;

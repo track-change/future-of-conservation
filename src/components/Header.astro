@@ -14,7 +14,7 @@ const header = await localizedQuery<SiteHeader>(Astro)(siteHeaderQuery);
       Future of <br />Conservation
     </a>
   </h1>
-  <nav>
+  <nav aria-label="Main">
     <ul class="grid">
       {
         header.navItems?.map((link) => (

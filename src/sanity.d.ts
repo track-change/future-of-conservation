@@ -197,6 +197,50 @@ export interface Article extends SanityDocument {
 }
 
 /**
+ * Resource
+ *
+ *
+ */
+export interface Resource extends SanityDocument {
+  _type: "resource";
+
+  /**
+   * Title — `internationalizedArrayString`
+   *
+   * Localized name of the resource
+   */
+  title: InternationalizedArrayString;
+
+  /**
+   * Slug — `slug`
+   *
+   * Unique identifier for this resource. Paths will be "/resources/{slug}" or "/kr/resources/{slug}".
+   */
+  slug: { _type: "slug"; current: string };
+
+  /**
+   * Content — `internationalizedArrayEditorTextMedia`
+   *
+   * The text / media content of the resource, with footnotes.
+   */
+  content?: InternationalizedArrayEditorTextMedia;
+
+  /**
+   * Recirculation — `array`
+   *
+   * Outgoing links at the end of the resource page.
+   */
+  recirc?: Array<SanityKeyed<InternalLink> | SanityKeyed<Link>>;
+
+  /**
+   * SEO — `seo`
+   *
+   *
+   */
+  seo?: Seo;
+}
+
+/**
  * Tag
  *
  *
@@ -447,6 +491,7 @@ export type InternalLink = {
     | Page
     | Artist
     | Article
+    | Resource
     | PageHome
     | PageArtists
     | PageArticles
@@ -570,6 +615,7 @@ export type Documents =
   | Page
   | Artist
   | Article
+  | Resource
   | Tag
   | PageHome
   | PageArtists

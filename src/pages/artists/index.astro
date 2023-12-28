@@ -1,26 +1,25 @@
 ---
 import RootLayout from "@/layouts/RootLayout.astro";
-import type { Artist, Tag } from "@/sanity";
+import type { Tag } from "@/sanity";
 import {
   localizedQuery,
   artistsQuery,
   type ArtistsQueryType,
 } from "@/queries/contentQueries";
 import Link from "@/components/Link.astro";
-import { miniSlugify } from "@/utils/helperFunctions";
 import FilterGridControls from "@/components/FilterGridControls.astro";
 import { resolveReference } from "@/utils/resolveLinks";
 
 const artists = await localizedQuery<ArtistsQueryType>(Astro)(artistsQuery);
 const possibleTags = artists
-  .flatMap(({ tags }) => tags)
+  .flatMap(({ tags }) => tags || [])
   .filter((x) => !!x)
-  .map((x) => resolveReference(x!));
+  .map((x) => resolveReference(x));
 ---
 
 <RootLayout>
   <FilterGridControls tags={possibleTags} ariaControls="artists">
-    <div class="Artists">
+    <section class="Artists" aria-label="Artists">
       <ul id="artists" class="Artists_list grid">
         {
           artists.map((artist) => (
@@ -51,7 +50,7 @@ const possibleTags = artists
           ))
         }
       </ul>
-    </div>
+    </section>
   </FilterGridControls>
 </RootLayout>
 

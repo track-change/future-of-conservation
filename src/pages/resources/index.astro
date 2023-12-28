@@ -1,0 +1,75 @@
+---
+import Link from "@/components/Link.astro";
+import RootLayout from "@/layouts/RootLayout.astro";
+import {
+  type ResourcesQueryType,
+  localizedQuery,
+  resourcesQuery,
+} from "@/queries/contentQueries";
+
+const resources =
+  await localizedQuery<ResourcesQueryType>(Astro)(resourcesQuery);
+---
+
+<RootLayout>
+  <div class="Resources" aria-label="Resources">
+    <ul id="resources" class="Resources_list grid">
+      {
+        resources.map((resource) => (
+          <li>
+            <h2 lang={resource.titleLang}>
+              <Link link={resource} data-astro-prefetch="viewport" />
+            </h2>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</RootLayout>
+
+<style lang="scss">
+  .Resources {
+    min-height: 60vh;
+    width: 100%;
+    overflow-x: hidden;
+
+    &_list {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+      border-top: none;
+
+      & > li {
+        display: flex;
+        flex-direction: column;
+        gap: var(--page-padding);
+        min-height: 24vw;
+        padding: 3rem 1rem;
+        position: relative;
+        align-items: center;
+        justify-content: center;
+        z-index: 0;
+
+        & > h2 > a {
+          font-size: 8vw;
+          text-transform: uppercase;
+          text-align: center;
+          @media screen and (min-width: 768px) {
+            font-size: 4vw;
+          }
+
+          &:hover::before,
+          &:focus-visible::before {
+            background-color: var(--clr-hl);
+          }
+
+          &::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            z-index: -1;
+          }
+        }
+      }
+    }
+  }
+</style>

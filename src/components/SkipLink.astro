@@ -1,0 +1,22 @@
+---
+
+---
+
+<a href="#maincontent" tabindex="0">Skip to main content</a>
+
+<style lang="scss">
+  a {
+    position: fixed;
+    top: 0;
+    left: -9999px;
+    padding: 0.25rem 0.5rem;
+    background-color: var(--clr-bg);
+    border: 1px solid var(--clr-fg);
+    z-index: 9999;
+
+    &:focus-visible {
+      display: block;
+      left: 0;
+    }
+  }
+</style>

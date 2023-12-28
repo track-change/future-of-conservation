@@ -83,3 +83,7 @@ export const getDurationString = (duration: number) => {
     : "00";
   return duration ? `${minutes}:${seconds}` : "";
 };
+
+export function capitalized(s: string) {
+  return s.charAt(0).toUpperCase() + s.slice(1);
+}

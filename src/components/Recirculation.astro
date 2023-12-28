@@ -10,8 +10,8 @@ interface Props {
 const { recirc } = Astro.props;
 ---
 
-<aside>
-  <h2 class="header-reset">See Also</h2>
+<aside aria-labelledby="recirc-header">
+  <h1 id="recirc-header" class="header-reset">See Also</h1>
   <ul class="grid">
     {
       recirc.map((link) => {
@@ -36,9 +36,17 @@ const { recirc } = Astro.props;
         }
         return (
           <li>
-            <p>{overText || <>&nbsp;</>}</p>
-            <Link link={link} class="Recirc_link" />
-            <p>{underText || <>&nbsp;</>}</p>
+            <p id={link._key}>
+              <small>{overText || <>&nbsp;</>}</small>
+            </p>
+            <Link
+              link={link}
+              aria-describedby={link._key}
+              class="Recirc_link"
+            />
+            <p>
+              <small>{underText || <>&nbsp;</>}</small>
+            </p>
           </li>
         );
       })
@@ -52,7 +60,7 @@ const { recirc } = Astro.props;
     overflow-x: hidden;
   }
 
-  h2 {
+  h1 {
     text-transform: uppercase;
     padding: var(--page-padding);
     font-family: var(--font-sans);
@@ -73,13 +81,13 @@ const { recirc } = Astro.props;
     text-align: center;
     padding: var(--page-padding);
     gap: 3em;
+    min-height: 300px;
   }
 
   p {
     z-index: 1;
     pointer-events: none;
     text-transform: uppercase;
-    font-size: 0.875rem;
   }
 
   .Recirc_link {

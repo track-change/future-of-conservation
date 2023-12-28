@@ -9,30 +9,37 @@
     counter-reset: footnotes;
 
     & > *,
-    & > .passthrough > * {
+    & > *:where(.passthrough) > * {
       max-width: calc(var(--max-content-width) + 2 * var(--page-padding));
-      margin-left: auto;
-      margin-right: auto;
+      margin: var(--page-padding) auto;
       padding: 0 var(--page-padding);
     }
 
     & h1 {
       font-size: 3.75rem;
       margin-top: 1em;
-      margin-bottom: 3.5em;
+      margin-bottom: 1em;
+      min-height: 3.66em;
       text-transform: uppercase;
     }
 
     & h2 {
       font-size: 3.75rem;
       text-align: center;
-      margin-top: 1.1em;
-      margin-bottom: var(--page-padding);
+      margin-top: 1em;
       text-transform: uppercase;
+    }
+
+    & h3 {
+      text-align: center;
     }
 
     & p {
       font-size: 1.25rem;
+    }
+
+    & h2 + p {
+      margin-top: 3rem;
     }
   }
 </style>

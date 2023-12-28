@@ -9,7 +9,7 @@ import react from "@astrojs/react";
 import cloudflare from "@astrojs/cloudflare";
 import { loadEnv } from "vite";
 import sitemap from "@astrojs/sitemap";
-
+import robotsTxt from "astro-robots-txt";
 const env = loadEnv("", (process as any).cwd(), "") as ImportMetaEnv;
 
 // i18n set up stuff
@@ -33,6 +33,7 @@ const PREVIEW_CONFIG = (): AstroUserConfig => ({
       studioBasePath: "/admin",
     }),
     react(),
+    robotsTxt(),
   ],
   output: "server",
   adapter: cloudflare(),
@@ -63,6 +64,7 @@ const STATIC_CONFIG = (): AstroUserConfig => ({
         defaultLocale,
       },
     }),
+    robotsTxt(),
   ],
   output: "static",
   image: {

@@ -10,9 +10,12 @@ const { ariaControls } = Astro.props;
   id="search-control"
   class="SearchControl"
   role="search"
+  aria-label="Search contents on this page"
   aria-controls={ariaControls}
 >
-  SEARCH
+  <label for="search-input">Search</label>
+  <input type="search" id="search-input" name="search" spellcheck="false" />
+  <input value="Submit" type="submit" />
 </form>
 
 <slot />
@@ -20,6 +23,7 @@ const { ariaControls } = Astro.props;
 <style lang="scss">
   .SearchControl {
     display: flex;
+    gap: var(--page-padding);
     font-size: 0.875rem;
     padding: var(--page-padding);
     counter-reset: search;
@@ -27,5 +31,9 @@ const { ariaControls } = Astro.props;
     @media screen and (min-width: 768px) {
       padding: var(--page-padding) calc(2 * var(--page-padding));
     }
+  }
+
+  #search-input {
+    flex: 1;
   }
 </style>

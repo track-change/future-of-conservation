@@ -2,6 +2,7 @@ import type {
   SanityKeyedReference,
   SanityReference,
   InternalLink,
+  Tag,
 } from "@/sanity";
 
 export type ResolvedReference<T> =
@@ -33,8 +34,9 @@ export function resolveLinkURL(
     case "pageResources":
     case "page":
       return `/${link.slug?.current || ""}`;
+    case "resource":
     case "artist":
-      return `/artists/${link.slug?.current || ""}`;
+      return `/${link._type}s/${link.slug?.current || ""}`;
     case "article":
       const url = new URL(resolveReference(link.file.asset).url);
       return url.pathname;

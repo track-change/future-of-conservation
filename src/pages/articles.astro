@@ -14,7 +14,7 @@ const articles = await localizedQuery<ArticlesQueryType>(Astro)(articlesQuery);
 
 <RootLayout>
   <SearchGridControls ariaControls="articles">
-    <section class="Articles">
+    <section class="Articles" aria-label="Articles">
       <ul id="articles" class="grid">
         {
           articles.map((article) => (

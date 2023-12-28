@@ -10,13 +10,19 @@ import {
 list of schema types supporting preview
 */
 const previewSchemaTypes = [
-  "pageHome",
-  "pageArtists",
   "page",
   "artist",
+  "pageHome",
+  "pageArtists",
   "siteHeader",
   "siteFooter",
-];
+] as const;
+
+function isPreviewableDocument(doc: SanityDocument): doc is SanityDocument & {
+  _type: (typeof previewSchemaTypes)[number];
+} {
+  return previewSchemaTypes.includes(doc._type as any);
+}
 
 /*
 default document node:
@@ -26,7 +32,7 @@ export const defaultDocumentNode: DefaultDocumentNodeResolver = (
   S,
   { schemaType },
 ) => {
-  if (previewSchemaTypes.includes(schemaType)) {
+  if (previewSchemaTypes.includes(schemaType as any)) {
     return S.document().views([
       S.view.form(),
       S.view
@@ -92,12 +98,11 @@ export const resolveProductionUrl = async ({
   }
 
   const finalUrl = new URL(window.location.origin);
-  if (previewSchemaTypes.includes(doc._type)) {
+  if (isPreviewableDocument(doc)) {
     const client = getClient({ apiVersion: "2022-05-04" });
     const slug = await client.fetch(`*[_id == $id][0].slug.current`, {
       id: doc._id,
     });
-    console.log(doc, slug);
 
     // Switch for resolving doc type urls
     switch (doc._type) {
@@ -118,26 +123,5 @@ export const resolveProductionUrl = async ({
         break;
     }
   }
-
-  // // If preview mode, add in Sanity api token
-  // if (preview) {
-  //   try {
-  //     const token = localStorage.getItem(
-  //       `__studio_auth_token_${sanityClient.config().projectId}`,
-  //     );
-  //     if (token) {
-  //       const prevPath = finalUrl.pathname;
-  //       finalUrl.pathname = "/preview/enter";
-  //       const tokenParsed = JSON.parse(token)["token"];
-  //       finalUrl.searchParams.set("redirect", prevPath);
-  //       finalUrl.searchParams.set("token", tokenParsed);
-  //     }
-  //   } catch (e) {
-  //     console.error(e);
-  //   }
-  // }
-
-  // console.log(finalUrl.toString());
-
   return finalUrl.pathname;
 };

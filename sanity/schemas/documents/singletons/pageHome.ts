@@ -39,6 +39,7 @@ export default defineType({
     prepare() {
       return {
         title: "Page - Home",
+        subtitle: "/",
         media: BiHome,
       };
     },

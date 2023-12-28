@@ -28,7 +28,7 @@ interface ImportMeta {
 type PrimaryLocale = "en"
 type SecondaryLocale = "kr"
 type Locale = PrimaryLocale | SecondaryLocale
-type RouteParameters = {"/404":undefined;"/[...slug]":{"slug":unknown;};"/articles":undefined;"/":undefined;"/resources":undefined;"/artists":undefined;"/artists/[artistSlug]":{"artistSlug":unknown;};"/artists/[artistSlug]/interview":{"artistSlug":unknown;};}
+type RouteParameters = {"/404":undefined;"/[...slug]":{"slug":unknown;};"/articles":undefined;"/":undefined;"/artists":undefined;"/artists/[slug]":{"slug":unknown;};"/artists/[slug]/interview":{"slug":unknown;};"/resources/[slug]":{"slug":unknown;};"/resources":undefined;}
 type Route = keyof RouteParameters
 type TranslationVariables = object
 type Translation = keyof TranslationVariables
