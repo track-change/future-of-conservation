@@ -8,7 +8,7 @@ import {
   type ResourceQueryType,
 } from "@/queries/contentQueries";
 import { astroI18n, createGetStaticPaths } from "astro-i18n";
-import Text from "@/components/Text.astro";
+import Text from "@/components/OldText.astro";
 import ReadableLayout from "@/layouts/ReadableLayout.astro";
 
 export const getStaticPaths = createGetStaticPaths(slugsFor("resource"));

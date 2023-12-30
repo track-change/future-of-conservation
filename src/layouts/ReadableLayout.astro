@@ -1,24 +1,30 @@
-<article class="TextBody body-text">
+<article id="mainArticle" class="TextBody body-text">
   <slot />
 </article>
 
+<script>
+  import SideNotes from "@/scripts/SideNotes";
+  const article = document.querySelector<HTMLElement>("#mainArticle")!;
+  const notes = new SideNotes(article);
+  notes.begin();
+</script>
+
 <style is:global lang="scss">
   .TextBody {
+    position: relative;
     width: 100%;
     padding-bottom: 3rem;
-    counter-reset: footnotes;
+    counter-reset: footnotes 0 footnotesnum 0;
 
     & > *,
     & > *:where(.passthrough) > * {
       max-width: calc(var(--max-content-width) + 2 * var(--page-padding));
-      margin: var(--page-padding) auto;
+      margin: 1em auto;
       padding: 0 var(--page-padding);
     }
 
     & h1 {
       font-size: clamp(2rem, 8vw, 3.75rem);
-      margin-top: 1em;
-      margin-bottom: 1em;
       min-height: 3.66em;
       text-transform: uppercase;
     }
@@ -26,7 +32,6 @@
     & h2 {
       font-size: clamp(2rem, 8vw, 3.75rem);
       text-align: center;
-      margin-top: 1em;
       text-transform: uppercase;
     }
 
@@ -34,16 +39,100 @@
       text-align: center;
     }
 
+    & h2 + h3 {
+      margin-top: calc(-1 * clamp(2rem, 8vw, 3.75rem) + 0.5em);
+      margin-bottom: calc(clamp(2rem, 8vw, 3.75rem));
+    }
+
     & p {
       min-height: 1px;
+      position: relative;
 
-      @media screen and (min-width: 768px) {
+      &.speaker {
+        text-transform: uppercase;
+        margin-bottom: -1em;
+      }
+
+      @media screen and (min-width: 480px) {
         font-size: 1.25rem;
+      }
+    }
+
+    & sup {
+    }
+
+    & span[data-footnote-root] {
+      &::after {
+        content: counter(footnotesnum);
+        counter-increment: footnotesnum 1;
+        font-size: 0.75rem;
+        vertical-align: super;
+        margin-left: -0.4em;
+        font-weight: 700;
       }
     }
 
     & h2 + p {
       margin-top: 3rem;
+    }
+  }
+
+  .SideNotes {
+    position: fixed;
+    bottom: -1px;
+    background-color: var(--clr-bg);
+    border-top: 1px solid var(--clr-fg);
+    border-bottom: 1px solid var(--clr-fg);
+    z-index: 10;
+    width: 100%;
+    margin: 0;
+    max-width: unset;
+    padding: 0.5rem 0;
+    pointer-events: none;
+
+    @media screen and (max-width: 1199px) {
+      &:not(:has(.present)) {
+        display: none;
+      }
+    }
+
+    @media screen and (min-width: 1200px) {
+      position: absolute;
+      background-color: unset;
+      left: calc(50% + 0.5 * var(--max-content-width));
+      border: unset;
+      top: 0;
+      bottom: 0;
+      width: 200px;
+    }
+
+    & > sup {
+      display: flex;
+      max-width: calc(var(--max-content-width) + 2 * var(--page-padding));
+      margin: 0 auto;
+      padding: 0 var(--page-padding);
+      font-size: 0.75rem;
+      font-weight: 700;
+      pointer-events: all;
+
+      &::before {
+        content: counter(footnotes) ".";
+        counter-increment: footnotes 1;
+        display: block;
+        margin-right: 0.5ch;
+      }
+
+      &:not(.present) {
+        @media screen and (max-width: 1199px) {
+          position: absolute;
+          left: -9999px;
+        }
+      }
+
+      @media screen and (min-width: 1200px) {
+        position: absolute;
+        width: 280px;
+      }
     }
   }
 </style>

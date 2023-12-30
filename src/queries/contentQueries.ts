@@ -116,7 +116,7 @@ export const artistIntroQuery = groq`
     ${linkQuery}
   },
   introductionImages[] {
-    ...,
+    ${localizedFieldWithLang("caption")},
     asset -> {
       ...
     }
@@ -126,11 +126,13 @@ export const artistIntroQuery = groq`
 
 export type ArtistInterQueryType = Artist & {
   titleLang?: string;
+  interviewTitleLang?: string;
   interviewContentLang?: string;
 };
 export const artistInterviewQuery = groq`
 *[_type == "artist" && slug.current == $slug][0] {
   ${localizedFieldWithLang("title")},
+  ${localizedFieldWithLang("interviewTitle")},
   ${localizedFieldWithLang("interviewContent")},
   interviewRecirc[] {
     ${linkQuery}

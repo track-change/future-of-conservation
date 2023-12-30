@@ -1,4 +1,9 @@
-import { TextLg, TextBold, TextSm } from "../../../components/TextPreviews";
+import {
+  TextLg,
+  TextBold,
+  TextSm,
+  TextSpeaker,
+} from "../../../components/TextPreviews";
 
 // Define Hierarchie of text
 export const styles = [
@@ -22,5 +27,10 @@ export const styles = [
     title: "Small",
     value: "small",
     component: TextSm,
+  },
+  {
+    title: "Speaker",
+    value: "speaker",
+    component: TextSpeaker,
   },
 ];

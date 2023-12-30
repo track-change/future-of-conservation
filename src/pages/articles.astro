@@ -25,10 +25,10 @@ const articles = await localizedQuery<ArticlesQueryType>(Astro)(articlesQuery);
     <section class="Articles" aria-label="Articles">
       <ul id="articles" class="grid">
         {
-          articles.map((article) => (
+          articles.map((article, i) => (
             <li class="filter-target">
               <article class="Article central-column">
-                <div>01</div>
+                <div>{(i + 1).toString().padStart(2, "0")}</div>
                 <h1 class="legible" lang={article.titleLang}>
                   <Link
                     link={article}

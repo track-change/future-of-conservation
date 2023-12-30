@@ -1,0 +1,21 @@
+---
+import type { Mark, Props as $ } from "astro-portabletext/types";
+type MarginNote = Mark<{ marginContent: string; slug: { current: string } }>;
+
+export type Props = $<MarginNote>;
+
+const {
+  props: {
+    node: {
+      markDef: { marginContent, slug },
+    },
+  },
+} = Astro;
+---
+
+<span data-footnote-root id={slug.current}>
+  <slot />
+  <sup data-footnote>
+    {marginContent}
+  </sup>
+</span>

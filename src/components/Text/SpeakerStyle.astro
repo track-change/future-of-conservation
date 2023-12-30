@@ -1,0 +1,10 @@
+---
+import type { Block, Props as $ } from "astro-portabletext/types";
+type Speaker = Block<{ msg: string }>;
+
+export type Props = $<Block>;
+
+const { props } = Astro;
+---
+
+<p class="speaker"><b><slot /></b></p>

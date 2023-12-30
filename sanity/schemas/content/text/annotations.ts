@@ -57,7 +57,7 @@ export const annotations = [
 export const annotationsWithFootnotes = [
   ...annotations,
   defineArrayMember({
-    title: "Footnote",
+    title: "Margin Note",
     name: "footnote",
     type: "object",
     icon: BsSuperscript,
@@ -75,16 +75,13 @@ export const annotationsWithFootnotes = [
         initialValue: () => ({ current: `fn-${uuid().slice(0, 8)}` }),
       },
       {
-        title: "Margin Content",
-        description: "Footnote content to show in the margins",
+        title: "Content",
+        description: "Text content to show in the margins",
         name: "marginContent",
-        type: "editorText",
-      },
-      {
-        title: "Endnotes Content",
-        description: "Footnote content to show at the end of the body text.",
-        name: "postContent",
-        type: "editorText",
+        type: "text" as const,
+        options: {
+          rows: 3,
+        },
       },
     ],
     preview: {

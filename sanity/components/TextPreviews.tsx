@@ -34,3 +34,13 @@ export const TextSm = ({ children }: PropsWithChildren) => (
     {children}
   </span>
 );
+
+export const TextSpeaker = ({ children }: PropsWithChildren) => (
+  <span
+    style={{
+      textTransform: "uppercase",
+    }}
+  >
+    {children}
+  </span>
+);
