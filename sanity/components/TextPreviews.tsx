@@ -44,3 +44,11 @@ export const TextSpeaker = ({ children }: PropsWithChildren) => (
     {children}
   </span>
 );
+
+export const TextPullQuote = ({ children }: PropsWithChildren) => (
+  <blockquote
+    style={{ paddingLeft: "1em", borderLeft: "3px solid currentColor" }}
+  >
+    {children}
+  </blockquote>
+);

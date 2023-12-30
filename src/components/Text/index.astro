@@ -3,6 +3,9 @@ import { PortableText } from "astro-portabletext";
 import { mergeComponents } from "astro-portabletext/utils";
 import SpeakerStyle from "./SpeakerStyle.astro";
 import MarginNote from "./MarginNote.astro";
+import Small from "@/components/Text/Small.astro";
+import PictureTitled from "@/components/Text/PictureTitled.astro";
+import PullQuote from "@/components/Text/PullQuote.astro";
 
 type PortableTextProps = Parameters<typeof PortableText>[0];
 export type Props = Pick<PortableTextProps, "value" | "components">;
@@ -11,10 +14,15 @@ const { value, components: overrideComponents = {} } = Astro.props;
 const components = mergeComponents(
   {
     block: {
+      small: Small,
       speaker: SpeakerStyle,
+      pullquote: PullQuote,
     },
     mark: {
       footnote: MarginNote,
+    },
+    type: {
+      pictureTitled: PictureTitled,
     },
   },
   overrideComponents,

@@ -73,9 +73,14 @@ export default defineType({
       type: "array" as const,
       of: [{ type: "pictureTitled" }],
       group: "introduction",
-      // options: {
-      //   layout: "grid",
-      // },
+    }),
+    defineField({
+      title: "Introduction Footnotes",
+      name: "introductionFootnotes",
+      description: "Footnotes for the end of the introduction.",
+      type: "array" as const,
+      of: [{ type: "footnote" }],
+      group: "introduction",
     }),
     defineField({
       title: "Introduction Recirculation",
@@ -97,6 +102,14 @@ export default defineType({
       name: "interviewContent",
       description: "The text / media content of the interview, with footnotes.",
       type: "internationalizedArrayEditorTextMedia",
+      group: "interview",
+    }),
+    defineField({
+      title: "Interview Footnotes",
+      name: "interviewFootnotes",
+      description: "Footnotes for the end of the interview.",
+      type: "array" as const,
+      of: [{ type: "footnote" }],
       group: "interview",
     }),
     defineField({

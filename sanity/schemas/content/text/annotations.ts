@@ -55,7 +55,6 @@ export const annotations = [
 ];
 
 export const annotationsWithFootnotes = [
-  ...annotations,
   defineArrayMember({
     title: "Margin Note",
     name: "footnote",
@@ -87,10 +86,11 @@ export const annotationsWithFootnotes = [
     preview: {
       prepare() {
         return {
-          title: "Footnote",
+          title: "Sidenote",
           media: BsSuperscript,
         };
       },
     },
   }),
+  ...annotations,
 ];

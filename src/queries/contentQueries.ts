@@ -120,6 +120,9 @@ export const artistIntroQuery = groq`
     asset -> {
       ...
     }
+  },
+  introductionFootnotes[] {
+    ${localizedField("content")}
   }
 }
 `;
@@ -133,9 +136,18 @@ export const artistInterviewQuery = groq`
 *[_type == "artist" && slug.current == $slug][0] {
   ${localizedFieldWithLang("title")},
   ${localizedFieldWithLang("interviewTitle")},
-  ${localizedFieldWithLang("interviewContent")},
+  ${localizedFieldWithLang("interviewContent")}[] {
+    ...,
+    _type == "pictureTitled" => {
+      ${localizedFieldWithLang("caption")},
+      asset ->
+    }
+  },
   interviewRecirc[] {
     ${linkQuery}
+  },
+  interviewFootnotes[] {
+    ${localizedField("content")}
   }
 }
 `;
@@ -150,6 +162,7 @@ export type ArticlesQueryType = (Article & {
 export const articlesQuery = groq`
 *[_type == "article"] {
   _type,
+  _id,
   articleTags,
   ${localizedFieldWithLang("title")},
   file {

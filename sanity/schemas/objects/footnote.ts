@@ -1,6 +1,7 @@
 import { BsSuperscript } from "react-icons/bs/";
-import { linkTargets } from "../../utils/internalLinkTargets";
 import { defineType } from "sanity";
+import { validateSlug } from "../../utils/helperFunctions";
+import { uuid } from "@sanity/uuid";
 
 export default defineType({
   title: "Footnote",
@@ -14,34 +15,28 @@ export default defineType({
         "A unique slug for the footnote to allow jumping to/from it.",
       name: "slug",
       type: "slug",
-      validation: (Rule) => Rule.required(),
+      validation: (Rule) => validateSlug(Rule.required()),
       codegen: { required: true },
-      initialValue: () => ({
-        current: "aaa",
-      }),
+      readOnly: true,
+      hidden: true,
+      initialValue: () => ({ current: `fn-${uuid().slice(0, 8)}` }),
     },
     {
-      title: "Internal Link",
-      name: "linkTarget",
-      type: "reference",
-      to: linkTargets,
-      options: {
-        disableNew: true,
-      },
-      validation: (Rule) => Rule.required(),
-      codegen: { required: true },
-    },
-    {
-      title: "Margin Content",
-      description: "Footnote content to show in the margins",
-      name: "marginContent",
-      type: "text",
-    },
-    {
-      title: "Post Content",
-      description: "Footnote content to show at the end of the body text.",
-      name: "marginContent",
-      type: "text",
+      title: "Content",
+      description: "Text content to show in the footnote.",
+      name: "content",
+      type: "internationalizedArrayText" as const,
     },
   ],
+  preview: {
+    select: {
+      title: "content",
+    },
+    prepare({ title }) {
+      return {
+        title: title?.find(({ _key }: any) => _key == "en").value || "Footnote",
+        media: BsSuperscript,
+      };
+    },
+  },
 });

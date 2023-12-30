@@ -8,7 +8,7 @@ const { locale, route } = astroI18n;
 const header = await localizedQuery<SiteHeader>(Astro)(siteHeaderQuery);
 ---
 
-<header>
+<header id="header">
   <h1>
     <a href={l("/")}>
       Future of <br />Conservation
@@ -49,17 +49,15 @@ const header = await localizedQuery<SiteHeader>(Astro)(siteHeaderQuery);
 
 <script>
   const navBar = document.querySelector<HTMLDivElement>("#navbar")!;
-  const observer = new IntersectionObserver(
-    ([{ isIntersecting }]) => {
-      if (isIntersecting) {
-        navBar.classList.add("scrolled");
-      } else {
-        navBar.classList.remove("scrolled");
-      }
-    },
-    { rootMargin: "0% 0% -95% 0%" },
-  );
-  observer.observe(navBar);
+  const header = document.querySelector<HTMLDivElement>("#header")!;
+  const threshold = header.getBoundingClientRect().bottom;
+  window.addEventListener("scroll", () => {
+    if (window.scrollY > threshold) {
+      navBar.classList.add("scrolled");
+    } else {
+      navBar.classList.remove("scrolled");
+    }
+  });
 </script>
 
 <style lang="scss">

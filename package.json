@@ -41,6 +41,7 @@
     "astro-sanity-picture": "^0.2.0",
     "astro-seo": "^0.8.0",
     "eslint": "^8.56.0",
+    "fuse.js": "^7.0.0",
     "groq": "^3.21.3",
     "prettier": "^3.1.1",
     "react": "^18.2.0",

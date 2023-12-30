@@ -3,6 +3,7 @@ import {
   TextBold,
   TextSm,
   TextSpeaker,
+  TextPullQuote,
 } from "../../../components/TextPreviews";
 
 // Define Hierarchie of text
@@ -32,5 +33,10 @@ export const styles = [
     title: "Speaker",
     value: "speaker",
     component: TextSpeaker,
+  },
+  {
+    title: "Pull Quote",
+    value: "pullquote",
+    component: TextPullQuote,
   },
 ];

@@ -21,6 +21,7 @@ import pageResources from "./documents/singletons/pageResources";
 import pageArticles from "./documents/singletons/pageArticles";
 import tag from "./documents/collections/tag";
 import resource from "./documents/collections/resource";
+import footnote from "./objects/footnote";
 
 const schemaTypes = [
   page,
@@ -38,6 +39,7 @@ const schemaTypes = [
   editorTextMedia,
   link,
   internalLink,
+  footnote,
   picture,
   pictureTitled,
   seo,

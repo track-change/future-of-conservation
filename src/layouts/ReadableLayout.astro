@@ -58,7 +58,22 @@
       }
     }
 
+    & figcaption,
     & sup {
+      font-size: 0.75rem;
+      font-weight: 700;
+    }
+
+    & blockquote {
+      font-size: 1.25rem;
+      line-height: 1.25;
+      margin-top: 2em;
+      margin-bottom: 2em;
+      text-transform: unset;
+
+      @media screen and (min-width: 480px) {
+        font-size: 1.625rem;
+      }
     }
 
     & span[data-footnote-root] {
@@ -77,6 +92,17 @@
     }
   }
 
+  @keyframes fade-up {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(00px);
+    }
+  }
+
   .SideNotes {
     position: fixed;
     bottom: -1px;
@@ -89,10 +115,15 @@
     max-width: unset;
     padding: 0.5rem 0;
     pointer-events: none;
+    transition:
+      opacity 0.3s ease-in-out,
+      transform 0.3s ease-in-out;
+    animation: fade-up 0.3s ease-in-out;
 
     @media screen and (max-width: 1199px) {
       &:not(:has(.present)) {
-        display: none;
+        opacity: 0;
+        transform: translateY(10px);
       }
     }
 
@@ -111,8 +142,6 @@
       max-width: calc(var(--max-content-width) + 2 * var(--page-padding));
       margin: 0 auto;
       padding: 0 var(--page-padding);
-      font-size: 0.75rem;
-      font-weight: 700;
       pointer-events: all;
 
       &::before {

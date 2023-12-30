@@ -1,0 +1,15 @@
+---
+import Carousel from "@/components/Carousel.astro";
+import type { PictureTitled } from "@/sanity";
+import type { Block, Props as $ } from "astro-portabletext/types";
+
+export type Props = $<PictureTitled>;
+
+const {
+  props: { node },
+} = Astro;
+---
+
+<div>
+  <Carousel carousel={[node]} id={(node as any)._id} />
+</div>

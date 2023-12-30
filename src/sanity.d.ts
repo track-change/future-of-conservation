@@ -124,6 +124,13 @@ export interface Artist extends SanityDocument {
   introductionImages?: Array<SanityKeyed<PictureTitled>>;
 
   /**
+   * Introduction Footnotes — `array`
+   *
+   * Footnotes for the end of the introduction.
+   */
+  introductionFootnotes?: Array<SanityKeyed<Footnote>>;
+
+  /**
    * Introduction Recirculation — `array`
    *
    * Outgoing links at the end of the introduction page.
@@ -143,6 +150,13 @@ export interface Artist extends SanityDocument {
    * The text / media content of the interview, with footnotes.
    */
   interviewContent?: InternationalizedArrayEditorTextMedia;
+
+  /**
+   * Interview Footnotes — `array`
+   *
+   * Footnotes for the end of the interview.
+   */
+  interviewFootnotes?: Array<SanityKeyed<Footnote>>;
 
   /**
    * Interview Recirculation — `array`
@@ -518,6 +532,23 @@ export type InternalLink = {
    * A subpath under the referenced document to link to. For example, if your link target is an Artist, you can optionally link to the Artists' intervew with subpath `/interview`. In this special case, the link's default title will be the interview title.
    */
   subpath?: string;
+};
+
+export type Footnote = {
+  _type: "footnote";
+  /**
+   * Footnote ID — `slug`
+   *
+   * A unique slug for the footnote to allow jumping to/from it.
+   */
+  slug: { _type: "slug"; current: string };
+
+  /**
+   * Content — `internationalizedArrayText`
+   *
+   * Text content to show in the footnote.
+   */
+  content?: InternationalizedArrayText;
 };
 
 export type Picture = {

@@ -1,0 +1,57 @@
+---
+import type { Footnote } from "@/sanity";
+interface Props {
+  value: Footnote[];
+}
+
+const {
+  props: { value },
+} = Astro;
+---
+
+<div class="Footnotes" aria-label="Footnotes">
+  <hr />
+  {
+    value.map((fn, i) => (
+      <p>
+        <sup>
+          <span>{i + 1}.</span>
+          {fn.content}
+        </sup>
+      </p>
+    ))
+  }
+</div>
+
+<style>
+  .Footnotes {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    column-gap: 3rem;
+    row-gap: 1.5rem;
+    padding-top: 1.5rem;
+  }
+
+  hr {
+    position: absolute;
+    left: -9999px;
+    /* grid-column-start: 1;
+    grid-column-end: -1;
+    max-width: 100%;
+    height: 1px;
+    border: 0;
+    border-top: 1px solid var(--clr-fg2);
+    margin: 1em 0;
+    padding: 0; */
+  }
+
+  sup {
+    display: inline-flex;
+  }
+
+  span {
+    display: block;
+    margin-right: 0.5ch;
+  }
+</style>

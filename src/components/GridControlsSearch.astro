@@ -15,10 +15,44 @@ const { ariaControls } = Astro.props;
 >
   <label for="search-input">Search</label>
   <input type="search" id="search-input" name="search" spellcheck="false" />
-  <input value="Submit" type="submit" />
+  <!-- <input value="Submit" type="submit" /> -->
 </form>
 
 <slot />
+
+<script>
+  import Fuse from "fuse.js";
+
+  const search = document.querySelector<HTMLInputElement>("#search-input")!;
+  const targets = document.querySelectorAll<HTMLLIElement>(".search-target");
+  const searchMap = [];
+  for (const target of targets) {
+    searchMap.push({
+      title: target.querySelector<HTMLHeadingElement>("h1")?.innerText || "",
+      byline: target.querySelector<HTMLHeadingElement>("h2")?.innerText || "",
+      id: target.id,
+    });
+  }
+
+  const fuse = new Fuse(searchMap, { keys: ["title", "byline"] });
+  function updateSearch() {
+    if (!search.value.length) {
+      targets.forEach((t) => {
+        t.style.display = "";
+      });
+      return;
+    }
+    targets.forEach((t) => {
+      t.style.display = "none";
+    });
+    const results = fuse.search(search.value);
+    results.forEach((t) => {
+      const el = document.getElementById(t.item.id);
+      if (el) el.style.display = "";
+    });
+  }
+  search.addEventListener("input", updateSearch);
+</script>
 
 <style lang="scss">
   .SearchControl {

@@ -32,7 +32,95 @@ export const defaultDocumentNode: DefaultDocumentNodeResolver = (
   S,
   { schemaType },
 ) => {
-  if (previewSchemaTypes.includes(schemaType as any)) {
+  if (schemaType === "artist") {
+    return S.document().views([
+      S.view.form(),
+      S.view
+        .component(Iframe)
+        .title("Intro: EN")
+        .options({
+          key: "en",
+          url: {
+            origin: "same-origin",
+            preview: (doc: SanityDocument) =>
+              resolveProductionUrl({ doc, context: S.context }),
+            draftMode: "/draftMode/enable",
+          },
+          defaultSize: "desktop",
+          reload: {
+            button: true,
+          },
+          attributes: {
+            allow: "fullscreen",
+          },
+        }),
+      S.view
+        .component(Iframe)
+        .title("Intro: KR")
+        .options({
+          key: "kr",
+          url: {
+            origin: "same-origin",
+            preview: (doc: SanityDocument) =>
+              resolveProductionUrl({ doc, context: S.context }),
+            draftMode: "/draftMode/enable",
+          },
+          defaultSize: "desktop",
+          reload: {
+            button: true,
+          },
+          attributes: {
+            allow: "fullscreen",
+          },
+        }),
+      S.view
+        .component(Iframe)
+        .title("Interview: EN")
+        .options({
+          key: "en",
+          url: {
+            origin: "same-origin",
+            preview: (doc: SanityDocument) =>
+              resolveProductionUrl({
+                doc,
+                context: S.context,
+                suffix: "interview",
+              }),
+            draftMode: "/draftMode/enable",
+          },
+          defaultSize: "desktop",
+          reload: {
+            button: true,
+          },
+          attributes: {
+            allow: "fullscreen",
+          },
+        }),
+      S.view
+        .component(Iframe)
+        .title("Interview: KR")
+        .options({
+          key: "en",
+          url: {
+            origin: "same-origin",
+            preview: (doc: SanityDocument) =>
+              resolveProductionUrl({
+                doc,
+                context: S.context,
+                suffix: "interview",
+              }),
+            draftMode: "/draftMode/enable",
+          },
+          defaultSize: "desktop",
+          reload: {
+            button: true,
+          },
+          attributes: {
+            allow: "fullscreen",
+          },
+        }),
+    ]);
+  } else if (previewSchemaTypes.includes(schemaType as any)) {
     return S.document().views([
       S.view.form(),
       S.view
@@ -84,11 +172,13 @@ export const resolveProductionUrl = async ({
   doc,
   context,
   prefix = "",
+  suffix = "",
   // preview = false,
 }: {
   doc?: SanityDocument;
   context: ResolveProductionUrlContext | StructureContext;
   prefix?: string;
+  suffix?: string;
   // preview?: boolean;
 }) => {
   const { getClient } = context;
@@ -110,10 +200,10 @@ export const resolveProductionUrl = async ({
         finalUrl.pathname = `${prefix}/${slug}/`;
         break;
       case "artist":
-        finalUrl.pathname = `${prefix}/artists/${slug}`;
+        finalUrl.pathname = `${prefix}/artists/${slug}/`;
         break;
       case "pageArtists":
-        finalUrl.pathname = `${prefix}/artists`;
+        finalUrl.pathname = `${prefix}/artists/`;
         break;
       case "pageHome":
       case "siteHeader":
@@ -123,5 +213,5 @@ export const resolveProductionUrl = async ({
         break;
     }
   }
-  return finalUrl.pathname;
+  return finalUrl.pathname + suffix;
 };

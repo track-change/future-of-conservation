@@ -12,6 +12,7 @@ import { astroI18n, createGetStaticPaths } from "astro-i18n";
 import Text from "@/components/Text/index.astro";
 import ReadableLayout from "@/layouts/ReadableLayout.astro";
 import Carousel from "@/components/Carousel.astro";
+import EndNotes from "@/components/EndNotes.astro";
 
 export const getStaticPaths = createGetStaticPaths(slugsFor("artist"));
 
@@ -48,6 +49,11 @@ if (!artist) {
             />
           )}
         </div>
+        {artist.introductionFootnotes && (
+          <div>
+            <EndNotes value={artist.introductionFootnotes} />
+          </div>
+        )}
       </ReadableLayout>
       {artist.introductionRecirc && (
         <Recirculation recirc={artist?.introductionRecirc} />
