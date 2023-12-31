@@ -14,6 +14,11 @@
     position: relative;
     width: 100%;
     counter-reset: footnotes 0 footnotesnum 0;
+    padding-bottom: 3rem;
+
+    & > .Recirculation {
+      margin-bottom: -3rem;
+    }
 
     & > *:where(:not(.Recirculation)),
     & > *:where(.passthrough) > * {

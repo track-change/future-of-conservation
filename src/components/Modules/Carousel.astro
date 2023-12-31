@@ -16,7 +16,7 @@ const id = `c${propsId}`;
 ---
 
 <section id={id} class="Carousel" aria-label="Carousel">
-  <section role="region" class="Images" aria-live="polite">
+  <section class="Images" aria-live="polite">
     {
       value.map((picture, i) => {
         const img = resolveReference(picture.asset);

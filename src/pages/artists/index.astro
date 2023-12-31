@@ -27,12 +27,7 @@ const possibleTags = artists
     description=""
   />
   <FilterGridControls tags={possibleTags} ariaControls="artists">
-    <section
-      class="Artists"
-      aria-label="Artists"
-      role="region"
-      aria-live="polite"
-    >
+    <section class="Artists" aria-label="Artists" aria-live="polite">
       <ul id="artists" class="Artists_list grid">
         {
           artists.map((artist) => (
