@@ -7,17 +7,6 @@ export default defineType({
   name: "resource",
   type: "document",
   icon: FiArchive,
-  groups: [
-    {
-      title: "Resource",
-      name: "content",
-      default: true,
-    },
-    {
-      title: "SEO",
-      name: "seo",
-    },
-  ],
   fields: [
     defineField({
       title: "Title",
@@ -26,7 +15,6 @@ export default defineType({
       type: "internationalizedArrayString",
       validation: (Rule) => Rule.required().min(1),
       codegen: { required: true },
-      group: "content",
     }),
     {
       title: "Slug",
@@ -40,29 +28,14 @@ export default defineType({
       },
       validation: validateSlug,
       codegen: { required: true },
-      group: "content",
     },
-    defineField({
+    {
       title: "Content",
       name: "content",
-      description: "The text / media content of the resource, with footnotes.",
-      type: "internationalizedArrayEditorTextMedia",
-      group: "content",
-    }),
-    defineField({
-      title: "Recirculation",
-      description: "Outgoing links at the end of the resource page.",
-      name: "recirc",
-      type: "array",
-      group: "content",
-      of: [{ type: "internalLink" }, { type: "link" }],
-    }),
-    defineField({
-      title: "SEO",
-      name: "seo",
-      type: "seo",
-      group: "seo",
-    }),
+      type: "pageContents",
+      validation: (Rule) => Rule.required(),
+      codegen: { required: true },
+    },
   ],
   preview: {
     select: {

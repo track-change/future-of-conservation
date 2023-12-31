@@ -16,9 +16,10 @@ ${localizedField(field)}
 
 export const linkQuery = groq`
 _type,
-subpath,
+blank,
 ${localizedFieldWithLang("title")},
 _type == "internalLink" => {
+  subpath,
   linkTarget -> {
     _type,
     slug,
@@ -37,10 +38,60 @@ _type == "internalLink" => {
 }
 `;
 
-export const recircPanelQuery = groq`
-${localizedField("undertext")},
-${localizedField("overtext")},
-targetInternal {
+/* --------------------------------- Modules -------------------------------- */
+
+export const ifModuleIsBlockQuery = groq`
+_type == "module_block" => {
+  ${localizedFieldWithLang("content")}[] {
+    _type == "pictureTitled" => {
+      ${localizedFieldWithLang("caption")},
+      asset ->
+    }
+  }
+}
+`;
+
+export const ifModuleIsCarouselQuery = groq`
+_type == "module_carousel" => {
+  images[] {
+    ${localizedFieldWithLang("caption")},
+    asset ->
+  }
+}
+`;
+
+export const ifModuleIsFootnoteQuery = groq`
+_type == "module_footnote" => {
+  content[] {
+    slug,
+    ${localizedField("content")}
+  }
+}
+`;
+
+export const ifModuleIsGoogleSheetQuery = groq`
+_type == "module_googlesheet" => {
+  ${localizedField("title")}
+}
+`;
+
+export const pageContentsQuery = groq`
+_type,
+${localizedFieldWithLang("content")}[] {
+  ...,
+  _type == "pictureTitled" => {
+    ${localizedFieldWithLang("caption")},
+    asset ->
+  }
+},
+modules[] {
+  ...,
+  ${ifModuleIsBlockQuery},
+  ${ifModuleIsCarouselQuery},
+  ${ifModuleIsFootnoteQuery},
+  ${ifModuleIsGoogleSheetQuery}
+},
+recirc[] {
   ${linkQuery}
 }
 `;

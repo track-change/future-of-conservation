@@ -3,21 +3,15 @@ import { defineField, defineType } from "sanity";
 
 export default defineType({
   title: "Text Block",
-  name: "page_block",
+  name: "module_block",
   type: "object",
   icon: BiAlignLeft,
   fields: [
     defineField({
-      title: "Internal Title",
-      description: "An internal title for the text block.",
-      name: "title",
-      type: "string",
-    }),
-    defineField({
       title: "Content",
       description: "Translatable text content.",
       name: "content",
-      type: "internationalizedArrayEditorText",
+      type: "internationalizedArrayEditorTextMedia",
     }),
   ],
   preview: {

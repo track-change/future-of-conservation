@@ -6,4 +6,8 @@ export type Props = $<Block>;
 const { props } = Astro;
 ---
 
-<blockquote class="display-type legible"><slot /></blockquote>
+<blockquote class="display-type legible" role="presentation" aria-hidden="true"
+  ><p>
+    <slot />
+  </p>
+</blockquote>

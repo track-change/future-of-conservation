@@ -7,17 +7,6 @@ export default defineType({
   name: "page",
   type: "document",
   icon: BiFile,
-  groups: [
-    {
-      title: "Content",
-      name: "content",
-      default: true,
-    },
-    {
-      title: "SEO",
-      name: "seo",
-    },
-  ],
   fields: [
     defineField({
       title: "Title",
@@ -26,7 +15,6 @@ export default defineType({
       type: "internationalizedArrayString",
       validation: (Rule) => Rule.required(),
       codegen: { required: true },
-      group: "content",
     }),
     {
       title: "Slug",
@@ -40,28 +28,13 @@ export default defineType({
       },
       validation: validateSlug,
       codegen: { required: true },
-      group: "content",
     },
     {
       title: "Content",
       name: "content",
-      type: "array",
-      group: "content",
-      of: [{ type: "page_block" }],
-    },
-    {
-      title: "Recirculation",
-      description: "Outgoing links at the end of the page.",
-      name: "recirculation",
-      type: "array",
-      of: [{ type: "internalLink" }, { type: "link" }],
-      group: "content",
-    },
-    {
-      title: "SEO",
-      name: "seo",
-      type: "seo",
-      group: "seo",
+      type: "pageContents",
+      validation: (Rule) => Rule.required(),
+      codegen: { required: true },
     },
   ],
   preview: {

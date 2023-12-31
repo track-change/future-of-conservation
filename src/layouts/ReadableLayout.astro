@@ -16,79 +16,83 @@
     padding-bottom: 3rem;
     counter-reset: footnotes 0 footnotesnum 0;
 
-    & > *,
+    & > *:not(.Recirculation),
     & > *:where(.passthrough) > * {
       max-width: calc(var(--max-content-width) + 2 * var(--page-padding));
       margin: 1em auto;
       padding: 0 var(--page-padding);
-    }
 
-    & h1 {
-      font-size: clamp(2rem, 8vw, 3.75rem);
-      min-height: 3.66em;
-      text-transform: uppercase;
-    }
+      & h1 {
+        font-size: clamp(2rem, 8vw, 3.75rem);
+        min-height: 3.66em;
+        text-transform: uppercase;
+      }
 
-    & h2 {
-      font-size: clamp(2rem, 8vw, 3.75rem);
-      text-align: center;
-      text-transform: uppercase;
-    }
+      & h2 {
+        font-size: clamp(2rem, 8vw, 3.75rem);
+        text-align: center;
+        text-transform: uppercase;
+      }
 
-    & h3 {
-      text-align: center;
-    }
+      & > h3 {
+        text-align: center;
+      }
 
-    & h2 + h3 {
-      margin-top: calc(-1 * clamp(2rem, 8vw, 3.75rem) + 0.5em);
-      margin-bottom: calc(clamp(2rem, 8vw, 3.75rem));
-    }
+      & h2 + h3 {
+        margin-top: calc(-1 * clamp(2rem, 8vw, 3.75rem) + 0.5em);
+        margin-bottom: calc(clamp(2rem, 8vw, 3.75rem));
+      }
 
-    & p {
-      min-height: 1px;
-      position: relative;
-
-      &.speaker {
+      & h4 {
         text-transform: uppercase;
         margin-bottom: -1em;
       }
 
-      @media screen and (min-width: 480px) {
-        font-size: 1.25rem;
+      & p,
+      & h4 {
+        min-height: 1px;
+        position: relative;
+
+        @media screen and (min-width: 480px) {
+          font-size: 1.25rem;
+        }
       }
-    }
 
-    & figcaption,
-    & sup {
-      font-size: 0.75rem;
-      font-weight: 700;
-    }
-
-    & blockquote {
-      font-size: 1.25rem;
-      line-height: 1.25;
-      margin-top: 2em;
-      margin-bottom: 2em;
-      text-transform: unset;
-
-      @media screen and (min-width: 480px) {
-        font-size: 1.625rem;
-      }
-    }
-
-    & span[data-footnote-root] {
-      &::after {
-        content: counter(footnotesnum);
-        counter-increment: footnotesnum 1;
+      & figcaption,
+      & sup {
         font-size: 0.75rem;
-        vertical-align: super;
-        margin-left: -0.4em;
         font-weight: 700;
       }
-    }
 
-    & h2 + p {
-      margin-top: 3rem;
+      & blockquote {
+        text-transform: unset;
+
+        & > p {
+          font-size: 1.25rem;
+          line-height: 1.25;
+          margin-top: 2em;
+          margin-bottom: 2em;
+
+          @media screen and (min-width: 480px) {
+            font-size: 1.625rem;
+          }
+        }
+      }
+
+      & span[data-footnote-root] {
+        &::after {
+          content: counter(footnotesnum);
+          counter-increment: footnotesnum 1;
+          font-size: 0.75rem;
+          vertical-align: super;
+          margin-left: -0.4em;
+          font-weight: 700;
+        }
+      }
+
+      & h2 + p {
+        margin-top: 3rem;
+      }
     }
   }
 

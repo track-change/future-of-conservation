@@ -1,5 +1,5 @@
 ---
-import Recirculation from "@/components/Recirculation.astro";
+import { SEO } from "astro-seo";
 import RootLayout from "@/layouts/RootLayout.astro";
 import {
   localizedQuery,
@@ -8,8 +8,7 @@ import {
   type ResourceQueryType,
 } from "@/queries/contentQueries";
 import { astroI18n, createGetStaticPaths } from "astro-i18n";
-import Text from "@/components/OldText.astro";
-import ReadableLayout from "@/layouts/ReadableLayout.astro";
+import PageContents from "@/components/PageContents.astro";
 
 export const getStaticPaths = createGetStaticPaths(slugsFor("resource"));
 
@@ -25,13 +24,18 @@ if (!resource) {
 {
   resource && (
     <RootLayout>
-      <ReadableLayout>
-        <h1 lang={resource.titleLang}>{resource.title}</h1>
-        <div class="passthrough" lang={resource.contentLang}>
-          <Text content={resource.content} />
-        </div>
-      </ReadableLayout>
-      {resource.recirc && <Recirculation recirc={resource.recirc} />}
+      <SEO
+        slot="head"
+        title={resource.title}
+        titleTemplate="%s | Future Of Conservation"
+        charset="UTF-8"
+        description=""
+      />
+      <PageContents value={resource.content}>
+        <hgroup class="passthrough" slot="hgroup">
+          <h1 lang={resource.titleLang}>{resource.title}</h1>
+        </hgroup>
+      </PageContents>
     </RootLayout>
   )
 }

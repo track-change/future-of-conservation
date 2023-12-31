@@ -1,16 +1,16 @@
 ---
 import Link from "@/components/Link.astro";
-import type { Page } from "@/sanity";
+import type { PageContents } from "@/sanity";
 import { resolveReference } from "@/utils/resolveLinks";
-import { t } from "astro-i18n";
+
 interface Props {
-  recirc: NonNullable<Page["recirculation"]>;
+  recirc: NonNullable<PageContents["recirc"]>;
 }
 
 const { recirc } = Astro.props;
 ---
 
-<aside aria-labelledby="recirc-header">
+<aside class="Recirculation" aria-labelledby="recirc-header">
   <h1 id="recirc-header" class="header-reset">See Also</h1>
   <ul class="grid">
     {

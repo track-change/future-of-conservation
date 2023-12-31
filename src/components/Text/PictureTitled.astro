@@ -1,5 +1,5 @@
 ---
-import Carousel from "@/components/Carousel.astro";
+import Carousel from "@/components/Modules/Carousel.astro";
 import type { PictureTitled } from "@/sanity";
 import type { Block, Props as $ } from "astro-portabletext/types";
 
@@ -11,5 +11,5 @@ const {
 ---
 
 <div>
-  <Carousel carousel={[node]} id={(node as any)._id} />
+  <Carousel value={[node]} id={(node as any)._id} />
 </div>

@@ -59,25 +59,11 @@ export interface Page extends SanityDocument {
   slug: { _type: "slug"; current: string };
 
   /**
-   * Content — `array`
+   * Content — `pageContents`
    *
    *
    */
-  content?: Array<SanityKeyed<PageBlock>>;
-
-  /**
-   * Recirculation — `array`
-   *
-   * Outgoing links at the end of the page.
-   */
-  recirculation?: Array<SanityKeyed<InternalLink> | SanityKeyed<Link>>;
-
-  /**
-   * SEO — `seo`
-   *
-   *
-   */
-  seo?: Seo;
+  content: PageContents;
 }
 
 /**
@@ -110,32 +96,11 @@ export interface Artist extends SanityDocument {
   tags?: Array<SanityKeyedReference<Tag>>;
 
   /**
-   * Introduction — `internationalizedArrayEditorTextMedia`
+   * Introduction Page — `pageContents`
    *
-   * Text content introduction the artist.
-   */
-  introductionContent?: InternationalizedArrayEditorTextMedia;
-
-  /**
-   * Introduction Carousel — `array`
    *
-   * Captioned pictures to put in a carousel at the end of the intro.
    */
-  introductionImages?: Array<SanityKeyed<PictureTitled>>;
-
-  /**
-   * Introduction Footnotes — `array`
-   *
-   * Footnotes for the end of the introduction.
-   */
-  introductionFootnotes?: Array<SanityKeyed<Footnote>>;
-
-  /**
-   * Introduction Recirculation — `array`
-   *
-   * Outgoing links at the end of the introduction page.
-   */
-  introductionRecirc?: Array<SanityKeyed<InternalLink> | SanityKeyed<Link>>;
+  introduction?: PageContents;
 
   /**
    * Interview Title — `internationalizedArrayString`
@@ -145,32 +110,11 @@ export interface Artist extends SanityDocument {
   interviewTitle?: InternationalizedArrayString;
 
   /**
-   * Interview — `internationalizedArrayEditorTextMedia`
-   *
-   * The text / media content of the interview, with footnotes.
-   */
-  interviewContent?: InternationalizedArrayEditorTextMedia;
-
-  /**
-   * Interview Footnotes — `array`
-   *
-   * Footnotes for the end of the interview.
-   */
-  interviewFootnotes?: Array<SanityKeyed<Footnote>>;
-
-  /**
-   * Interview Recirculation — `array`
-   *
-   * Outgoing links at the end of the introduction page.
-   */
-  interviewRecirc?: Array<SanityKeyed<InternalLink> | SanityKeyed<Link>>;
-
-  /**
-   * SEO — `seo`
+   * Interview Page — `pageContents`
    *
    *
    */
-  seo?: Seo;
+  interview?: PageContents;
 }
 
 /**
@@ -240,25 +184,11 @@ export interface Resource extends SanityDocument {
   slug: { _type: "slug"; current: string };
 
   /**
-   * Content — `internationalizedArrayEditorTextMedia`
-   *
-   * The text / media content of the resource, with footnotes.
-   */
-  content?: InternationalizedArrayEditorTextMedia;
-
-  /**
-   * Recirculation — `array`
-   *
-   * Outgoing links at the end of the resource page.
-   */
-  recirc?: Array<SanityKeyed<InternalLink> | SanityKeyed<Link>>;
-
-  /**
-   * SEO — `seo`
+   * Content — `pageContents`
    *
    *
    */
-  seo?: Seo;
+  content: PageContents;
 }
 
 /**
@@ -300,11 +230,11 @@ export interface PageHome extends SanityDocument {
   title: InternationalizedArrayString;
 
   /**
-   * SEO — `seo`
+   * Content — `pageContents`
    *
    *
    */
-  seo?: Seo;
+  content?: PageContents;
 }
 
 /**
@@ -551,20 +481,6 @@ export type Footnote = {
   content?: InternationalizedArrayText;
 };
 
-export type Picture = {
-  _type: "picture";
-  asset: SanityReference<SanityImageAsset>;
-  crop?: SanityImageCrop;
-  hotspot?: SanityImageHotspot;
-
-  /**
-   * Alternative Text — `string`
-   *
-   * Describes the appearance or function of the image. Alt text is used by visually impaired users and is indexed by search engine bots.
-   */
-  alt?: string;
-};
-
 export type PictureTitled = {
   _type: "pictureTitled";
   asset: SanityReference<SanityImageAsset>;
@@ -584,6 +500,42 @@ export type PictureTitled = {
    * Describes the appearance or function of the image. Alt text is used by visually impaired users and is indexed by search engine bots.
    */
   alt?: string;
+};
+
+export type PageContents = {
+  _type: "pageContents";
+  /**
+   * Body Text — `internationalizedArrayEditorTextMedia`
+   *
+   * The main text body of the page.
+   */
+  content?: InternationalizedArrayEditorTextMedia;
+
+  /**
+   * Modules — `array`
+   *
+   * Configurable modules to build pages, after (or in place of) the main text.
+   */
+  modules?: Array<
+    | SanityKeyed<ModuleBlock>
+    | SanityKeyed<ModuleCarousel>
+    | SanityKeyed<ModuleFootnote>
+    | SanityKeyed<ModuleGooglesheet>
+  >;
+
+  /**
+   * Recirculation — `array`
+   *
+   * Outgoing links at the bottom of the page.
+   */
+  recirc?: Array<SanityKeyed<InternalLink> | SanityKeyed<Link>>;
+
+  /**
+   * SEO — `seo`
+   *
+   *
+   */
+  seo?: Seo;
 };
 
 export type Seo = {
@@ -615,38 +567,51 @@ export type Seo = {
   };
 };
 
-export type RecircPanel = {
-  _type: "recircPanel";
+export type ModuleBlock = {
+  _type: "module_block";
   /**
-   * Link — `internalLink`
-   *
-   *
-   */
-  targetInternal?: InternalLink;
-
-  /**
-   * Undertext — `internationalizedArrayString`
-   *
-   * Text placed below the link title
-   */
-  undertext?: InternationalizedArrayString;
-};
-
-export type PageBlock = {
-  _type: "page_block";
-  /**
-   * Internal Title — `string`
-   *
-   * An internal title for the text block.
-   */
-  title?: string;
-
-  /**
-   * Content — `internationalizedArrayEditorText`
+   * Content — `internationalizedArrayEditorTextMedia`
    *
    * Translatable text content.
    */
-  content?: InternationalizedArrayEditorText;
+  content?: InternationalizedArrayEditorTextMedia;
+};
+
+export type ModuleCarousel = {
+  _type: "module_carousel";
+  /**
+   * Images — `array`
+   *
+   * Captioned pictures to put in the carousel. If there is only one, the carousel becomes a static captioned picture.
+   */
+  images?: Array<SanityKeyed<PictureTitled>>;
+};
+
+export type ModuleFootnote = {
+  _type: "module_footnote";
+  /**
+   * Footnotes — `array`
+   *
+   *
+   */
+  content?: Array<SanityKeyed<Footnote>>;
+};
+
+export type ModuleGooglesheet = {
+  _type: "module_googlesheet";
+  /**
+   * Title — `internationalizedArrayString`
+   *
+   * A label shown above the Google Sheet, linking to open it in a new tab.
+   */
+  title?: InternationalizedArrayString;
+
+  /**
+   * URL — `string`
+   *
+   * The embed URL of the google sheet. It can be found as the `src` attribute of the `iframe` provided when you publish your sheet as an embed from Google Sheets.
+   */
+  url: string;
 };
 
 export type Documents =
@@ -674,13 +639,6 @@ type InternationalizedArrayString = any;
  * the definition was not actually found. Future versions of
  * sanity-codegen will let you type this explicity.
  */
-type InternationalizedArrayEditorTextMedia = any;
-
-/**
- * This interface is a stub. It was referenced in your sanity schema but
- * the definition was not actually found. Future versions of
- * sanity-codegen will let you type this explicity.
- */
 type InternationalizedArrayEditorText = any;
 
 /**
@@ -689,3 +647,10 @@ type InternationalizedArrayEditorText = any;
  * sanity-codegen will let you type this explicity.
  */
 type InternationalizedArrayText = any;
+
+/**
+ * This interface is a stub. It was referenced in your sanity schema but
+ * the definition was not actually found. Future versions of
+ * sanity-codegen will let you type this explicity.
+ */
+type InternationalizedArrayEditorTextMedia = any;

@@ -7,17 +7,6 @@ export default defineType({
   name: "pageHome",
   type: "document",
   icon: BiHome,
-  groups: [
-    {
-      title: "Content",
-      name: "content",
-      default: true,
-    },
-    {
-      title: "SEO",
-      name: "seo",
-    },
-  ],
   fields: [
     defineField({
       title: "Title",
@@ -26,13 +15,11 @@ export default defineType({
       type: "internationalizedArrayString",
       validation: (Rule) => Rule.required(),
       codegen: { required: true },
-      group: "content",
     }),
     defineField({
-      title: "SEO",
-      name: "seo",
-      type: "seo",
-      group: "seo",
+      title: "Content",
+      name: "content",
+      type: "pageContents",
     }),
   ],
   preview: {

@@ -38,6 +38,8 @@ export const TextSm = ({ children }: PropsWithChildren) => (
 export const TextSpeaker = ({ children }: PropsWithChildren) => (
   <span
     style={{
+      fontSize: "1.25rem",
+      lineHeight: "1rem",
       textTransform: "uppercase",
     }}
   >

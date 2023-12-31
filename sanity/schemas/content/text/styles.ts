@@ -25,18 +25,18 @@ export const styles = [
     component: TextBold,
   },
   {
+    title: "HEADLINE 4 / SPEAKER",
+    value: "speaker",
+    component: TextSpeaker,
+  },
+  {
     title: "Small",
     value: "small",
     component: TextSm,
   },
   {
-    title: "Speaker",
-    value: "speaker",
-    component: TextSpeaker,
-  },
-  {
-    title: "Pull Quote",
-    value: "pullquote",
+    title: "Quote",
+    value: "blockquote",
     component: TextPullQuote,
   },
 ];

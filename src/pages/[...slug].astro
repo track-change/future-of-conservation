@@ -5,6 +5,7 @@ import type { Page } from "@/sanity";
 import { astroI18n } from "astro-i18n";
 import { createGetStaticPaths } from "astro-i18n";
 import { localizedQuery, pageQuery, slugsFor } from "@/queries/contentQueries";
+import PageContents from "@/components/PageContents.astro";
 
 export const getStaticPaths = createGetStaticPaths(slugsFor("page"));
 
@@ -20,7 +21,7 @@ if (!page) {
 {
   page && (
     <RootLayout>
-      {page.recirculation && <Recirculation recirc={page.recirculation} />}
+      <PageContents value={page.content}></PageContents>
     </RootLayout>
   )
 }

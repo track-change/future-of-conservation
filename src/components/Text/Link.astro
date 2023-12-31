@@ -1,0 +1,15 @@
+---
+import type { Link as LinkType } from "@/sanity";
+import LinkC from "@/components/Link.astro";
+import type { Mark, Props as $ } from "astro-portabletext/types";
+
+export type Props = $<Mark<LinkType>>;
+
+const {
+  props: { node },
+} = Astro;
+---
+
+<LinkC link={node.markDef}>
+  <slot />
+</LinkC>

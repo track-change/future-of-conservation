@@ -9,11 +9,8 @@ import editorTextMedia from "./content/editors/editorTextMedia";
 // objects
 import link from "./objects/link";
 import internalLink from "./objects/internalLink";
-import picture from "./objects/picture";
 import pictureTitled from "./objects/pictureTitled";
 import seo from "./objects/seo";
-import recircPanel from "./objects/recircPanel";
-import block from "./content/blocks/block";
 import artist from "./documents/collections/artist";
 import article from "./documents/collections/article";
 import pageArtists from "./documents/singletons/pageArtists";
@@ -22,6 +19,12 @@ import pageArticles from "./documents/singletons/pageArticles";
 import tag from "./documents/collections/tag";
 import resource from "./documents/collections/resource";
 import footnote from "./objects/footnote";
+import pageContents from "./objects/pageContents";
+// modules
+import block from "./content/modules/Block";
+import carousel from "./content/modules/Carousel";
+import footnotes from "./content/modules/Footnotes";
+import GoogleSheet from "./content/modules/GoogleSheet";
 
 const schemaTypes = [
   page,
@@ -40,11 +43,13 @@ const schemaTypes = [
   link,
   internalLink,
   footnote,
-  picture,
   pictureTitled,
+  pageContents,
   seo,
-  recircPanel,
   block,
+  carousel,
+  footnotes,
+  GoogleSheet,
 ];
 
 export default schemaTypes;

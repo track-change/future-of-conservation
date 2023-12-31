@@ -1,6 +1,5 @@
 ---
 import { SEO } from "astro-seo";
-import Recirculation from "@/components/Recirculation.astro";
 import RootLayout from "@/layouts/RootLayout.astro";
 import {
   localizedQuery,
@@ -9,9 +8,7 @@ import {
   type ArtistInterQueryType,
 } from "@/queries/contentQueries";
 import { astroI18n, createGetStaticPaths } from "astro-i18n";
-import Text from "@/components/Text/index.astro";
-import ReadableLayout from "@/layouts/ReadableLayout.astro";
-import EndNotes from "@/components/EndNotes.astro";
+import PageContents from "@/components/PageContents.astro";
 
 export const getStaticPaths = createGetStaticPaths(slugsFor("artist"));
 
@@ -35,24 +32,15 @@ if (!artist) {
         charset="UTF-8"
         description=""
       />
-      <ReadableLayout>
-        <hgroup class="passthrough">
+      <PageContents value={artist.interview}>
+        <hgroup class="passthrough" slot="hgroup">
           <h1 lang={artist.interviewTitleLang}>
             {artist.interviewTitle || "Interview"}
           </h1>
           <h2 lang={artist.titleLang}>{artist.title}</h2>
           <h3>Artist and Conservator</h3>
         </hgroup>
-        <div class="passthrough" lang={artist.interviewContentLang}>
-          <Text value={artist.interviewContent} />
-        </div>
-        {artist.interviewFootnotes && (
-          <EndNotes value={artist.interviewFootnotes} />
-        )}
-      </ReadableLayout>
-      {artist.interviewRecirc && (
-        <Recirculation recirc={artist?.interviewRecirc} />
-      )}
+      </PageContents>
     </RootLayout>
   )
 }

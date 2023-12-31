@@ -4,6 +4,7 @@ import {
   localizedField,
   localizedFieldLang,
   localizedFieldWithLang,
+  pageContentsQuery,
   recircPanelQuery,
 } from "@/queries/helperFragments";
 import type { QueryParams } from "sanity";
@@ -49,13 +50,18 @@ export const slugsFor = (type: string) => async () => {
 /*                                    Pages                                   */
 /* -------------------------------------------------------------------------- */
 
+export const pageHomeQuery = groq`
+*[_type == "pageHome"][0] {
+  ${localizedFieldWithLang("title")},
+  content { ${pageContentsQuery} }
+}
+`;
+
 export const pageQuery = groq`
 *[_type == "page" && slug.current == $slug][0] {
   ...,
-  ${localizedField("title")},
-  recirculation[] {
-    ${recircPanelQuery}
-  }
+  ${localizedFieldWithLang("title")},
+  content { ${pageContentsQuery} }
 }
 `;
 
@@ -111,19 +117,7 @@ export type ArtistIntroQueryType = Artist & {
 export const artistIntroQuery = groq`
 *[_type == "artist" && slug.current == $slug][0] {
   ${localizedFieldWithLang("title")},
-  ${localizedFieldWithLang("introductionContent")},
-  introductionRecirc[] {
-    ${linkQuery}
-  },
-  introductionImages[] {
-    ${localizedFieldWithLang("caption")},
-    asset -> {
-      ...
-    }
-  },
-  introductionFootnotes[] {
-    ${localizedField("content")}
-  }
+  introduction { ${pageContentsQuery} }
 }
 `;
 
@@ -136,19 +130,7 @@ export const artistInterviewQuery = groq`
 *[_type == "artist" && slug.current == $slug][0] {
   ${localizedFieldWithLang("title")},
   ${localizedFieldWithLang("interviewTitle")},
-  ${localizedFieldWithLang("interviewContent")}[] {
-    ...,
-    _type == "pictureTitled" => {
-      ${localizedFieldWithLang("caption")},
-      asset ->
-    }
-  },
-  interviewRecirc[] {
-    ${linkQuery}
-  },
-  interviewFootnotes[] {
-    ${localizedField("content")}
-  }
+  interview { ${pageContentsQuery} }
 }
 `;
 
@@ -209,9 +191,6 @@ export const resourceQuery = groq`
 *[_type == "resource" && slug.current == $slug][0] {
   _type,
   ${localizedFieldWithLang("title")},
-  ${localizedFieldWithLang("content")},
-  recirc[] {
-    ${linkQuery}
-  }
+  content { ${pageContentsQuery} }
 }
 `;

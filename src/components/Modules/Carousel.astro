@@ -6,17 +6,18 @@ import { resolveReference } from "@/utils/resolveLinks";
 
 interface Props {
   id: string;
-  carousel: NonNullable<PictureTitled[]>;
+  value: NonNullable<PictureTitled[]>;
 }
 
 setSanityPictureDefaults({ imageUrlBuilder: imageBuilder });
 
-const { id = "carousel", carousel } = Astro.props;
+const { id: propsId, value } = Astro.props;
+const id = `c${propsId}`;
 ---
 
 <div id={id} class="Carousel">
   {
-    carousel.map((picture, i) => {
+    value.map((picture, i) => {
       const img = resolveReference(picture.asset);
       return (
         <figure
@@ -49,9 +50,9 @@ const { id = "carousel", carousel } = Astro.props;
     })
   }
   {
-    carousel.length > 1 && (
+    value.length > 1 && (
       <nav role="tablist">
-        {carousel.map((_, i) => {
+        {value.map((_, i) => {
           return (
             <button
               role="tab"
@@ -68,7 +69,6 @@ const { id = "carousel", carousel } = Astro.props;
 <script define:vars={{ id }}>
   let shownI = 0;
   const carousel = document.querySelector(`#${id}`);
-  console.log(carousel);
   const images = carousel.querySelectorAll("figure");
   const buttons = carousel.querySelectorAll("button");
   function setImage(i, withFocus) {
@@ -118,7 +118,7 @@ const { id = "carousel", carousel } = Astro.props;
   .Carousel {
     position: relative;
     width: 100%;
-    margin: 3rem 0;
+    margin: 1em 0;
     display: grid;
     grid-template: "pic nav" 1fr / 1fr auto;
   }

@@ -1,0 +1,30 @@
+---
+import type { ModuleGooglesheet } from "@/sanity";
+interface Props {
+  value: ModuleGooglesheet;
+}
+
+const { props } = Astro;
+---
+
+<section>
+  <h3
+    ><a href={props.value.url} target="_blank" rel="noopener noreferrer"
+      >{props.value.title}</a
+    ></h3
+  >
+  <iframe src={props.value.url}></iframe>
+</section>
+
+<style>
+  section {
+    width: 100%;
+    max-width: min(100vw, calc(var(--max-content-width) + 600px));
+  }
+  iframe {
+    margin: 1rem auto;
+    min-height: 80vh;
+    width: 100%;
+    box-shadow: var(--main-box-shadow);
+  }
+</style>

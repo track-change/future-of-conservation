@@ -1,0 +1,55 @@
+---
+import type { PageContents } from "@/sanity";
+import Text from "@/components/Text/PageText.astro";
+import ReadableLayout from "@/layouts/ReadableLayout.astro";
+import Carousel from "@/components/Modules/Carousel.astro";
+import EndNotes from "@/components/Modules/EndNotes.astro";
+import Recirculation from "@/components/Recirculation.astro";
+import GoogleSheet from "@/components/Modules/GoogleSheet.astro";
+
+interface Props {
+  value?: PageContents;
+}
+
+const {
+  props: { value },
+} = Astro;
+---
+
+<ReadableLayout>
+  <slot name="hgroup" />
+  {
+    value && (
+      <>
+        <div class="passthrough" lang={(value as any).contentLang}>
+          <Text value={value.content} />
+        </div>
+        {value.modules?.map((module) => {
+          switch (module._type) {
+            case "module_carousel":
+              return (
+                <div>
+                  <Carousel id={module._key} value={module.images || []} />
+                </div>
+              );
+            case "module_block":
+              return (
+                <div class="passthrough" lang={(module as any).contentLang}>
+                  <Text value={module.content} />
+                </div>
+              );
+            case "module_footnote":
+              return (
+                <div>
+                  <EndNotes value={module.content || []} />
+                </div>
+              );
+            case "module_googlesheet":
+              return <GoogleSheet value={module} />;
+          }
+        })}
+      </>
+    )
+  }
+  {value?.recirc && <Recirculation recirc={value.recirc} />}
+</ReadableLayout>
