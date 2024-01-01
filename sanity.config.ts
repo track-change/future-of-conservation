@@ -1,5 +1,6 @@
 import { visionTool } from "@sanity/vision";
 import { defineConfig } from "sanity";
+import { dashboardTool } from "@sanity/dashboard";
 import { internationalizedArray } from "sanity-plugin-internationalized-array";
 import { deskTool } from "sanity/desk";
 import { sanityClient } from "sanity:client";
@@ -20,6 +21,7 @@ export default defineConfig({
   projectId: projectId!,
   dataset: dataset!,
   plugins: [
+    dashboardTool({ widgets: [] }),
     deskTool({
       structure,
       defaultDocumentNode,
