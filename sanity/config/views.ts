@@ -39,7 +39,7 @@ export const defaultDocumentNode: DefaultDocumentNodeResolver = (
         .component(Iframe)
         .title("Intro: EN")
         .options({
-          key: "en",
+          key: "intro-en",
           url: {
             origin: "same-origin",
             preview: (doc: SanityDocument) =>
@@ -58,11 +58,11 @@ export const defaultDocumentNode: DefaultDocumentNodeResolver = (
         .component(Iframe)
         .title("Intro: KR")
         .options({
-          key: "kr",
+          key: "intro-kr",
           url: {
             origin: "same-origin",
             preview: (doc: SanityDocument) =>
-              resolveProductionUrl({ doc, context: S.context }),
+              resolveProductionUrl({ doc, context: S.context, prefix: "kr" }),
             draftMode: "/draftMode/enable",
           },
           defaultSize: "desktop",
@@ -77,7 +77,7 @@ export const defaultDocumentNode: DefaultDocumentNodeResolver = (
         .component(Iframe)
         .title("Interview: EN")
         .options({
-          key: "en",
+          key: "interview-en",
           url: {
             origin: "same-origin",
             preview: (doc: SanityDocument) =>
@@ -100,13 +100,14 @@ export const defaultDocumentNode: DefaultDocumentNodeResolver = (
         .component(Iframe)
         .title("Interview: KR")
         .options({
-          key: "en",
+          key: "interview-kr",
           url: {
             origin: "same-origin",
             preview: (doc: SanityDocument) =>
               resolveProductionUrl({
                 doc,
                 context: S.context,
+                prefix: "kr",
                 suffix: "interview",
               }),
             draftMode: "/draftMode/enable",

@@ -121,6 +121,7 @@ export const artistIntroQuery = groq`
 export type ArtistInterQueryType = Artist & {
   titleLang?: string;
   interviewTitleLang?: string;
+  interviewArtistDescLang?: string;
   interviewContentLang?: string;
 };
 export const artistInterviewQuery = groq`
