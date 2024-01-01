@@ -13,7 +13,7 @@ const { props } = Astro;
       >{props.value.title}</a
     ></h3
   >
-  <iframe src={props.value.url}></iframe>
+  <iframe title={props.value.title} src={props.value.url}></iframe>
 </section>
 
 <style>
