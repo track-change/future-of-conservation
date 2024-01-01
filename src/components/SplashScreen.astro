@@ -1,6 +1,8 @@
 <script is:inline>
   console.log(document.referrer);
   if (!document.referrer || new URL(document.referrer).hostname !== window.location.hostname) {
+    const themeColor = document.querySelector("meta[name=\"theme-color\"]");
+    themeColor.remove();
     document.body.classList.add("splashed");
     document.body.classList.add("noscroll");
     setTimeout(() => {
@@ -8,6 +10,7 @@
     }, 1000);
     setTimeout(() => {
       document.body.classList.remove("splashed")
+      document.head.append(themeColor);
     }, 2000);
   }
 </script>
@@ -19,6 +22,28 @@
 </section>
 
 <style lang="scss" is:global>
+  @keyframes match-hl-color {
+    0% { --clr-hl: #000; }
+    50% {  --clr-hl: #000; }
+    100% { --clr-hl: rgba(204, 255, 0, 1); }
+  }
+  @keyframes match-bg-color {
+    0% { --clr-bg: #000; --clr-bg2: #000; }
+    50% { --clr-bg: #000; --clr-bg2: #000;}
+    100% { --clr-bg: #fff; --clr-bg2: rgb(248, 248, 248); }
+  }
+
+  body.splashed {
+    // background-color: var(--clr-fg);
+    animation: match-bg-color 2s ease-in-out;
+    animation-fill-mode: forwards;
+
+    & #navbar {
+    animation: match-hl-color 2s ease-in-out;
+    animation-fill-mode: forwards;
+    }
+  }
+
   body.noscroll {
     height: 100%;
     overflow: hidden;

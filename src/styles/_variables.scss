@@ -22,3 +22,24 @@
   $fontSizeMax: 4.5rem;
   --header-font-size: #{max($fontSizeMin, min(6vw, $fontSizeMax))};
 }
+
+// These are some cool new CSS Houdini things. Unsupported by firefox, but
+// we can fallback to the correct behavior anyways.
+
+@property --clr-bg {
+  syntax: '<color>'; /* <- defined as type number for the transition to work */
+  initial-value: rgb(255, 255, 255);
+  inherits: true;
+}
+
+@property --clr-bg2 {
+  syntax: '<color>'; /* <- defined as type number for the transition to work */
+  initial-value: rgb(248, 248, 248);
+  inherits: true;
+}
+
+@property --clr-hl {
+  syntax: '<color>'; /* <- defined as type number for the transition to work */
+  initial-value: rgba(204, 255, 0, 1);
+  inherits: true;
+}

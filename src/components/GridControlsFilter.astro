@@ -39,6 +39,7 @@ const orderedTags = Object.values(
       class="FilterControl_clear"
       aria-label="Clear the filter"
       tabindex="0"
+      disabled
     >
       Clear
     </button>
@@ -260,11 +261,14 @@ const orderedTags = Object.values(
         background-color: var(--clr-fg);
         color: var(--clr-bg);
         border-radius: 100%;
+
+        :global(body:not(.splashed)) & {
         transition: background-color 0.3s ease-in-out;
+        }
 
         &:disabled {
           pointer-events: none;
-          background-color: #f0f0f0;
+          background-color: var(--clr-bg2);
         }
       }
     }
@@ -289,7 +293,7 @@ const orderedTags = Object.values(
     }
 
     & input[type="checkbox"]:checked + label {
-      background-color: rgba(238, 238, 238, 1);
+      background-color: var(--clr-bg2);
       color: var(--clr-fg);
     }
   }
