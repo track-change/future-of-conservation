@@ -1,13 +1,11 @@
+---
+import MarginNotes from "@/components/MarginNotes.astro";
+---
+
 <article id="mainArticle" class="TextBody body-text">
   <slot />
+  <MarginNotes />
 </article>
-
-<script>
-  import SideNotes from "@/scripts/SideNotes";
-  const article = document.querySelector<HTMLElement>("#mainArticle")!;
-  const notes = new SideNotes(article);
-  notes.begin();
-</script>
 
 <style is:global lang="scss">
   .TextBody {
@@ -95,79 +93,6 @@
 
       & h2 + p {
         margin-top: 3rem;
-      }
-    }
-  }
-
-  @keyframes fade-up {
-    from {
-      opacity: 0;
-      transform: translateY(10px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(00px);
-    }
-  }
-
-  $sideNotesBreakpoint: 1250px;
-  .SideNotes {
-    position: fixed;
-    bottom: -1px;
-    background-color: var(--clr-bg);
-    border-top: 1px solid var(--clr-fg);
-    border-bottom: 1px solid var(--clr-fg);
-    z-index: 10;
-    width: 100%;
-    margin: 0;
-    max-width: unset;
-    padding: 0.5rem 0;
-    pointer-events: none;
-    transition:
-      opacity 0.3s ease-in-out,
-      transform 0.3s ease-in-out;
-
-    @media screen and (max-width: $sideNotesBreakpoint - 1) {
-      &:not(:has(.present)) {
-        opacity: 0;
-        transform: translateY(10px);
-      }
-    }
-
-    @media screen and (min-width: $sideNotesBreakpoint) {
-      position: absolute;
-      background-color: unset;
-      left: calc(50% + 0.5 * var(--max-content-width));
-      border: unset;
-      top: 0;
-      bottom: 0;
-      width: 200px;
-    }
-
-    & > sup {
-      display: flex;
-      max-width: calc(var(--max-content-width) + 2 * var(--page-padding));
-      margin: 0 auto;
-      padding: 0 var(--page-padding);
-      pointer-events: all;
-
-      &::before {
-        content: counter(footnotes) ".";
-        counter-increment: footnotes 1;
-        display: block;
-        margin-right: 0.5ch;
-      }
-
-      &:not(.present) {
-        @media screen and (max-width: $sideNotesBreakpoint - 1) {
-          position: absolute;
-          left: -9999px;
-        }
-      }
-
-      @media screen and (min-width: $sideNotesBreakpoint) {
-        position: absolute;
-        width: 280px;
       }
     }
   }

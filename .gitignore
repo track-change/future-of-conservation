@@ -25,3 +25,7 @@ pnpm-debug.log*
 src/pages/kr
 
 .wrangler
+
+# dev stuff
+.yalc
+yalc.lock

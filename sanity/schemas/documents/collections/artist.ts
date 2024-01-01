@@ -72,6 +72,13 @@ export default defineType({
       group: "interview",
     }),
     defineField({
+      title: "Interview Artist Description",
+      name: "interviewArtistDesc",
+      description: "A subtitle for the artist in the interview page.",
+      type: "internationalizedArrayString",
+      group: "interview",
+    }),
+    defineField({
       title: "Interview Page",
       name: "interview",
       type: "pageContents",

@@ -4,12 +4,15 @@ export default class SideNotes {
   observer: IntersectionObserver;
   container: HTMLElement;
 
-  constructor(root: HTMLElement) {
+  constructor(root: HTMLElement, container?: HTMLElement) {
     this.root = root;
     this.notes = new Map();
-    this.container = document.createElement("aside");
-    this.container.classList.add("SideNotes");
-    this.root.appendChild(this.container);
+    if (!container) {
+      container = document.createElement("aside");
+      container.classList.add("SideNotes");
+      this.root.appendChild(container);
+    }
+    this.container = container;
     // Create intersection observer for mobile
     this.observer = new IntersectionObserver(
       (e) =>

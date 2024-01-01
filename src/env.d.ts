@@ -18,6 +18,7 @@ interface ImportMetaEnv {
   readonly SANITY_API_READ_TOKEN: string;
   readonly SANITY_CDN_ORIGIN: string;
   readonly SITE_URL: string;
+	readonly GITHUB_ACCESS_TOKEN: string;
 }
 
 interface ImportMeta {

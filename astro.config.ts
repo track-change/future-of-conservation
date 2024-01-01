@@ -31,6 +31,12 @@ const PREVIEW_CONFIG = (): AstroUserConfig => ({
       useCdn: false,
       perspective: "published",
       studioBasePath: "/admin",
+      // @ts-ignore This is an annoying hack to get our token into the studio
+      // We probably shouldn't do this, but it's fine until I get the Github
+      // Environments Dashboard plugin to read straight from Sanity datasets.
+      bundledVars: {
+        GITHUB_ACCESS_TOKEN: env.GITHUB_ACCESS_TOKEN
+      }
     }),
     react(),
     robotsTxt(),

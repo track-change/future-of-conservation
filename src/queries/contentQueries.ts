@@ -1,11 +1,8 @@
 import groq from "groq";
 import {
   linkQuery,
-  localizedField,
-  localizedFieldLang,
   localizedFieldWithLang,
   pageContentsQuery,
-  recircPanelQuery,
 } from "@/queries/helperFragments";
 import type { QueryParams } from "sanity";
 import { sanityClient } from "sanity:client";
@@ -130,6 +127,7 @@ export const artistInterviewQuery = groq`
 *[_type == "artist" && slug.current == $slug][0] {
   ${localizedFieldWithLang("title")},
   ${localizedFieldWithLang("interviewTitle")},
+  ${localizedFieldWithLang("interviewArtistDesc")},
   interview { ${pageContentsQuery} }
 }
 `;

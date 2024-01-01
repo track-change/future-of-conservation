@@ -110,6 +110,13 @@ export interface Artist extends SanityDocument {
   interviewTitle?: InternationalizedArrayString;
 
   /**
+   * Interview Artist Description — `internationalizedArrayString`
+   *
+   * A subtitle for the artist in the interview page.
+   */
+  interviewArtistDesc?: InternationalizedArrayString;
+
+  /**
    * Interview Page — `pageContents`
    *
    *
@@ -543,21 +550,21 @@ export type Seo = {
   /**
    * Meta Description — `internationalizedArrayText`
    *
-   *
+   * A meta description of the page used in SEO.
    */
   metaDescription?: InternationalizedArrayText;
 
   /**
    * Meta Keywords — `array`
    *
-   *
+   * Comma-separated list of keywords related to this page.
    */
   metaKeywords?: Array<SanityKeyed<string>>;
 
   /**
    * Open Graph Image — `image`
    *
-   *
+   * An optional image shown as the page's image when the link is shared to social media
    */
   ogImage?: {
     _type: "image";

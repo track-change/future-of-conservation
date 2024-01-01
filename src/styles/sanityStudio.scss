@@ -1,0 +1,17 @@
+// Kind of stupid overrides to get Sanity's dashboard to size correctly
+div[data-ui="Grid"][data-width="auto"] {
+  grid-auto-rows: calc(0.5 * (100vh - 120px));
+
+  & > div[data-ui="Card"] {
+    & > div[data-ui="Card"] {
+      & > div[data-ui="Card"] {
+        flex-shrink: 0;
+      }
+      & > div[data-ui="Box"] {
+        flex: 1;
+        min-height: 0;
+        padding: 0.5em;
+      }
+    }
+  }
+}
