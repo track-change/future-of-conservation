@@ -11,7 +11,7 @@
     setTimeout(() => {
       document.body.classList.remove("splashed")
       document.head.append(themeColor);
-    }, 2000);
+    }, 2500);
   }
 </script>
 
@@ -38,9 +38,9 @@
     animation: match-bg-color 2s ease-in-out;
     animation-fill-mode: forwards;
 
-    & #navbar {
-    animation: match-hl-color 2s ease-in-out;
-    animation-fill-mode: forwards;
+    & #navbar ul li {
+      animation: match-hl-color 2s ease-in-out;
+      animation-fill-mode: forwards;
     }
   }
 
