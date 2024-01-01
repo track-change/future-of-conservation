@@ -10,6 +10,7 @@ env:
   SANITY_DATASET: ${{ vars.SANITY_DATASET }}
   SANITY_CDN_ORIGIN: ${{ vars.SANITY_CDN_ORIGIN }}
   SANITY_API_READ_TOKEN: ${{ secrets.SANITY_API_READ_TOKEN }}
+  SANITY_STUDIO_GITHUB_ACCESS_TOKEN: ${{ secrets.SANITY_STUDIO_GITHUB_ACCESS_TOKEN }}
   NODE_ENV: "development"
   # This canonical URL won't be correct for any branch other than development, but whatever
   SITE_URL: "https://dev.future-of-conservation.com"
