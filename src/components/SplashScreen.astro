@@ -1,0 +1,94 @@
+<script is:inline>
+  console.log(document.referrer);
+  if (!document.referrer || new URL(document.referrer).hostname !== window.location.hostname) {
+    document.body.classList.add("splashed");
+    document.body.classList.add("noscroll");
+    setTimeout(() => {
+      document.body.classList.remove("noscroll")
+    }, 1000);
+    setTimeout(() => {
+      document.body.classList.remove("splashed")
+    }, 2000);
+  }
+</script>
+
+<section id="splash" role="presentation" data-nosnippet>
+  <h1 class="display-text">
+    FUTURE OF<br />CONSERVATION
+  </h1>
+</section>
+
+<style lang="scss" is:global>
+  body.noscroll {
+    height: 100%;
+    overflow: hidden;
+  }
+</style>
+
+<style lang="scss">
+  @keyframes fade-out {
+    50% { opacity: 1; }
+    100% { opacity: 0; }
+  }
+
+  @keyframes slide-right {
+    from { transform: scaleX(0); }
+    to { transform: scaleX(1); }
+  }
+
+  @keyframes fade-up {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0px); }
+  }
+
+  section {
+    position: fixed;
+    inset: 0;
+    z-index: 10000;
+    background-color: var(--clr-fg);
+    color: var(--clr-hl);
+    transition: opacity 0.3s ease-in-out;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    display: flex;
+    -webkit-user-select: none;
+    user-select: none;
+    animation: fade-out 2s ease-in-out;
+    animation-fill-mode: forwards;
+
+    :global(body:not(.splashed)) & {
+      display: none;
+    }
+
+    &::before, &::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      height: 5px;
+      width: 100%;
+      background-color: var(--clr-hl);
+      animation: slide-right 0.5s ease-in-out;
+      animation-delay: 1s;
+      animation-fill-mode: both;
+    }
+
+    &::before {
+      bottom: unset;
+      transform-origin: 0% 50%;
+    }
+
+    &::after {
+      top: unset;
+      transform-origin: 100% 50%;
+    }
+  }
+
+  h1 {
+    font-size: 12vw;
+    animation-delay: 0.5s;
+    animation: fade-up 1s ease-in-out;
+  }
+</style>
