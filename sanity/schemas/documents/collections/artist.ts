@@ -89,13 +89,18 @@ export default defineType({
     select: {
       title: "title",
       slug: "slug",
+      media0: "introduction.modules.0.images.0.asset",
+      media1: "introduction.modules.1.images.0.asset",
+      media2: "introduction.modules.2.images.0.asset",
     },
-    prepare({ title, slug }) {
+    prepare({ title, slug, media0, media1, media2 }) {
+      const carouselMedia = [media0, media1, media2].filter(Boolean);
       return {
         title:
           title?.find(({ _key }: any) => _key == "en").value ||
           "Unnamed Artist",
         subtitle: `/artists/${slug.current}`,
+        media: carouselMedia[0]
       };
     },
   },

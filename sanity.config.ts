@@ -15,13 +15,21 @@ import {
 } from "./sanity/config/views";
 import { initialValueTemplates } from "./sanity/config/initialValueTemplates";
 import "@/styles/sanityStudio.scss";
+import Icon from "./sanity/components/Icon";
 
 const { projectId, dataset } = sanityClient.config();
 const { bundledVars: { GITHUB_ACCESS_TOKEN } } = sanityClient.config() as any;
 
+const {theme} = (await import(
+  // @ts-expect-error -- TODO setup themer.d.ts to get correct typings
+  'https://themer.sanity.build/api/hues?preset=retro-colonial&default=cce8b5;400&primary=ccff00;400'
+)) as {theme: import('sanity').StudioTheme}
+
 export default defineConfig({
+  theme,
   name: "future-of-conservation",
   title: "Future of Conservation",
+  icon: Icon,
   projectId: projectId!,
   dataset: dataset!,
   plugins: [
