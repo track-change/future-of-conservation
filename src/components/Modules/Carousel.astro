@@ -122,18 +122,24 @@ const id = `c${propsId}`;
     position: relative;
     width: 100%;
     margin: 2em 0;
-    display: flex;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    grid-template-rows: 1fr auto;
     flex-direction: row;
   }
 
-  .Images {
+  section {
     display: grid;
-    grid-template: "pic" 1fr / 1fr;
+    grid-row: span 2;
+    grid-template-rows: subgrid;
+    width: 100%;
   }
 
   figure {
     grid-area: pic;
-    display: flex;
+    display: grid;
+    grid-row: 1 / -1;
+    grid-template-rows: subgrid;
     flex-direction: column;
     opacity: 0;
     transition: opacity 0.5s ease-in-out;
@@ -147,9 +153,11 @@ const id = `c${propsId}`;
 
   figcaption {
     margin-top: 1em;
+    grid-row-start: 2;
   }
 
   .Picture {
+    grid-row-start: 1;
     width: 100%;
     aspect-ratio: 4/3;
     cursor: pointer;
@@ -162,7 +170,8 @@ const id = `c${propsId}`;
   }
 
   nav {
-    grid-area: nav;
+    grid-row: 1;
+    grid-column: 2;
     align-self: center;
     margin-left: 1.5rem;
     display: flex;
