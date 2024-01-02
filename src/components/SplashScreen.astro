@@ -1,15 +1,18 @@
 <script is:inline>
   console.log(document.referrer);
-  if (!document.referrer || new URL(document.referrer).hostname !== window.location.hostname) {
-    const themeColor = document.querySelector("meta[name=\"theme-color\"]");
+  if (
+    !document.referrer ||
+    new URL(document.referrer).hostname !== window.location.hostname
+  ) {
+    const themeColor = document.querySelector('meta[name="theme-color"]');
     themeColor.remove();
     document.body.classList.add("splashed");
     document.body.classList.add("noscroll");
     setTimeout(() => {
-      document.body.classList.remove("noscroll")
+      document.body.classList.remove("noscroll");
     }, 1000);
     setTimeout(() => {
-      document.body.classList.remove("splashed")
+      document.body.classList.remove("splashed");
       document.head.append(themeColor);
     }, 2500);
   }
@@ -23,14 +26,29 @@
 
 <style lang="scss" is:global>
   @keyframes match-hl-color {
-    0% { --clr-hl: #000; }
-    50% {  --clr-hl: #000; }
-    100% { --clr-hl: rgba(204, 255, 0, 1); }
+    0% {
+      --clr-hl: var(--black);
+    }
+    50% {
+      --clr-hl: var(--black);
+    }
+    100% {
+      --clr-hl: var(--chartreuse);
+    }
   }
   @keyframes match-bg-color {
-    0% { --clr-bg: #000; --clr-bg2: #000; }
-    50% { --clr-bg: #000; --clr-bg2: #000;}
-    100% { --clr-bg: #fff; --clr-bg2: rgb(248, 248, 248); }
+    0% {
+      --clr-bg: var(--black);
+      --clr-bg2: var(--black);
+    }
+    50% {
+      --clr-bg: var(--black);
+      --clr-bg2: var(--black);
+    }
+    100% {
+      --clr-bg: var(--white);
+      --clr-bg2: rgb(248, 248, 248);
+    }
   }
 
   body.splashed {
@@ -52,18 +70,32 @@
 
 <style lang="scss">
   @keyframes fade-out {
-    50% { opacity: 1; }
-    100% { opacity: 0; }
+    50% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0;
+    }
   }
 
   @keyframes slide-right {
-    from { transform: scaleX(0); }
-    to { transform: scaleX(1); }
+    from {
+      transform: scaleX(0);
+    }
+    to {
+      transform: scaleX(1);
+    }
   }
 
   @keyframes fade-up {
-    from { opacity: 0; transform: translateY(10px); }
-    to { opacity: 1; transform: translateY(0px); }
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0px);
+    }
   }
 
   section {
@@ -84,12 +116,17 @@
     animation: fade-out 2s ease-in-out;
     animation-fill-mode: forwards;
 
+    :global(body:not(.noscroll)) & {
+      pointer-events: none;
+    }
+
     :global(body:not(.splashed)) & {
       display: none;
     }
 
-    &::before, &::after {
-      content: '';
+    &::before,
+    &::after {
+      content: "";
       position: absolute;
       inset: 0;
       height: 5px;

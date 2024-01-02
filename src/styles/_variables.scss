@@ -1,13 +1,22 @@
 :root {
-  --clr-bg: rgb(255, 255, 255);
-  --clr-fg: rgb(0, 0, 0);
-  --clr-brdr: rgb(0, 0, 0);
+  --white: rgb(255, 255, 255);
+  --black: rgb(0, 0, 0);
+  --chartreuse: rgb(204, 255, 0);
+  @supports (color: color(display-p3 1 1 1)) {
+    --white: color(display-p3 1 1 1 / 1);
+    --black: color(display-p3 0 0 0 / 1);
+    --chartreuse: color(display-p3 0.8 1 0 / 1);
+  }
+
+  --clr-bg: var(--white);
+  --clr-fg: var(--black);
+  --clr-brdr: var(--black);
 
   --clr-bg2: rgb(248, 248, 248);
-  --clr-fg2: rgb(157, 157, 157); // #545454 <- for WCAG accessibility
+  --clr-fg2: rgb(157, 157, 157);
   --clr-brdr2: rgb(217, 217, 217);
 
-  --clr-hl: rgba(204, 255, 0, 1);
+  --clr-hl: var(--chartreuse);
   --main-box-shadow: 0px 4px 10px 0px var(--clr-hl);
 
   --font-sans: "Helvetica Neue", Helvetica, Arial, sans-serif;
@@ -23,23 +32,24 @@
   --header-font-size: #{max($fontSizeMin, min(6vw, $fontSizeMax))};
 }
 
-// These are some cool new CSS Houdini things. Unsupported by firefox, but
-// we can fallback to the correct behavior anyways.
+// These are some cool new CSS Houdini things enabling us to animate the colors
+// across the entire page. @property is currently unsupported by Firefox, but
+// we fallback to the correct behavior anyways.
 
 @property --clr-bg {
-  syntax: '<color>'; /* <- defined as type number for the transition to work */
+  syntax: "<color>";
   initial-value: rgb(255, 255, 255);
   inherits: true;
 }
 
 @property --clr-bg2 {
-  syntax: '<color>'; /* <- defined as type number for the transition to work */
+  syntax: "<color>";
   initial-value: rgb(248, 248, 248);
   inherits: true;
 }
 
 @property --clr-hl {
-  syntax: '<color>'; /* <- defined as type number for the transition to work */
-  initial-value: rgba(204, 255, 0, 1);
+  syntax: "<color>";
+  initial-value: rgb(204, 255, 0);
   inherits: true;
 }
