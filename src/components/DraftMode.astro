@@ -1,0 +1,39 @@
+---
+const { url } = Astro;
+
+const disableUrl = new URL(url.toString());
+disableUrl.pathname = "/draftMode/disable";
+disableUrl.searchParams.set("redirect", url.pathname);
+---
+
+{
+  Astro.cookies?.get("astro_draft_mode")?.boolean() && (
+    <a href={disableUrl}>
+      Viewing drafted content. Click to disable draft mode.
+    </a>
+  )
+}
+
+<style lang="scss">
+  a {
+    display: block;
+    background-color: pink;
+    color: black;
+    position: fixed;
+    writing-mode: vertical-lr;
+    z-index: 400;
+    bottom: 0;
+    right: 0;
+    padding: 1em 0.25em;
+    font-size: 0.6rem;
+
+    &:hover {
+      background-color: red;
+      color: white;
+    }
+
+    @media screen and (min-width: 768px) {
+      font-size: 1rem;
+    }
+  }
+</style>
