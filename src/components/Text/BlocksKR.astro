@@ -1,0 +1,10 @@
+---
+import Blocks, {
+  type Props as PropTypes,
+} from "@/components/Text/Blocks.astro";
+
+export type Props = PropTypes;
+const { props } = Astro;
+---
+
+<Blocks {...props} lang="kr"><slot /></Blocks>

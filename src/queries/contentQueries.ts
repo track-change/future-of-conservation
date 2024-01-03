@@ -9,7 +9,7 @@ import type { QueryParams } from "sanity";
 import { sanityClient } from "sanity:client";
 import { astroI18n } from "astro-i18n";
 import type { AstroGlobal } from "astro";
-import type { Article, Artist, Resource, SiteFooter } from "@/sanity";
+import type { Article, Artist, PageHome, Resource, SiteFooter } from "@/sanity";
 
 export function localizedQuery<T>(Astro: Pick<AstroGlobal, "cookies">) {
   const config =
@@ -47,6 +47,8 @@ export const slugsFor = (type: string) => async () => {
 /* -------------------------------------------------------------------------- */
 /*                                    Pages                                   */
 /* -------------------------------------------------------------------------- */
+
+export type PageHomeQuery = PageHome & { titleLang?: string };
 
 export const pageHomeQuery = groq`
 *[_type == "pageHome"][0] {

@@ -53,6 +53,6 @@ import DraftMode from "@/components/DraftMode.astro";
       <slot />
     </main>
     <Footer />
-    <DraftMode />
+    {import.meta.env.DEV && <DraftMode />}
   </body></html
 >

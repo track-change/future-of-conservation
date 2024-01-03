@@ -2,11 +2,14 @@
 import { SEO } from "astro-seo";
 import RootLayout from "@/layouts/RootLayout.astro";
 import PageContents from "@/components/PageContents.astro";
-import { localizedQuery, pageHomeQuery } from "@/queries/contentQueries";
-import { type PageHome } from "@/sanity";
+import {
+  localizedQuery,
+  pageHomeQuery,
+  type PageHomeQuery,
+} from "@/queries/contentQueries";
 import ReadableLayout from "@/layouts/ReadableLayout.astro";
 
-const page = await localizedQuery<PageHome>(Astro)(pageHomeQuery);
+const page = await localizedQuery<PageHomeQuery>(Astro)(pageHomeQuery);
 ---
 
 {
@@ -14,10 +17,7 @@ const page = await localizedQuery<PageHome>(Astro)(pageHomeQuery);
     <RootLayout>
       <SEO slot="head" title="Future Of Conservation" description="" />
       <ReadableLayout value={page.content}>
-        <hgroup>
-          <h1>What Could We Learn From Conservation?</h1>
-          <p class="display-type h2">The Questions</p>
-        </hgroup>
+        <h1 lang={page.titleLang}>{page.title}</h1>
         <PageContents value={page.content} />
       </ReadableLayout>
     </RootLayout>

@@ -1,12 +1,16 @@
 ---
 import type { Block, Props as $ } from "astro-portabletext/types";
 
-export type Props = $<Block>;
+export type Props = $<Block> & { lang?: string };
 
-const { props } = Astro;
+const { lang } = Astro.props;
 ---
 
-<blockquote class="display-type legible" role="presentation" aria-hidden="true"
+<blockquote
+  lang={lang}
+  class="display-type legible"
+  role="presentation"
+  aria-hidden="true"
   ><p>
     <slot />
   </p>

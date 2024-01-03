@@ -19,13 +19,18 @@ const {
   {
     value && (
       <>
-        <Text value={value.content} />
+        <Text value={value.content} lang={(value as any).contentLang} />
         {value.modules?.map((module) => {
           switch (module._type) {
             case "module_carousel":
               return <Carousel id={module._key} value={module.images || []} />;
             case "module_block":
-              return <Text value={module.content} />;
+              return (
+                <Text
+                  value={module.content}
+                  lang={(module as any).contentLang}
+                />
+              );
             case "module_footnote":
               return <EndNotes value={module.content || []} />;
             case "module_googlesheet":

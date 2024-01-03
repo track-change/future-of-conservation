@@ -10,22 +10,22 @@ import {
 export const styles = [
   { title: "Regular", value: "normal" },
   {
-    title: "Headline 1",
-    value: "h1",
-    component: TextLg,
-  },
-  {
-    title: "Headline 2",
+    title: "Heading 1",
     value: "h2",
     component: TextLg,
   },
   {
-    title: "Headline 3",
+    title: "Heading 2",
     value: "h3",
+    component: TextLg,
+  },
+  {
+    title: "Heading 3",
+    value: "h4",
     component: TextBold,
   },
   {
-    title: "HEADLINE 4 / SPEAKER",
+    title: "HEADING 4 / SPEAKER",
     value: "speaker",
     component: TextSpeaker,
   },
