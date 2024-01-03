@@ -35,8 +35,8 @@ main {
 
 button:focus,
 :focus-visible {
-  outline: 3px solid var(--clr-hl);
-  outline-offset: -1px;
+  outline: 1px solid var(--clr-fg);
+  outline-offset: 2px;
 }
 
 .passthrough {
@@ -110,4 +110,16 @@ small,
 
 .visually-hidden {
   display: none;
+}
+
+.hoverable_before {
+  &::before {
+    background-color: var(--alpha);
+    transition: background-color 0.15s ease-in-out;
+  }
+
+  &:hover::before,
+  &:focus-visible::before {
+    background-color: var(--clr-hl);
+  }
 }

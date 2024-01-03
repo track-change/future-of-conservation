@@ -26,7 +26,11 @@ const resources =
         resources.map((resource) => (
           <li>
             <h2 lang={resource.titleLang}>
-              <Link link={resource} data-astro-prefetch="viewport" />
+              <Link
+                link={resource}
+                data-astro-prefetch="viewport"
+                class="hoverable_before"
+              />
             </h2>
           </li>
         ))
@@ -63,11 +67,6 @@ const resources =
           text-align: center;
           @media screen and (min-width: 768px) {
             font-size: 4vw;
-          }
-
-          &:hover::before,
-          &:focus-visible::before {
-            background-color: var(--clr-hl);
           }
 
           &::before {

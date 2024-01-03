@@ -53,18 +53,15 @@ const orderedTags = Object.values(
         tabindex="0"
         disabled
       >
-        {"<"}
-      </button>
-    </div>
-    <div class="FilterControl_button">
-      <button
-        id="filter-scroll-right"
-        aria-label="Scroll the tag filter to the right"
-        type="button"
-        tabindex="0"
-        disabled
-      >
-        {">"}
+        <svg
+          viewBox="0 0 9 15"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+          style={{ transform: "scaleX(-1) " }}
+        >
+          <path d="M1.5 13.5L7.5 7.5L1.5 1.5" stroke="white" stroke-width="1.5"
+          ></path>
+        </svg>
       </button>
     </div>
     <div class="FilterControl_inner">
@@ -83,6 +80,20 @@ const orderedTags = Object.values(
           </>
         ))
       }
+    </div>
+    <div class="FilterControl_button">
+      <button
+        id="filter-scroll-right"
+        aria-label="Scroll the tag filter to the right"
+        type="button"
+        tabindex="0"
+        disabled
+      >
+        <svg viewBox="0 0 9 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M1.5 13.5L7.5 7.5L1.5 1.5" stroke="white" stroke-width="1.5"
+          ></path>
+        </svg>
+      </button>
     </div>
   </div>
 </form>
@@ -142,9 +153,7 @@ const orderedTags = Object.values(
   };
 
   // add scrollers
-  const inner = document.querySelector<HTMLDivElement>(
-    ".FilterControl_fields",
-  )!;
+  const inner = document.querySelector<HTMLDivElement>(".FilterControl_inner")!;
   const leftFilter = document.querySelector<HTMLButtonElement>(
     "#filter-scroll-left",
   )!;
@@ -183,12 +192,14 @@ const orderedTags = Object.values(
     }
 
     &_head {
+      position: relative;
       display: flex;
       justify-content: space-between;
       align-items: center;
       gap: var(--page-padding);
       padding: var(--page-padding);
       padding-bottom: 0;
+      z-index: 2;
 
       @media screen and (min-width: 768px) {
         padding-bottom: var(--page-padding);
@@ -202,6 +213,13 @@ const orderedTags = Object.values(
 
     &_clear {
       text-transform: uppercase;
+      outline: none;
+      padding: 0.25em 0.5em;
+      margin-right: -0.5em;
+
+      &:hover {
+        background-color: var(--clr-bg3);
+      }
 
       &:disabled {
         pointer-events: none;
@@ -212,11 +230,11 @@ const orderedTags = Object.values(
 
     &_fields {
       position: relative;
-      display: flex;
       align-items: center;
       flex: 1;
-      overflow: scroll hidden;
       max-width: 100%;
+      display: grid;
+      grid-template-columns: auto 1fr auto;
 
       &:where(:has(input[type="checkbox"]:checked)) label {
         color: var(--clr-fg2);
@@ -229,7 +247,9 @@ const orderedTags = Object.values(
       align-items: center;
       margin: 0 auto;
       height: 100%;
-      padding: var(--page-padding) calc(0.5 * var(--page-padding));
+      width: 100%;
+      overflow: scroll hidden;
+      padding: var(--page-padding) 1rem;
 
       @media screen and (min-width: 768px) {
         margin-left: 0;
@@ -237,25 +257,28 @@ const orderedTags = Object.values(
     }
 
     &_button {
-      position: sticky;
-      left: 0;
+      position: relative;
       flex-shrink: 0;
       background: linear-gradient(to right, var(--clr-bg) 80%, transparent);
-      padding: 1rem;
+      padding: 0 1rem;
       z-index: 1;
-      margin-right: -0.5rem;
+      margin-right: -1rem;
+      height: 100%;
+      display: flex;
+      align-items: center;
 
-      &:nth-of-type(2) {
+      &:last-of-type {
         left: unset;
         right: 0;
-        order: 3000;
         margin-right: unset;
-        margin-left: -0.5rem;
+        margin-left: -1rem;
         background: linear-gradient(to left, var(--clr-bg) 80%, transparent);
       }
 
       & button {
-        display: block;
+        display: flex;
+        justify-content: center;
+        align-items: center;
         width: 1.5em;
         height: 1.5em;
         background-color: var(--clr-fg);
@@ -263,12 +286,19 @@ const orderedTags = Object.values(
         border-radius: 100%;
 
         :global(body:not(.splashed)) & {
-        transition: background-color 0.3s ease-in-out;
+          transition: background-color 0.3s ease-in-out;
         }
 
         &:disabled {
           pointer-events: none;
           background-color: var(--clr-bg2);
+        }
+
+        & svg {
+          margin-left: 7%;
+          margin-bottom: 0.5%;
+          height: 50%;
+          width: auto;
         }
       }
     }
@@ -289,12 +319,12 @@ const orderedTags = Object.values(
 
     & input[type="checkbox"]:focus-visible + label,
     & label:hover {
-      outline: 3px solid var(--clr-hl);
+      background-color: var(--clr-bg3);
     }
 
     & input[type="checkbox"]:checked + label {
-      background-color: var(--clr-bg2);
       color: var(--clr-fg);
+      border: 1px solid var(--clr-fg);
     }
   }
 </style>

@@ -147,6 +147,13 @@ export interface Article extends SanityDocument {
   file: { _type: "file"; asset: SanityReference<any> };
 
   /**
+   * Search Keywords — `internationalizedArrayString`
+   *
+   * Additional search keywords for the article to improve the fuzzy search results. Search is based on Title, Author, and Search Keywords.
+   */
+  searchKeywords?: InternationalizedArrayString;
+
+  /**
    * External Author — `boolean`
    *
    * Is the author not an artist on the platform?

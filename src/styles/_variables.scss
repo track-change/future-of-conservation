@@ -2,18 +2,23 @@
   --white: rgb(255, 255, 255);
   --black: rgb(0, 0, 0);
   --chartreuse: rgb(204, 255, 0);
+  --alpha: rgba(255, 255, 255, 0);
+
   @supports (color: color(display-p3 1 1 1)) {
     --white: color(display-p3 1 1 1 / 1);
     --black: color(display-p3 0 0 0 / 1);
     --chartreuse: color(display-p3 0.8 1 0 / 1);
+    --alpha: color(display-p3 1 1 1 / 0);
   }
 
   --clr-bg: var(--white);
   --clr-fg: var(--black);
   --clr-brdr: var(--black);
 
+  --clr-bg3: rgb(238, 238, 238);
+
   --clr-bg2: rgb(248, 248, 248);
-  --clr-fg2: rgb(157, 157, 157);
+  --clr-fg2: rgb(112, 112, 112);
   --clr-brdr2: rgb(217, 217, 217);
 
   --clr-hl: var(--chartreuse);

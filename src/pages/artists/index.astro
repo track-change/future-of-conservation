@@ -41,7 +41,11 @@ const possibleTags = artists
               }]`}
             >
               <h2 lang={artist.titleLang}>
-                <Link link={artist} data-astro-prefetch="viewport" />
+                <Link
+                  link={artist}
+                  data-astro-prefetch="viewport"
+                  class="hoverable_before"
+                />
               </h2>
               {artist.tags?.length ? (
                 <ul class="Artists_tags">
@@ -90,21 +94,14 @@ const possibleTags = artists
           min-height: min(18vw, 300px);
         }
 
-        & > h2 {
-          text-align: center;
-        }
-
         & > h2 > a {
           font-size: 9vw;
           text-transform: uppercase;
           text-align: center;
+          display: block;
+
           @media screen and (min-width: 768px) {
             font-size: 4vw;
-          }
-
-          &:hover::before,
-          &:focus-visible::before {
-            background-color: var(--clr-hl);
           }
 
           &::before {
@@ -124,6 +121,7 @@ const possibleTags = artists
       flex-wrap: wrap;
       pointer-events: none;
       max-width: 30rem;
+      font-size: 0.875rem;
       gap: calc(0.5 * var(--page-padding));
 
       & > li {

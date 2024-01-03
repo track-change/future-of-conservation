@@ -26,6 +26,13 @@ export default defineType({
       codegen: { required: true },
     }),
     defineField({
+      title: "Search Keywords",
+      name: "searchKeywords",
+      description:
+        "Additional search keywords for the article to improve the fuzzy search results. Search is based on Title, Author, and Search Keywords.",
+      type: "internationalizedArrayString",
+    }),
+    defineField({
       type: "boolean",
       title: "External Author",
       description: "Is the author not an artist on the platform?",

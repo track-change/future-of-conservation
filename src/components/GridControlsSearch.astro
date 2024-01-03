@@ -1,8 +1,10 @@
 ---
+import { astroI18n } from "astro-i18n";
 interface Props {
   ariaControls?: string;
 }
 
+const { locale } = astroI18n;
 const { ariaControls } = Astro.props;
 ---
 
@@ -13,42 +15,66 @@ const { ariaControls } = Astro.props;
   aria-label="Search contents on this page"
   aria-controls={ariaControls}
 >
-  <label for="search-input">Search</label>
-  <input type="search" id="search-input" name="search" spellcheck="false" />
-  <!-- <input value="Submit" type="submit" /> -->
+  <label for="search-input" class="hoverable_before">Search</label>
+  <input
+    role="searchbox"
+    type="text"
+    id="search-input"
+    name="search"
+    spellcheck="false"
+    class="display-type legible"
+    required
+    lang={locale === "kr" ? "kr" : undefined}
+  />
+  <input value="" type="reset" />
 </form>
 
 <slot />
 
 <script>
-  import Fuse from "fuse.js";
+  import Fuse from "fuse.js/min-basic";
+
+  const form = document.querySelector<HTMLFormElement>("#search-control")!;
+  form.onsubmit = (e) => {
+    e.preventDefault();
+    return false;
+  };
 
   const search = document.querySelector<HTMLInputElement>("#search-input")!;
+  const container =
+    document.querySelector<HTMLOListElement>(".search-container")!;
   const targets = document.querySelectorAll<HTMLLIElement>(".search-target");
+  const lookups: { [key: string]: HTMLLIElement } = {};
   const searchMap = [];
   for (const target of targets) {
     searchMap.push({
       title: target.querySelector<HTMLHeadingElement>("h1")?.innerText || "",
       byline: target.querySelector<HTMLHeadingElement>("h2")?.innerText || "",
+      keywords: target.getAttribute("data-search-keywords"),
       id: target.id,
     });
+    lookups[target.id] = target;
   }
 
-  const fuse = new Fuse(searchMap, { keys: ["title", "byline"] });
+  const fuse = new Fuse(searchMap, {
+    keys: ["title", "byline", "keywords"],
+    ignoreLocation: true,
+    isCaseSensitive: false,
+    shouldSort: true,
+  });
   function updateSearch() {
     if (!search.value.length) {
       targets.forEach((t) => {
-        t.style.display = "";
+        container.appendChild(t);
       });
       return;
     }
     targets.forEach((t) => {
-      t.style.display = "none";
+      t.remove();
     });
     const results = fuse.search(search.value);
     results.forEach((t) => {
-      const el = document.getElementById(t.item.id);
-      if (el) el.style.display = "";
+      container.appendChild(lookups[t.item.id]);
     });
   }
   search.addEventListener("input", updateSearch);
@@ -56,24 +82,87 @@ const { ariaControls } = Astro.props;
 
 <style lang="scss">
   .SearchControl {
-    display: flex;
-    gap: var(--page-padding);
+    display: grid;
+    border-top: 1px solid var(--clr-fg);
+    margin-top: -1px;
+    grid-template-columns: auto 1fr auto;
     font-size: 0.875rem;
-    padding: calc(0.75 * var(--page-padding)) var(--page-padding);
+    padding: calc(0.5 * var(--page-padding)) var(--page-padding);
     counter-reset: search;
     align-items: center;
+    position: relative;
+    z-index: 0;
 
     @media screen and (min-width: 768px) {
-      padding: calc(0.75 * var(--page-padding)) calc(2 * var(--page-padding));
+      padding: calc(0.5 * var(--page-padding)) calc(2 * var(--page-padding));
     }
   }
 
   label {
-    display: block;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    align-self: center;
+    cursor: pointer;
+    height: 100%;
+    padding-right: 1rem;
+    border-right: 1px solid transparent;
     text-transform: uppercase;
+    transition: border-color 0.3s ease-in-out;
+
+    .SearchControl:has(input:focus-visible) &,
+    .SearchControl:has(input:hover) & {
+      &::before {
+        background-color: var(--clr-hl);
+      }
+    }
+
+    .SearchControl:has(input:valid) & {
+      border-right: 1px solid var(--clr-fg);
+    }
+
+    &::before {
+      position: absolute;
+      inset: 0;
+      content: "";
+      z-index: -1;
+    }
+  }
+
+  input[type="reset"] {
+    background-image: url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjMiIGhlaWdodD0iMjMiIHZpZXdCb3g9IjAgMCAyMyAyMyIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPGxpbmUgeTE9Ii0wLjUiIHgyPSIyOS41NDk2IiB5Mj0iLTAuNSIgdHJhbnNmb3JtPSJtYXRyaXgoMC43MDM1MjYgMC43MTA2NjkgLTAuNzAzNTI2IDAuNzEwNjY5IDEgMS41KSIgc3Ryb2tlPSJibGFjayIvPgo8bGluZSB5MT0iLTAuNSIgeDI9IjI5LjU0OTYiIHkyPSItMC41IiB0cmFuc2Zvcm09Im1hdHJpeCgtMC43MDM1MjYgMC43MTA2NjkgMC43MDM1MjYgMC43MTA2NjkgMjIgMS41KSIgc3Ryb2tlPSJibGFjayIvPgo8L3N2Zz4K");
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    background-position: center;
+    aspect-ratio: 1;
+    height: 60%;
+    padding: 0.5rem;
+    transition: opacity 0.3s ease-in-out;
+    cursor: pointer;
+    opacity: 0;
+    pointer-events: none;
+
+    &:hover,
+    &:focus-visible {
+      outline: 1px solid var(--clr-fg);
+    }
+
+    .SearchControl:has(input:valid) & {
+      opacity: 1;
+      pointer-events: all;
+    }
   }
 
   #search-input {
+    appearance: textfield;
     flex: 1;
+    outline: 0;
+    height: 100%;
+    box-sizing: border-box;
+    padding: 0 calc(0.5 * var(--page-padding));
+    font-size: 1.625rem;
+    text-transform: none;
+    overflow: hidden;
   }
 </style>

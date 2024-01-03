@@ -1,6 +1,7 @@
 import groq from "groq";
 import {
   linkQuery,
+  localizedField,
   localizedFieldWithLang,
   pageContentsQuery,
 } from "@/queries/helperFragments";
@@ -146,6 +147,7 @@ export const articlesQuery = groq`
   _id,
   articleTags,
   ${localizedFieldWithLang("title")},
+  ${localizedField("searchKeywords")},
   file {
     asset -> {
       url

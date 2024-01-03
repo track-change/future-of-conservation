@@ -23,16 +23,21 @@ const articles = await localizedQuery<ArticlesQueryType>(Astro)(articlesQuery);
   />
   <SearchGridControls ariaControls="articles">
     <section class="Articles" aria-label="Articles">
-      <ul id="articles" class="grid">
+      <ol id="articles" class="grid search-container">
         {
           articles.map((article, i) => (
-            <li class="search-target" id={article._id}>
+            <li
+              class="search-target"
+              id={article._id}
+              data-search-keywords={article.searchKeywords}
+            >
               <article class="Article central-column">
                 <div>{(i + 1).toString().padStart(2, "0")}</div>
                 <h1 class="legible" lang={article.titleLang}>
                   <Link
                     link={article}
                     target="_blank"
+                    class="hoverable_before"
                     rel="noopener noreferrer"
                   >
                     {article.title}
@@ -58,7 +63,7 @@ const articles = await localizedQuery<ArticlesQueryType>(Astro)(articlesQuery);
             </li>
           ))
         }
-      </ul>
+      </ol>
     </section>
   </SearchGridControls>
 </RootLayout>
@@ -69,7 +74,7 @@ const articles = await localizedQuery<ArticlesQueryType>(Astro)(articlesQuery);
     width: 100%;
     overflow-x: hidden;
 
-    & > ul {
+    & > ol {
       display: flex;
       flex-direction: column;
 
@@ -106,11 +111,6 @@ const articles = await localizedQuery<ArticlesQueryType>(Astro)(articlesQuery);
       & a {
         display: block;
 
-        &:hover::before,
-        &:focus-visible::before {
-          background-color: var(--clr-hl);
-        }
-
         &::before {
           content: "";
           position: absolute;
@@ -138,6 +138,10 @@ const articles = await localizedQuery<ArticlesQueryType>(Astro)(articlesQuery);
       grid-area: type;
       text-align: center;
       font-size: 0.875rem;
+
+      &[data-search-keywords] {
+        display: none;
+      }
     }
   }
 </style>

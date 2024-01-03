@@ -8,13 +8,18 @@
     themeColor.remove();
     document.body.classList.add("splashed");
     document.body.classList.add("noscroll");
+    document.body.classList.add("noclick");
+    const time = 3000;
     setTimeout(() => {
       document.body.classList.remove("noscroll");
-    }, 1000);
+    }, time * 0.5);
+    setTimeout(() => {
+      document.body.classList.remove("noclick");
+    }, time * 0.75);
     setTimeout(() => {
       document.body.classList.remove("splashed");
       document.head.append(themeColor);
-    }, 2500);
+    }, time);
   }
 </script>
 
@@ -70,7 +75,7 @@
 
 <style lang="scss">
   @keyframes fade-out {
-    50% {
+    75% {
       opacity: 1;
     }
     100% {
@@ -90,7 +95,7 @@
   @keyframes fade-up {
     from {
       opacity: 0;
-      transform: translateY(10px);
+      transform: translateY(20px);
     }
     to {
       opacity: 1;
@@ -113,10 +118,10 @@
     display: flex;
     -webkit-user-select: none;
     user-select: none;
-    animation: fade-out 2s ease-in-out;
+    animation: fade-out 3s ease-in-out;
     animation-fill-mode: forwards;
 
-    :global(body:not(.noscroll)) & {
+    :global(body:not(.noclick)) & {
       pointer-events: none;
     }
 
@@ -133,7 +138,7 @@
       width: 100%;
       background-color: var(--clr-hl);
       animation: slide-right 0.5s ease-in-out;
-      animation-delay: 1s;
+      animation-delay: 2s;
       animation-fill-mode: both;
     }
 
@@ -150,7 +155,6 @@
 
   h1 {
     font-size: 12vw;
-    animation-delay: 0.5s;
     animation: fade-up 1s ease-in-out;
   }
 </style>

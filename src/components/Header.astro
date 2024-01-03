@@ -20,7 +20,7 @@ const header = await localizedQuery<SiteHeader>(Astro)(siteHeaderQuery);
     {
       header.navItems?.map((link) => (
         <li class="navlink">
-          <Link link={link} withAriaCurrent class="hoverable" />
+          <Link link={link} withAriaCurrent />
         </li>
       ))
     }
@@ -29,7 +29,6 @@ const header = await localizedQuery<SiteHeader>(Astro)(siteHeaderQuery);
         aria-description="View this page in Korean"
         href={l(route, undefined, { targetLocale: "kr" })}
         aria-current={locale === "kr" ? "page" : undefined}
-        class="hoverable"
       >
         KR
       </a>
@@ -39,7 +38,6 @@ const header = await localizedQuery<SiteHeader>(Astro)(siteHeaderQuery);
         aria-description="View this page in English"
         href={l(route, undefined, { targetLocale: "en" })}
         aria-current={locale === "en" ? "page" : undefined}
-        class="hoverable"
       >
         EN
       </a>
@@ -70,8 +68,8 @@ const header = await localizedQuery<SiteHeader>(Astro)(siteHeaderQuery);
     position: sticky;
     top: calc(0.5 * var(--page-padding));
     z-index: 9999;
-    padding-bottom: 10px;
-    margin-bottom: -10px;
+    padding: 10px 0;
+    margin: -10px 0;
   }
 
   h1 {
@@ -102,6 +100,11 @@ const header = await localizedQuery<SiteHeader>(Astro)(siteHeaderQuery);
     transition:
       width 0.3s ease-in-out,
       box-shadow 0.3s ease-in-out;
+
+    & a:not([aria-current="page"]):hover {
+      background-color: var(--clr-fg);
+      color: var(--clr-bg);
+    }
 
     &::before {
       content: "";
@@ -136,9 +139,6 @@ const header = await localizedQuery<SiteHeader>(Astro)(siteHeaderQuery);
         min-width: 50%;
       }
     }
-  }
-
-  .lang {
   }
 
   a {

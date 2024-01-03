@@ -42,7 +42,7 @@ const { recirc } = Astro.props;
             <Link
               link={link}
               aria-describedby={link._key}
-              class="Recirc_link display-type legible"
+              class="Recirc_link display-type legible hoverable_before"
             />
             <p>
               <small>{underText || <>&nbsp;</>}</small>
@@ -101,11 +101,6 @@ const { recirc } = Astro.props;
       inset: 0;
       content: "";
       z-index: -1;
-    }
-
-    &:hover::before,
-    &:focus-visible::before {
-      background-color: var(--clr-hl);
     }
 
     &[data-link-type="resource"],
