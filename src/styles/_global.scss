@@ -112,6 +112,12 @@ small,
   display: none;
 }
 
+.sr-only {
+  position: absolute;
+  width: 0px;
+  left: -99999px;
+}
+
 .hoverable_before {
   &::before {
     background-color: var(--alpha);
@@ -122,4 +128,10 @@ small,
   &:focus-visible::before {
     background-color: var(--clr-hl);
   }
+}
+
+@counter-style daggers {
+  system: cyclic;
+  symbols: "†" "‡";
+  suffix: " ";
 }

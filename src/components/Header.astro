@@ -9,11 +9,11 @@ const header = await localizedQuery<SiteHeader>(Astro)(siteHeaderQuery);
 ---
 
 <header id="header">
-  <h1>
+  <div class="Masthead display-type">
     <a href={l("/")}>
       Future of <br />Conservation
     </a>
-  </h1>
+  </div>
 </header>
 <nav aria-label="Main" id="navbar">
   <ul class="grid">
@@ -69,10 +69,10 @@ const header = await localizedQuery<SiteHeader>(Astro)(siteHeaderQuery);
     top: 0;
     z-index: 9999;
     padding: calc(0.5 * var(--page-padding)) 0;
-    margin: calc(0.5 * var(--page-padding)) 0;
+    margin: calc(-0.5 * var(--page-padding)) 0;
   }
 
-  h1 {
+  .Masthead {
     font-size: var(--header-font-size);
     padding: $headerPadding * 1em 0;
 

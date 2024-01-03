@@ -14,85 +14,111 @@ import MarginNotes from "@/components/MarginNotes.astro";
     counter-reset: footnotes 0 footnotesnum 0;
     padding-bottom: 3rem;
 
+    & > *:where(:not(.Recirculation, hgroup)),
+    & > hgroup > * {
+      max-width: calc(var(--max-content-width) + 2 * var(--page-padding));
+      margin: 1em auto;
+      padding: 0 var(--page-padding);
+    }
+
+    // article title style
+    & > h1,
+    & > hgroup > h1 {
+      font-size: clamp(2rem, 8vw, 3.75rem);
+      min-height: 3.66em;
+      text-transform: uppercase;
+
+      &.person-title {
+        text-align: center;
+        min-height: 1.66em;
+      }
+    }
+
+    // article subtitle style
+    & > hgroup > p {
+      text-align: center;
+    }
+
+    & h2,
+    & .h2 {
+      font-size: clamp(2rem, 8vw, 3.75rem);
+      text-align: center;
+      text-transform: uppercase;
+    }
+
+    & em:not(.sr-style) {
+      font-style: italic;
+    }
+
+    & strong:not(.sr-style) {
+      font-weight: 700;
+    }
+
+    & > p {
+      min-height: 1px;
+      position: relative;
+
+      &.speaker {
+        text-transform: uppercase;
+        margin-bottom: -1em;
+      }
+
+      @media screen and (min-width: 480px) {
+        font-size: 1.25rem;
+      }
+    }
+
+    // blockquote style
+    & > blockquote {
+      text-transform: unset;
+
+      & p {
+        font-size: 1.25rem;
+        line-height: 1.25;
+        margin-top: 2em;
+        margin-bottom: 2em;
+
+        @media screen and (min-width: 480px) {
+          font-size: 1.625rem;
+        }
+      }
+    }
+
+    // margin note and captions style
+    & figcaption,
+    & sup {
+      font-size: 0.75rem;
+      font-weight: 700;
+      & span:not([data-fn-number]) {
+        word-break: break-word;
+      }
+    }
+
+    // links in body text
+    & p a,
+    & sup a {
+      text-decoration: underline;
+      text-underline-offset: 0.2em;
+      &:hover {
+        color: var(--clr-fg2);
+      }
+    }
+
+    // Neutralize bottom padding when recirculation present
     & > .Recirculation {
       margin-bottom: -3rem;
     }
 
-    & > *:where(:not(.Recirculation)),
-    & > *:where(.passthrough) > * {
-      max-width: calc(var(--max-content-width) + 2 * var(--page-padding));
-      margin: 1em auto;
-      padding: 0 var(--page-padding);
-
-      & h1 {
-        font-size: clamp(2rem, 8vw, 3.75rem);
-        min-height: 3.66em;
-        text-transform: uppercase;
-      }
-
-      & h2 {
-        font-size: clamp(2rem, 8vw, 3.75rem);
-        text-align: center;
-        text-transform: uppercase;
-      }
-
-      & h3 {
-        text-align: center;
-      }
-
-      & h2 + h3 {
-        margin-top: calc(-1 * clamp(2rem, 8vw, 3.75rem) + 0.5em);
-        margin-bottom: calc(clamp(2rem, 8vw, 3.75rem));
-      }
-
-      & p {
-        min-height: 1px;
-        position: relative;
-
-        &.speaker {
-          text-transform: uppercase;
-          margin-bottom: -1em;
-        }
-
-        @media screen and (min-width: 480px) {
-          font-size: 1.25rem;
-        }
-      }
-
-      & figcaption,
-      & sup {
+    // Footnote number
+    & span[data-footnote-root] {
+      &::after {
+        content: counter(footnotesnum);
+        // content: counter(footnotesnum, daggers);
+        counter-increment: footnotesnum 1;
         font-size: 0.75rem;
+        vertical-align: super;
+        margin-left: -0.4em;
         font-weight: 700;
-      }
-
-      & blockquote {
-        text-transform: unset;
-
-        & > p {
-          font-size: 1.25rem;
-          line-height: 1.25;
-          margin-top: 2em;
-          margin-bottom: 2em;
-
-          @media screen and (min-width: 480px) {
-            font-size: 1.625rem;
-          }
-        }
-      }
-
-      & span[data-footnote-root] {
-        &::after {
-          content: counter(footnotesnum);
-          counter-increment: footnotesnum 1;
-          font-size: 0.75rem;
-          vertical-align: super;
-          margin-left: -0.4em;
-          font-weight: 700;
-        }
-      }
-
-      & h2 + p {
-        margin-top: 3rem;
       }
     }
   }

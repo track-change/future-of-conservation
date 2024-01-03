@@ -1,13 +1,13 @@
 ---
 import { Image } from "astro:assets";
 import visualArts from "@/images/visualart.png";
-import Text from "@/components/OldText.astro";
 import {
   localizedQuery,
   siteFooterQuery,
   type SiteFooterQueryType,
 } from "@/queries/contentQueries";
 import { Icon } from "astro-icon/components";
+import TextMin from "@/components/Text/TextMin.astro";
 
 const siteFooter =
   await localizedQuery<SiteFooterQueryType>(Astro)(siteFooterQuery);
@@ -18,18 +18,19 @@ const siteFooter =
     class="Footer_desc limited_p"
     aria-label="Project Description"
     lang={siteFooter.descriptionLang}
-    ><Text content={siteFooter.description} /></section
+    ><TextMin value={siteFooter.description} /></section
   >
   <section
     class="Footer_credits limited_p"
     aria-label="Project Credits"
-    lang={siteFooter.creditsLang}><Text content={siteFooter.credits} /></section
+    lang={siteFooter.creditsLang}
+    ><TextMin value={siteFooter.credits} /></section
   >
   <section
     class="Footer_copyr"
     aria-label="Copyright Information"
     lang={siteFooter.copyrightLang}
-    ><Text content={siteFooter.copyright} /></section
+    ><TextMin value={siteFooter.copyright} /></section
   >
   <section class="Footer_logos" aria-label="Organization Links">
     <a
@@ -46,7 +47,8 @@ const siteFooter =
   <section
     class="Footer_support"
     aria-label="Support & Funding"
-    lang={siteFooter.supportLang}><Text content={siteFooter.support} /></section
+    lang={siteFooter.supportLang}
+    ><TextMin value={siteFooter.support} /></section
   >
 </footer>
 

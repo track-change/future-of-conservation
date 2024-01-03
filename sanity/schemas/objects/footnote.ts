@@ -25,18 +25,19 @@ export default defineType({
       title: "Content",
       description: "Text content to show in the footnote.",
       name: "content",
-      type: "internationalizedArrayText" as const,
+      type: "internationalizedArrayEditorTextMin" as const,
     },
   ],
   preview: {
     select: {
-      title: "content",
+      title: "content.0.value",
+      subtitle: "content.1.value",
     },
-    prepare({ title }) {
-      return {
-        title: title?.find(({ _key }: any) => _key == "en").value || "Footnote",
-        media: BsSuperscript,
-      };
-    },
+    // prepare({ title }) {
+    //   return {
+    //     title: title?.find(({ _key }: any) => _key == "en").value || "Footnote",
+    //     media: BsSuperscript,
+    //   };
+    // },
   },
 });

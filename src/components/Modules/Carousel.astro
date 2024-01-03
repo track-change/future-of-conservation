@@ -15,59 +15,61 @@ const { id: propsId, value } = Astro.props;
 const id = `c${propsId}`;
 ---
 
-<section id={id} class="Carousel" aria-label="Carousel">
-  <section class="Images" aria-live="polite">
+<div>
+  <section id={id} class="Carousel" aria-label="Carousel">
+    <section class="Images" aria-live="polite">
+      {
+        value.map((picture, i) => {
+          const img = resolveReference(picture.asset);
+          return (
+            <figure
+              class:list={i == 0 ? "present" : []}
+              id={`${id}-${i + 1}`}
+              role="tabpanel"
+            >
+              <SanityPicture
+                class="Picture"
+                src={img}
+                sizes="100vw, (min-width: 768px) 767px"
+                img={{
+                  alt: picture.alt || picture.caption || "Untitled image.",
+                  style: {
+                    width: "100%",
+                    height: "100%",
+                    objectFit: "contain",
+                    objectPosition: "center center",
+                  },
+                }}
+                style={{
+                  backgroundSize: "contain",
+                  backgroundPosition: "center bottom",
+                  backgroundRepeat: "no-repeat",
+                }}
+              />
+              <figcaption>{picture.caption}</figcaption>
+            </figure>
+          );
+        })
+      }
+    </section>
     {
-      value.map((picture, i) => {
-        const img = resolveReference(picture.asset);
-        return (
-          <figure
-            class:list={i == 0 ? "present" : []}
-            id={`${id}-${i + 1}`}
-            role="tabpanel"
-          >
-            <SanityPicture
-              class="Picture"
-              src={img}
-              sizes="100vw, (min-width: 768px) 767px"
-              img={{
-                alt: picture.alt || picture.caption || "Untitled image.",
-                style: {
-                  width: "100%",
-                  height: "100%",
-                  objectFit: "contain",
-                  objectPosition: "center center",
-                },
-              }}
-              style={{
-                backgroundSize: "contain",
-                backgroundPosition: "center bottom",
-                backgroundRepeat: "no-repeat",
-              }}
-            />
-            <figcaption>{picture.caption}</figcaption>
-          </figure>
-        );
-      })
+      value.length > 1 && (
+        <nav role="tablist">
+          {value.map((_, i) => {
+            return (
+              <button
+                role="tab"
+                aria-label={`Picture ${i + 1} of ${value.length}`}
+                aria-selected={i == 0}
+                aria-controls={`${id}-${i + 1}`}
+              />
+            );
+          })}
+        </nav>
+      )
     }
   </section>
-  {
-    value.length > 1 && (
-      <nav role="tablist">
-        {value.map((_, i) => {
-          return (
-            <button
-              role="tab"
-              aria-label={`Picture ${i + 1} of ${value.length}`}
-              aria-selected={i == 0}
-              aria-controls={`${id}-${i + 1}`}
-            />
-          );
-        })}
-      </nav>
-    )
-  }
-</section>
+</div>
 
 <script define:vars={{ id }}>
   let shownI = 0;
@@ -121,7 +123,7 @@ const id = `c${propsId}`;
   .Carousel {
     position: relative;
     width: 100%;
-    margin: 2em 0;
+    margin: 3rem 0;
     display: grid;
     grid-template-columns: 1fr auto;
     grid-template-rows: 1fr auto;

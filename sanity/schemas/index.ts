@@ -6,6 +6,7 @@ import siteFooter from "./documents/site/siteFooter";
 // content
 import editorText from "./content/editors/editorText";
 import editorTextMedia from "./content/editors/editorTextMedia";
+import editorTextMin from "./content/editors/editorTextMin";
 // objects
 import link from "./objects/link";
 import internalLink from "./objects/internalLink";
@@ -39,6 +40,7 @@ const schemaTypes = [
   siteHeader,
   siteFooter,
   editorText,
+  editorTextMin,
   editorTextMedia,
   link,
   internalLink,

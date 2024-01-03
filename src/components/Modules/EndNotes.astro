@@ -1,4 +1,5 @@
 ---
+import TextMin from "@/components/Text/TextMin.astro";
 import type { Footnote } from "@/sanity";
 interface Props {
   value: Footnote[];
@@ -9,19 +10,19 @@ const {
 } = Astro;
 ---
 
-<div class="Footnotes" aria-label="Footnotes">
-  <hr />
+<hr />
+<section class="Footnotes" aria-label="Footnotes">
   {
     value.map((fn, i) => (
       <p>
         <sup>
-          <span>{i + 1}.</span>
-          {fn.content}
+          <span data-fn-number>{i + 1}.</span>
+          <TextMin value={fn.content} />
         </sup>
       </p>
     ))
   }
-</div>
+</section>
 
 <style>
   .Footnotes {
@@ -33,16 +34,7 @@ const {
   }
 
   hr {
-    position: absolute;
-    left: -9999px;
-    /* grid-column-start: 1;
-    grid-column-end: -1;
-    max-width: 100%;
-    height: 1px;
-    border: 0;
-    border-top: 1px solid var(--clr-fg2);
-    margin: 1em 0;
-    padding: 0; */
+    opacity: 0;
   }
 
   sup {

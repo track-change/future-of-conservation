@@ -43,8 +43,11 @@
       left: calc(50% + 0.5 * var(--max-content-width));
       border: unset;
       top: 0;
+      max-width: min(
+        280px,
+        calc(0.5 * (100vw - var(--page-padding) - var(--max-content-width)))
+      );
       bottom: 0;
-      width: 200px;
     }
 
     & > sup {
@@ -56,6 +59,7 @@
 
       &::before {
         content: counter(footnotes) ".";
+        // content: counter(footnotes, daggers);
         counter-increment: footnotes 1;
         display: block;
         margin-right: 0.5ch;
@@ -70,7 +74,10 @@
 
       @media screen and (min-width: $sideNotesBreakpoint) {
         position: absolute;
-        width: 280px;
+        max-width: min(
+          280px,
+          calc(0.5 * (100vw - var(--page-padding) - var(--max-content-width)))
+        );
       }
     }
   }

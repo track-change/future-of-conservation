@@ -76,8 +76,8 @@ export const annotationsWithFootnotes = [
       {
         title: "Content",
         description: "Text content to show in the margins",
-        name: "marginContent",
-        type: "text" as const,
+        name: "content",
+        type: "editorTextMin" as const,
         options: {
           rows: 3,
         },

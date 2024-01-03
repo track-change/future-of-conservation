@@ -417,6 +417,8 @@ export interface SiteFooter extends SanityDocument {
 
 export type EditorText = Array<SanityKeyed<SanityBlock>>;
 
+export type EditorTextMin = Array<SanityKeyed<SanityBlock>>;
+
 export type EditorTextMedia = Array<
   SanityKeyed<SanityBlock> | SanityKeyed<PictureTitled>
 >;
@@ -488,11 +490,11 @@ export type Footnote = {
   slug: { _type: "slug"; current: string };
 
   /**
-   * Content — `internationalizedArrayText`
+   * Content — `internationalizedArrayEditorTextMin`
    *
    * Text content to show in the footnote.
    */
-  content?: InternationalizedArrayText;
+  content?: InternationalizedArrayEditorTextMin;
 };
 
 export type PictureTitled = {
@@ -660,7 +662,7 @@ type InternationalizedArrayEditorText = any;
  * the definition was not actually found. Future versions of
  * sanity-codegen will let you type this explicity.
  */
-type InternationalizedArrayText = any;
+type InternationalizedArrayEditorTextMin = any;
 
 /**
  * This interface is a stub. It was referenced in your sanity schema but
@@ -668,3 +670,10 @@ type InternationalizedArrayText = any;
  * sanity-codegen will let you type this explicity.
  */
 type InternationalizedArrayEditorTextMedia = any;
+
+/**
+ * This interface is a stub. It was referenced in your sanity schema but
+ * the definition was not actually found. Future versions of
+ * sanity-codegen will let you type this explicity.
+ */
+type InternationalizedArrayText = any;

@@ -1,21 +1,27 @@
 ---
+import TextMin from "@/components/Text/TextMin.astro";
+import type { Footnote } from "@/sanity";
 import type { Mark, Props as $ } from "astro-portabletext/types";
-type MarginNote = Mark<{ marginContent: string; slug: { current: string } }>;
+type MarginNote = Mark<Footnote>;
 
 export type Props = $<MarginNote>;
 
 const {
   props: {
     node: {
-      markDef: { marginContent, slug },
+      markDef: { content, slug },
     },
   },
 } = Astro;
 ---
 
-<span data-footnote-root id={slug.current}>
+<span
+  data-footnote-root
+  id={slug.current}
+  aria-describedby={`fn-${slug.current}`}
+>
   <slot />
-  <sup data-footnote>
-    {marginContent}
+  <sup data-footnote id={`fn-${slug.current}`}>
+    <TextMin value={content} />
   </sup>
 </span>

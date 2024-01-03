@@ -9,6 +9,7 @@ import {
 } from "@/queries/contentQueries";
 import { astroI18n, createGetStaticPaths } from "astro-i18n";
 import PageContents from "@/components/PageContents.astro";
+import ReadableLayout from "@/layouts/ReadableLayout.astro";
 
 export const getStaticPaths = createGetStaticPaths(slugsFor("artist"));
 
@@ -29,18 +30,23 @@ if (!artist) {
         slot="head"
         title={`${artist.title}: ${artist.interviewTitle}`}
         titleTemplate="%s | Future Of Conservation"
-        charset="UTF-8"
         description=""
       />
-      <PageContents value={artist.interview}>
-        <hgroup class="passthrough" slot="hgroup">
+      <ReadableLayout>
+        <hgroup class="passthrough">
           <h1 lang={artist.interviewTitleLang}>
             {artist.interviewTitle || "Interview"}
           </h1>
-          <h2 lang={artist.titleLang}>{artist.title}</h2>
-          <h3>{artist.interviewArtistDesc}</h3>
+          <p lang={artist.titleLang}>
+            <span class="display-type h2">
+              <strong class="sr-style">{artist.title}</strong>
+            </span>
+            <br />
+            <span>{artist.interviewArtistDesc}</span>
+          </p>
         </hgroup>
-      </PageContents>
+        <PageContents value={artist.interview} />
+      </ReadableLayout>
     </RootLayout>
   )
 }
