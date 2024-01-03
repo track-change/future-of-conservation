@@ -7,7 +7,7 @@ import { deskTool } from "sanity/desk";
 import { sanityClient } from "sanity:client";
 import { media } from "sanity-plugin-media";
 import schemaTypes from "./sanity/schemas";
-import { githubEnvironmentsWidget } from 'sanity-plugin-dashboard-widget-github-environments';
+import { githubEnvironmentsWidget } from "sanity-plugin-dashboard-widget-github-environments";
 import { structure } from "./sanity/config/structure";
 import {
   defaultDocumentNode,
@@ -18,12 +18,14 @@ import "@/styles/sanityStudio.scss";
 import Icon from "./sanity/components/Icon";
 
 const { projectId, dataset } = sanityClient.config();
-const { bundledVars: { GITHUB_ACCESS_TOKEN } } = sanityClient.config() as any;
+const {
+  bundledVars: { GITHUB_ACCESS_TOKEN },
+} = sanityClient.config() as any;
 
-const {theme} = (await import(
+const { theme } = (await import(
   // @ts-expect-error -- TODO setup themer.d.ts to get correct typings
-  'https://themer.sanity.build/api/hues?preset=retro-colonial&default=cce8b5;400&primary=ccff00;400'
-)) as {theme: import('sanity').StudioTheme}
+  "https://themer.sanity.build/api/hues?preset=retro-colonial&default=cce8b5;400&primary=ccff00;400"
+)) as { theme: import("sanity").StudioTheme };
 
 export default defineConfig({
   theme,
@@ -43,17 +45,17 @@ export default defineConfig({
           // disableIframe: "yes",
           layout: { height: "medium", width: "medium" },
           github: {
-            owner: "evankirkiles",
+            owner: "track-change",
             repo: "future-of-conservation",
             environment: "future-of-conservation (Production)",
             octokitConfig: {
-              auth: GITHUB_ACCESS_TOKEN
+              auth: GITHUB_ACCESS_TOKEN,
             },
             workflowDispatch: {
               workflowId: "build.production.yml",
-              ref: "main"
+              ref: "main",
             },
-          }
+          },
         }),
         documentListWidget({
           title: "Last Edited Artists",
@@ -76,7 +78,13 @@ export default defineConfig({
         documentListWidget({
           title: "Last Edited Pages",
           order: "_updatedAt desc",
-          types: ["page", "pageHome", "pageArtists", "pageArticles", "pageResources"],
+          types: [
+            "page",
+            "pageHome",
+            "pageArtists",
+            "pageArticles",
+            "pageResources",
+          ],
           layout: { height: "small" },
         }),
       ],
