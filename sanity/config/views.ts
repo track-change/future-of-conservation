@@ -151,7 +151,7 @@ export const defaultDocumentNode: DefaultDocumentNodeResolver = (
           url: {
             origin: "same-origin",
             preview: (doc: SanityDocument) =>
-              resolveProductionUrl({ doc, context: S.context }),
+              resolveProductionUrl({ doc, context: S.context, prefix: "kr" }),
             draftMode: "/draftMode/enable",
           },
           defaultSize: "desktop",
