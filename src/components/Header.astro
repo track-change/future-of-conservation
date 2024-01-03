@@ -66,10 +66,10 @@ const header = await localizedQuery<SiteHeader>(Astro)(siteHeaderQuery);
     width: 100%;
     overflow-x: hidden;
     position: sticky;
-    top: calc(0.5 * var(--page-padding));
+    top: 0;
     z-index: 9999;
-    padding: 10px 0;
-    margin: -10px 0;
+    padding: calc(0.5 * var(--page-padding)) 0;
+    margin: calc(0.5 * var(--page-padding)) 0;
   }
 
   h1 {
