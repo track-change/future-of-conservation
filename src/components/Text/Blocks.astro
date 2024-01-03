@@ -19,4 +19,4 @@ const Cmp = styleIs("small")
       : Block; // Fallback to `astro-portabletext`
 ---
 
-<Cmp {...props} lang="kr"><slot /></Cmp>
+<Cmp {...props} lang={props.lang}><slot /></Cmp>
