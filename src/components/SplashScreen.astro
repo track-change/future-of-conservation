@@ -34,7 +34,7 @@
     0% {
       --clr-hl: var(--black);
     }
-    50% {
+    75% {
       --clr-hl: var(--black);
     }
     100% {
@@ -46,7 +46,7 @@
       --clr-bg: var(--black);
       --clr-bg2: var(--black);
     }
-    50% {
+    75% {
       --clr-bg: var(--black);
       --clr-bg2: var(--black);
     }
@@ -58,11 +58,11 @@
 
   body.splashed {
     // background-color: var(--clr-fg);
-    animation: match-bg-color 2s ease-in-out;
+    animation: match-bg-color 3s ease-in-out;
     animation-fill-mode: forwards;
 
     & #navbar ul li {
-      animation: match-hl-color 2s ease-in-out;
+      animation: match-hl-color 3s ease-in-out;
       animation-fill-mode: forwards;
     }
   }
@@ -137,8 +137,8 @@
       height: 5px;
       width: 100%;
       background-color: var(--clr-hl);
-      animation: slide-right 0.5s ease-in-out;
-      animation-delay: 2s;
+      animation: slide-right 0.75s ease;
+      animation-delay: 1s;
       animation-fill-mode: both;
     }
 
@@ -155,6 +155,6 @@
 
   h1 {
     font-size: 12vw;
-    animation: fade-up 1s ease-in-out;
+    animation: fade-up 1s ease;
   }
 </style>
