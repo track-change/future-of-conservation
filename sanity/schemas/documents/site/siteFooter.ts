@@ -17,7 +17,7 @@ export default defineType({
       title: "Credits",
       name: "credits",
       description: "Text for the credits, top of column 2",
-      type: "internationalizedArrayEditorTexMint",
+      type: "internationalizedArrayEditorTextMin",
     }),
     defineField({
       title: "Copyright",
