@@ -99,6 +99,7 @@ export type ArtistsQueryType = (Artist & { titleLang?: string })[];
 
 export const artistsQuery = groq`
 *[_type == "artist"] {
+  _id,
   _type,
   slug,
   picture,

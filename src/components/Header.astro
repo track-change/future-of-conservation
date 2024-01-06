@@ -8,7 +8,7 @@ const { locale, route } = astroI18n;
 const header = await localizedQuery<SiteHeader>(Astro)(siteHeaderQuery);
 ---
 
-<header id="header">
+<header id="header" aria-label="Future of Conservation">
   <div class="Masthead display-type">
     <a href={l("/")}>
       Future of <br />Conservation

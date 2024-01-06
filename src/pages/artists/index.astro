@@ -26,11 +26,18 @@ const possibleTags = artists
     description=""
   />
   <FilterGridControls tags={possibleTags} ariaControls="artists">
-    <section class="Artists" aria-label="Artists" aria-live="polite">
-      <ul id="artists" class="Artists_list grid">
+    <section class="Artists" aria-label="Artists">
+      <ul
+        id="artists"
+        class="Artists_list grid"
+        aria-label="Filter Results"
+        aria-live="polite"
+        aria-atomic="true"
+      >
         {
           artists.map((artist) => (
             <li
+              aria-labelledby={`artist-${artist._id}`}
               class="filter-target"
               data-tags={`[${
                 artist.tags
@@ -39,7 +46,7 @@ const possibleTags = artists
                   .join(",") || ""
               }]`}
             >
-              <h2 lang={artist.titleLang}>
+              <h2 id={`artist-${artist._id}`} lang={artist.titleLang}>
                 <Link
                   link={artist}
                   data-astro-prefetch="viewport"
@@ -47,7 +54,7 @@ const possibleTags = artists
                 />
               </h2>
               {artist.tags?.length ? (
-                <ul class="Artists_tags">
+                <ul class="Artists_tags" aria-label="Artist Tags">
                   {artist.tags
                     ?.map(resolveReference)
                     .map(

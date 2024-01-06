@@ -21,7 +21,7 @@ const {
   aria-describedby={`fn-${slug.current}`}
 >
   <slot />
-  <sup data-footnote id={`fn-${slug.current}`}>
+  <sup data-footnote role="note" id={`fn-${slug.current}`}>
     <TextMin value={content} />
   </sup>
 </span>

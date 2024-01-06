@@ -13,6 +13,7 @@ export default class SideNotes {
       this.root.appendChild(container);
     }
     this.container = container;
+    container.ariaLabel = "Margin Notes";
     // Create intersection observer for mobile
     this.observer = new IntersectionObserver(
       (e) =>
