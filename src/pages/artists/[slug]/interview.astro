@@ -25,13 +25,10 @@ if (!artist) {
 
 {
   artist && (
-    <RootLayout>
-      <SEO
-        slot="head"
-        title={`${artist.title}: ${artist.interviewTitle}`}
-        titleTemplate="%s | Future Of Conservation"
-        description=""
-      />
+    <RootLayout
+      pageTitle={`${artist.title}: ${artist.interviewTitle}`}
+      pageSeo={artist.interview?.seo}
+    >
       <ReadableLayout>
         <hgroup class="passthrough">
           <h1 lang={artist.interviewTitleLang}>

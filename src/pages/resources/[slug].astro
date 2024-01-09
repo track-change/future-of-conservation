@@ -24,7 +24,7 @@ if (!resource) {
 
 {
   resource && (
-    <RootLayout>
+    <RootLayout pageTitle={resource.title} pageSeo={resource.content.seo}>
       <SEO
         slot="head"
         title={resource.title}
