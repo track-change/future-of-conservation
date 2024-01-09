@@ -72,6 +72,10 @@ const header = await localizedQuery<SiteHeader>(Astro)(siteHeaderQuery);
     z-index: 9999;
     padding: calc(0.5 * var(--page-padding)) 0;
     margin: calc(-0.5 * var(--page-padding)) 0;
+
+    @media screen and (max-width: 15rem) {
+      position: relative;
+    }
   }
 
   .Masthead {
@@ -133,14 +137,18 @@ const header = await localizedQuery<SiteHeader>(Astro)(siteHeaderQuery);
   }
 
   .navlink {
-    flex: 1;
+    flex: 400;
 
     @media screen and (max-width: 768px) {
       &:nth-child(1),
       &:nth-child(2) {
-        min-width: 50%;
+        min-width: min(max(50%, 9rem), 100%);
       }
     }
+  }
+
+  .lang {
+    flex: 1;
   }
 
   a {
