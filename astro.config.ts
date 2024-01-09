@@ -23,6 +23,7 @@ const locales = {
 // a preview version of the page based on the drafted content.
 const PREVIEW_CONFIG = (): AstroUserConfig => ({
   site: env.SITE_URL,
+  devToolbar: { enabled: false },
   integrations: [
     icon(),
     sanityIntegration({
@@ -35,8 +36,8 @@ const PREVIEW_CONFIG = (): AstroUserConfig => ({
       // We probably shouldn't do this, but it's fine until I get the Github
       // Environments Dashboard plugin to read straight from Sanity datasets.
       bundledVars: {
-        GITHUB_ACCESS_TOKEN: env.SANITY_STUDIO_GITHUB_ACCESS_TOKEN
-      }
+        GITHUB_ACCESS_TOKEN: env.SANITY_STUDIO_GITHUB_ACCESS_TOKEN,
+      },
     }),
     react(),
     robotsTxt(),
@@ -55,6 +56,7 @@ const STATIC_CONFIG = (): AstroUserConfig => ({
     prefetchAll: true,
     defaultStrategy: "viewport",
   },
+  devToolbar: { enabled: false },
   site: env.SITE_URL,
   integrations: [
     icon(),

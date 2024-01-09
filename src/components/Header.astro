@@ -8,7 +8,7 @@ const { locale, route } = astroI18n;
 const header = await localizedQuery<SiteHeader>(Astro)(siteHeaderQuery);
 ---
 
-<header id="header" aria-label="Future of Conservation">
+<header id="header">
   <div class="Masthead display-type">
     <a href={l("/")}>
       Future of <br />Conservation
@@ -16,7 +16,7 @@ const header = await localizedQuery<SiteHeader>(Astro)(siteHeaderQuery);
   </div>
 </header>
 <nav aria-label="Main" id="navbar">
-  <ul class="grid">
+  <ul class="grid" role="list">
     {
       header.navItems?.map((link) => (
         <li class="navlink">
@@ -29,6 +29,7 @@ const header = await localizedQuery<SiteHeader>(Astro)(siteHeaderQuery);
         aria-description="View this page in Korean"
         href={l(route, undefined, { targetLocale: "kr" })}
         aria-current={locale === "kr" ? "page" : undefined}
+        hreflang="kr"
       >
         KR
       </a>
@@ -38,6 +39,7 @@ const header = await localizedQuery<SiteHeader>(Astro)(siteHeaderQuery);
         aria-description="View this page in English"
         href={l(route, undefined, { targetLocale: "en" })}
         aria-current={locale === "en" ? "page" : undefined}
+        hreflang="en"
       >
         EN
       </a>

@@ -20,8 +20,8 @@ if (!page) {
 
 {
   page && (
-    <RootLayout>
-      <PageContents value={page.content}></PageContents>
+    <RootLayout pageTitle={page.title} pageSeo={page.content.seo}>
+      <PageContents value={page.content} />
     </RootLayout>
   )
 }

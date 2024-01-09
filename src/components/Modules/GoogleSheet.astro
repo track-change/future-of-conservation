@@ -8,10 +8,10 @@ const { props } = Astro;
 ---
 
 <section>
-  <h3
+  <h2 class="header-reset"
     ><a href={props.value.url} target="_blank" rel="noopener noreferrer"
       >{props.value.title}</a
-    ></h3
+    ></h2
   >
   <iframe title={props.value.title} src={props.value.url}></iframe>
 </section>

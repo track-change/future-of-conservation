@@ -57,6 +57,30 @@ export const pageHomeQuery = groq`
 }
 `;
 
+export const pageArtistsQuery = groq`
+*[_type == "pageArtists"][0] {
+  ${localizedFieldWithLang("title")},
+  artists[] { _id, _key },
+  seo
+}
+`;
+
+export const pageArticlesQuery = groq`
+*[_type == "pageArticles"][0] {
+  ${localizedFieldWithLang("title")},
+  articles[] { _id, _key },
+  seo
+}
+`;
+
+export const pageResourcesQuery = groq`
+*[_type == "pageResources"][0] {
+  ${localizedFieldWithLang("title")},
+  resources[] { _id, _key },
+  seo
+}
+`;
+
 export const pageQuery = groq`
 *[_type == "page" && slug.current == $slug][0] {
   ...,
@@ -67,6 +91,8 @@ export const pageQuery = groq`
 
 export const siteHeaderQuery = groq`
 *[_type == "siteHeader"][0] {
+  title,
+  seo,
   navItems[] {
     ${linkQuery}
   }

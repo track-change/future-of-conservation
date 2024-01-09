@@ -1,27 +1,25 @@
 ---
-import { SEO } from "astro-seo";
 import Link from "@/components/Link.astro";
 import RootLayout from "@/layouts/RootLayout.astro";
 import {
   localizedQuery,
   articlesQuery,
   type ArticlesQueryType,
+  pageArticlesQuery,
 } from "@/queries/contentQueries";
 import SearchGridControls from "@/components/GridControlsSearch.astro";
 import { resolveReference } from "@/utils/resolveLinks";
+import type { PageArticles } from "@/sanity";
 
+const articlesPage =
+  await localizedQuery<PageArticles>(Astro)(pageArticlesQuery);
 const articles = await localizedQuery<ArticlesQueryType>(Astro)(articlesQuery);
 ---
 
-<RootLayout>
-  <SEO
-    slot="head"
-    title="Articles"
-    titleTemplate="%s | Future Of Conservation"
-    description=""
-  />
+<RootLayout pageTitle={articlesPage.title} pageSeo={articlesPage.seo}>
   <SearchGridControls ariaControls="articles">
-    <section class="Articles" aria-label="Articles">
+    <section class="Articles">
+      <h1 class="sr-only">{articlesPage.title}</h1>
       <ol
         id="articles"
         class="grid search-container"
@@ -37,7 +35,7 @@ const articles = await localizedQuery<ArticlesQueryType>(Astro)(articlesQuery);
             >
               <article class="Article central-column">
                 <div>{(i + 1).toString().padStart(2, "0")}</div>
-                <h1 class="legible" lang={article.titleLang}>
+                <h2 class="h1 legible" lang={article.titleLang}>
                   <Link
                     link={article}
                     target="_blank"
@@ -46,8 +44,9 @@ const articles = await localizedQuery<ArticlesQueryType>(Astro)(articlesQuery);
                   >
                     {article.title}
                   </Link>
-                </h1>
-                <h2
+                </h2>
+                <p
+                  class="byline display-type"
                   lang={
                     article.isExternalAuthor
                       ? article.authorExternalLang
@@ -61,7 +60,7 @@ const articles = await localizedQuery<ArticlesQueryType>(Astro)(articlesQuery);
                     : article.author
                       ? resolveReference(article.author).title
                       : undefined}
-                </h2>
+                </p>
                 <p>VIEW PDF</p>
               </article>
             </li>
@@ -108,7 +107,7 @@ const articles = await localizedQuery<ArticlesQueryType>(Astro)(articlesQuery);
       font-size: 0.875rem;
     }
 
-    & > h1 {
+    & > h2 {
       grid-area: title;
       font-size: clamp(2rem, 8vw, 3.75rem);
 
@@ -131,14 +130,14 @@ const articles = await localizedQuery<ArticlesQueryType>(Astro)(articlesQuery);
       }
     }
 
-    & > h2 {
+    & > p.byline {
       grid-area: author;
       text-transform: uppercase;
       text-align: center;
       font-size: clamp(2rem, 8vw, 3.75rem);
     }
 
-    & > p {
+    & > p:not(.byline) {
       grid-area: type;
       text-align: center;
       font-size: 0.875rem;

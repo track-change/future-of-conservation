@@ -1,16 +1,17 @@
 ---
-import { SEO } from "astro-seo";
 import RootLayout from "@/layouts/RootLayout.astro";
-import type { Tag } from "@/sanity";
+import type { PageArtists, Tag } from "@/sanity";
 import {
   localizedQuery,
   artistsQuery,
   type ArtistsQueryType,
+  pageArtistsQuery,
 } from "@/queries/contentQueries";
 import Link from "@/components/Link.astro";
 import FilterGridControls from "@/components/GridControlsFilter.astro";
 import { resolveReference } from "@/utils/resolveLinks";
 
+const artistsPage = await localizedQuery<PageArtists>(Astro)(pageArtistsQuery);
 const artists = await localizedQuery<ArtistsQueryType>(Astro)(artistsQuery);
 const possibleTags = artists
   .flatMap(({ tags }) => tags || [])
@@ -18,15 +19,10 @@ const possibleTags = artists
   .map((x) => resolveReference(x));
 ---
 
-<RootLayout>
-  <SEO
-    slot="head"
-    title="Artists"
-    titleTemplate="%s | Future Of Conservation"
-    description=""
-  />
+<RootLayout pageTitle={artistsPage.title} pageSeo={artistsPage.seo}>
   <FilterGridControls tags={possibleTags} ariaControls="artists">
-    <section class="Artists" aria-label="Artists">
+    <section class="Artists">
+      <h1 class="sr-only">{artistsPage.title}</h1>
       <ul
         id="artists"
         class="Artists_list grid"

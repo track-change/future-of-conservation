@@ -8,6 +8,23 @@ export default defineType({
   icon: BiMapAlt,
   fields: [
     defineField({
+      title: "Page Title",
+      name: "title",
+      description: "The title of the site, used for SEO (not the logo text!).",
+      type: "string",
+      validation: (Rule) => Rule.required(),
+      codegen: { required: true },
+    }),
+    defineField({
+      title: "Base SEO",
+      name: "seo",
+      description:
+        "Base SEO to use as defaults when pages don't provide their own.",
+      type: "seo",
+      validation: (Rule) => Rule.required(),
+      codegen: { required: true },
+    }),
+    defineField({
       title: "Navigation Bar",
       description: "Items to display in the top navigation bar.",
       name: "navItems",

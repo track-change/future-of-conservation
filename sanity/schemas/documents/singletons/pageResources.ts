@@ -44,12 +44,12 @@ export default defineType({
       initialValue: { current: "resources" },
     },
     defineField({
-      title: "Artists",
-      name: "artists",
+      title: "Resources",
+      name: "resources",
       description:
-        "The ordered list of artists to display on the /artists page.",
+        "The ordered list of resources to display on the /resources page.",
       type: "array",
-      of: [{ type: "reference", to: [{ type: "artist" }] }],
+      of: [{ type: "reference", to: [{ type: "resource" }] }],
       group: "content",
     }),
     defineField({

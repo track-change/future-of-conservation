@@ -1,5 +1,4 @@
 <script is:inline>
-  console.log(document.referrer);
   if (
     !document.referrer ||
     new URL(document.referrer).hostname !== window.location.hostname
@@ -9,7 +8,7 @@
     document.body.classList.add("splashed");
     document.body.classList.add("noscroll");
     document.body.classList.add("noclick");
-    const time = 5000;
+    const time = 4000;
     setTimeout(() => {
       document.body.classList.remove("noscroll");
     }, time * 0.5);

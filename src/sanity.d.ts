@@ -348,11 +348,11 @@ export interface PageResources extends SanityDocument {
   slug: { _type: "slug"; current: string };
 
   /**
-   * Artists — `array`
+   * Resources — `array`
    *
-   * The ordered list of artists to display on the /artists page.
+   * The ordered list of resources to display on the /resources page.
    */
-  artists?: Array<SanityKeyedReference<Artist>>;
+  resources?: Array<SanityKeyedReference<Resource>>;
 
   /**
    * SEO — `seo`
@@ -371,6 +371,20 @@ export interface SiteHeader extends SanityDocument {
   _type: "siteHeader";
 
   /**
+   * Page Title — `string`
+   *
+   * The title of the site, used for SEO (not the logo text!).
+   */
+  title: string;
+
+  /**
+   * Base SEO — `seo`
+   *
+   * Base SEO to use as defaults when pages don't provide their own.
+   */
+  seo: Seo;
+
+  /**
    * Navigation Bar — `array`
    *
    * Items to display in the top navigation bar.
@@ -387,32 +401,32 @@ export interface SiteFooter extends SanityDocument {
   _type: "siteFooter";
 
   /**
-   * Description — `internationalizedArrayEditorText`
+   * Description — `internationalizedArrayEditorTextMin`
    *
    * Text for the site description, top of column 1
    */
-  description?: InternationalizedArrayEditorText;
+  description?: InternationalizedArrayEditorTextMin;
 
   /**
-   * Credits — `internationalizedArrayEditorText`
+   * Credits — `internationalizedArrayEditorTextMin`
    *
    * Text for the credits, top of column 2
    */
-  credits?: InternationalizedArrayEditorText;
+  credits?: InternationalizedArrayEditorTextMin;
 
   /**
-   * Copyright — `internationalizedArrayEditorText`
+   * Copyright — `internationalizedArrayEditorTextMin`
    *
    * Text for the copyright, bottom of columns 1 + 2
    */
-  copyright?: InternationalizedArrayEditorText;
+  copyright?: InternationalizedArrayEditorTextMin;
 
   /**
-   * Support — `internationalizedArrayEditorText`
+   * Support — `internationalizedArrayEditorTextMin`
    *
    * Text for the support, bottom of column 3 (below the logos)
    */
-  support?: InternationalizedArrayEditorText;
+  support?: InternationalizedArrayEditorTextMin;
 }
 
 export type EditorText = Array<SanityKeyed<SanityBlock>>;
@@ -649,13 +663,6 @@ export type Documents =
  * sanity-codegen will let you type this explicity.
  */
 type InternationalizedArrayString = any;
-
-/**
- * This interface is a stub. It was referenced in your sanity schema but
- * the definition was not actually found. Future versions of
- * sanity-codegen will let you type this explicity.
- */
-type InternationalizedArrayEditorText = any;
 
 /**
  * This interface is a stub. It was referenced in your sanity schema but

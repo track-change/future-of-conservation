@@ -1,0 +1,61 @@
+---
+import { SEO } from "astro-seo";
+import { localizedQuery, siteHeaderQuery } from "@/queries/contentQueries";
+import type { Seo, SiteHeader } from "@/sanity";
+import { resolveReference } from "@/utils/resolveLinks";
+import { astroI18n } from "astro-i18n";
+import type { SanityImageAsset2 } from "@/utils/types";
+
+interface Props {
+  pageTitle?: string;
+  pageSeo?: Seo;
+}
+
+const header = await localizedQuery<SiteHeader>(Astro)(siteHeaderQuery);
+
+const { title: baseTitle, seo: baseSeo } = header;
+const { pageTitle, pageSeo } = Astro.props;
+
+const finalTitle = pageTitle ? `${pageTitle} - ${baseTitle}` : baseTitle;
+const finalDesc = pageSeo?.metaDescription || baseSeo?.metaDescription;
+const finalKeywords = pageSeo?.metaKeywords?.length
+  ? pageSeo?.metaKeywords
+  : baseSeo?.metaKeywords;
+
+const finalImageAsset = pageSeo?.ogImage?.asset || baseSeo?.ogImage?.asset;
+let image: SanityImageAsset2 | undefined;
+if (finalImageAsset) {
+  image = resolveReference(finalImageAsset);
+}
+---
+
+<title>{finalTitle}</title>
+<SEO
+  title={finalTitle}
+  description={finalDesc}
+  openGraph={image && finalTitle
+    ? {
+        basic: {
+          title: finalTitle,
+          type: "website",
+          image: image.url,
+        },
+        image: {
+          width: image.metadata.dimensions.width,
+          height: image.metadata.dimensions.height,
+          type: image.mimeType,
+          alt: image.altText,
+        },
+      }
+    : undefined}
+  extend={finalKeywords
+    ? {
+        meta: [
+          {
+            property: "keywords",
+            content: finalKeywords.join(", "),
+          },
+        ],
+      }
+    : undefined}
+/>

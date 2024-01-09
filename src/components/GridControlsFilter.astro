@@ -27,19 +27,20 @@ const orderedTags = Object.values(
 
 <form
   id="filter-control"
+  role="region"
   class="FilterControl"
-  aria-label="Filter page contents by tag"
+  aria-labelledby="filter-head"
   aria-controls={ariaControls}
 >
+  <a href="#filter-scroll-right" class="focus-only">Skip filter controls</a>
   <div class="FilterControl_head">
-    <h1 class="header-reset" id="filter-head"><small>Explore by tag</small></h1>
+    <p id="filter-head"><small>Filter by tag</small></p>
     <button
       type="button"
       id="filter-control-clear"
       class="FilterControl_clear"
       aria-label="Clear the filter"
-      tabindex="0"
-      disabled
+      aria-disabled="true"
     >
       Clear
     </button>
@@ -50,8 +51,7 @@ const orderedTags = Object.values(
         id="filter-scroll-left"
         aria-label="Scroll the tag filter to the left"
         type="button"
-        tabindex="0"
-        disabled
+        aria-disabled="true"
       >
         <svg
           viewBox="0 0 9 15"
@@ -59,6 +59,7 @@ const orderedTags = Object.values(
           xmlns="http://www.w3.org/2000/svg"
           style={{ transform: "scaleX(-1) " }}
         >
+          <title>Left Arrow</title>
           <path d="M1.5 13.5L7.5 7.5L1.5 1.5" stroke="white" stroke-width="1.5"
           ></path>
         </svg>
@@ -86,10 +87,10 @@ const orderedTags = Object.values(
         id="filter-scroll-right"
         aria-label="Scroll the tag filter to the right"
         type="button"
-        tabindex="0"
-        disabled
+        aria-disabled="true"
       >
         <svg viewBox="0 0 9 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <title>Right Arrow</title>
           <path d="M1.5 13.5L7.5 7.5L1.5 1.5" stroke="white" stroke-width="1.5"
           ></path>
         </svg>
@@ -115,7 +116,11 @@ const orderedTags = Object.values(
     inputs.forEach((node) => {
       if (node.checked) newFilter.add(node.getAttribute("value"));
     });
-    if (clearAll) clearAll.disabled = newFilter.size === 0;
+    if (clearAll)
+      clearAll.setAttribute(
+        "aria-disabled",
+        newFilter.size === 0 ? "true" : "false",
+      );
     if (newFilter.size === 0) {
       targets.forEach((targetNode) => {
         targetNode.style.display = "";
@@ -146,11 +151,20 @@ const orderedTags = Object.values(
   if (clearAll) clearAll.onclick = clearFilters;
 
   // disable form submission things
-  const form = document.getElementById("filter-control");
-  form!.onsubmit = function (e) {
+  const form = document.getElementById("filter-control")!;
+  form.onsubmit = function (e) {
     e.preventDefault();
     return false;
   };
+
+  // when escape is pressed while in the filter, jump back to "clear"
+  form.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") {
+      e.preventDefault();
+      clearAll?.focus();
+      return;
+    }
+  });
 
   // add scrollers
   const inner = document.querySelector<HTMLDivElement>(".FilterControl_inner")!;
@@ -163,8 +177,14 @@ const orderedTags = Object.values(
   function onInnerScroll() {
     const { scrollLeft, clientWidth, scrollWidth } = inner;
     const scrollRight = scrollWidth - scrollLeft - clientWidth;
-    leftFilter.disabled = scrollLeft < 10;
-    rightFilter.disabled = scrollRight < 10;
+    leftFilter.setAttribute(
+      "aria-disabled",
+      scrollLeft < 10 ? "true" : "false",
+    );
+    rightFilter.setAttribute(
+      "aria-disabled",
+      scrollRight < 10 ? "true" : "false",
+    );
   }
   onInnerScroll();
   inner.onscroll = onInnerScroll;
@@ -179,6 +199,7 @@ const orderedTags = Object.values(
 
 <style lang="scss">
   .FilterControl {
+    position: relative;
     display: grid;
     grid-template:
       "head" auto
@@ -213,7 +234,6 @@ const orderedTags = Object.values(
 
     &_clear {
       text-transform: uppercase;
-      outline: none;
       padding: 0.25em 0.5em;
       margin-right: -0.5em;
 
@@ -221,7 +241,7 @@ const orderedTags = Object.values(
         background-color: var(--clr-bg3);
       }
 
-      &:disabled {
+      &[aria-disabled="true"] {
         pointer-events: none;
         opacity: 0.1;
         text-decoration: none;
@@ -289,9 +309,9 @@ const orderedTags = Object.values(
           transition: background-color 0.3s ease-in-out;
         }
 
-        &:disabled {
+        &[aria-disabled="true"] {
           pointer-events: none;
-          background-color: var(--clr-bg2);
+          opacity: 0.1;
         }
 
         & svg {
@@ -325,6 +345,11 @@ const orderedTags = Object.values(
     & input[type="checkbox"]:checked + label {
       color: var(--clr-fg);
       border: 1px solid var(--clr-fg);
+    }
+
+    & a.focus-only {
+      position: absolute;
+      top: calc(100% + 0.5rem);
     }
   }
 </style>

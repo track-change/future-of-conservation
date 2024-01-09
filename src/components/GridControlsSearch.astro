@@ -23,10 +23,11 @@ const { ariaControls } = Astro.props;
     name="search"
     spellcheck="false"
     class="display-type legible"
+    placeholder=" "
     required
     lang={locale === "kr" ? "kr" : undefined}
   />
-  <input value="" type="reset" />
+  <input value="" aria-label="Reset search" type="reset" />
 </form>
 
 <slot />
@@ -118,7 +119,7 @@ const { ariaControls } = Astro.props;
       }
     }
 
-    .SearchControl:has(input:valid) & {
+    .SearchControl:has(input[type="text"]:not(:placeholder-shown)) & {
       border-right: 1px solid var(--clr-fg);
     }
 
@@ -148,7 +149,11 @@ const { ariaControls } = Astro.props;
       outline: 1px solid var(--clr-fg);
     }
 
-    .SearchControl:has(input:valid) & {
+    &:focus-visible {
+      opacity: 0.1;
+    }
+
+    .SearchControl:has(input[type="text"]:not(:placeholder-shown)) & {
       opacity: 1;
       pointer-events: all;
     }

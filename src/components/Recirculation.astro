@@ -11,7 +11,7 @@ const { recirc } = Astro.props;
 ---
 
 <aside class="Recirculation" aria-label="See Also">
-  <h1 id="recirc-header" class="header-reset">See Also</h1>
+  <h2 id="recirc-header" class="header-reset">See Also</h2>
   <ul class="grid">
     {
       recirc.map((link) => {
@@ -60,7 +60,11 @@ const { recirc } = Astro.props;
     overflow-x: hidden;
   }
 
-  h1 {
+  #recirc-header {
+    // line-height: 1.25;
+    // letter-spacing: 0.02em;
+    font-size: 1rem;
+    text-align: left;
     text-transform: uppercase;
     padding: var(--page-padding);
     font-family: var(--font-sans);
